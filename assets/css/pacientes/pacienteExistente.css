@@ -1,0 +1,98 @@
+
+/**Existing patient CSS*/
+
+.subMenuBtn{
+    width: 100%;
+    padding: 0;
+}
+.existingPacientesRightContent{
+    overflow: hidden;
+    padding: 0;
+    background: var(--subWindow);
+    border-radius: 5px;
+    height: 460px;
+    color:white;
+}
+
+.existingPacientesRightContent span{
+    font-weight: bold;
+}
+.existingPacientesRightContent h3{
+    color:white;
+    border-bottom: 2px solid white;
+}
+.indent{
+    margin-left: 50px;
+}
+
+.center{
+    margin-top: 60px;
+}
+
+.customOffset-1{
+    margin-left: 5%;
+}
+.bottomRight{
+    position: absolute;
+    right: 15px;
+    bottom: 53px;
+}
+
+
+.tableViewer{
+    height: 64%;
+    max-height: 64%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: inherit;
+    background-color: #212529;
+}
+.contentViewer{
+    border: 2px solid #212b36;
+    height: 36%;
+    max-height: 36%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: white;
+    color: black;
+    padding: 5px 0px 10px 10px; 
+    border-radius: inherit;
+}
+.personalViewer{
+    padding: 10px !important;
+}
+
+h4{
+    width: fit-content;
+}
+.contentViewer h3{
+
+    color:black;
+    margin-top:50px;
+    
+}
+
+.filterExistingPatient{
+    
+  font-size: 17px;
+  padding: 5px;
+  width: 270px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #f1f1f1;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  resize: none;
+}
+#selectExistingPatient{/*The filter input*/
+    cursor: pointer !important;
+    padding: 5px;
+}
+
+.disableBtn{
+    pointer-events: none;
+    opacity: 0.5;
+}
+.selectedEButton{
+    background: #212b36;
+}

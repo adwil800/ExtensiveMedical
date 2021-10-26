@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extensive medical - Citas </title>
+
+  <!--====== Favicon Icon ======-->
+  <link rel="shortcut icon" href="../assets/images/logo/logo.png" type="image/png" />
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+  <!-- ===== All CSS files ===== -->
+  <link rel="stylesheet" href="../assets/css/general/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/css/general/animate.css" />
+  <link rel="stylesheet" href="../assets/css/lineicons.css" />
+  <link rel="stylesheet" href="../assets/css/general/ud-styles.css" />
+
+  <link rel="stylesheet" href="../assets/css/calendar/cal.css" />
+  <link rel="stylesheet" href="../assets/css/calendar/style.css" />
+
+  <link rel="stylesheet" href="../assets/css/modal/custom.css" />
+  <link rel="stylesheet" href="../assets/css/citas/citas.css" />
+
+</head>
+
+<body>
+  <!-- ====== Header Start ====== -->
+  <header class="ud-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="/">
+              <img src="../assets/images/logo/logo.png" alt="Logo" />
+            </a>
+            <button class="navbar-toggler">
+              <span class="toggler-icon"> </span>
+              <span class="toggler-icon"> </span>
+              <span class="toggler-icon"> </span>
+            </button>
+
+            <div class="navbar-collapse">
+              <ul id="nav" class=" navbar-nav mx-auto">
+
+                <li class="nav-item nav-item-has-children">
+                  <a href=""> Pacientes </a>
+                  <ul class="ud-submenu">
+
+
+                    <li class="ud-submenu-item">
+                      <a href="#" class="ud-submenu-link">
+                        Nuevo
+                      </a>
+                    </li>
+
+                    <li class="ud-submenu-item">
+                      <a href="#" class="ud-submenu-link">
+                        Recientes
+                      </a>
+                    </li>
+
+                  </ul>
+                </li>
+
+                <li class="nav-item">
+                  <a class="ud-menu-scroll" id="calendarioCitas" href="/citas">Calendario de citas</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="ud-menu-scroll" href="#">Mensajería</a>
+                </li>
+
+                <li class="nav-item nav-item-has-children">
+                  <a href="javascript:void(0)"> Documentos </a>
+                  <ul class="ud-submenu">
+
+
+                    <li class="ud-submenu-item">
+                      <a href="#" class="ud-submenu-link">
+                        Referidos
+                      </a>
+                    </li>
+
+                    <li class="ud-submenu-item">
+                      <a href="#" class="ud-submenu-link">
+                        Prescripciones
+                      </a>
+                    </li>
+
+                    <li class="ud-submenu-item">
+                      <a href="#" class="ud-submenu-link">
+                        Resultados
+                      </a>
+                    </li>
+
+
+                  </ul>
+                </li>
+
+
+                <li class="nav-item">
+
+                  <a href="" class="ud-menu-scroll"> Configuración <i class="fas fa-cog"></i></a>
+                </li>
+
+              </ul>
+            </div>
+
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ====== Header End ====== -->
+
+  <!-- ====== PROGRAM HOLDER, EVERYTHING WITHIN THIS Start ====== -->
+
+  <!-- ====== Template start ====== -->
+  <section id="template" class="ud-template padT90 ">
+    <div class="container wow fadeInUp padT10">
+      <div class="row">
+
+        <div class="ud-template-form-wrapper alterWrapperColor" data-wow-delay=".2s">
+
+          <div class="row">
+            <!-- ====== Content start ====== -->
+
+                  <!-- ====== Left content start ====== -->
+                  <div class="col-lg-3 leftContent">
+
+                    <h2 id="templateTitle" class="padB10">Citas</h2>
+
+                    <!--CALENDARIO-->
+                    <div class="ud-form-group">
+                      <label for="calendar">Calendario</label>
+                      <section id="calendarSection">
+                        <div class="box np-events">
+                          <div class="calendarContainer">
+                            <div id="calendar">
+
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                    <!--CALENDARIO-->
+
+                    <div class="ud-form-group">
+                      <label for="provider">Proveedor*</label>
+
+                      <input type="text" id="selectProvider" disabled>
+
+
+                    </div>
+
+
+                    <div class="ud-form-group">
+                      <label for="patient">Paciente*</label>
+
+                      <input type="text" id="selectPatient" disabled>
+
+                    </div>
+                    <div class="ud-form-group mb-0">
+                      <a href="#">Ver citas existentes</a>
+                      <button class="ud-main-btn ">
+                        Ver citas existentes
+                      </button>
+                    </div>
+
+                  </div>
+                  <!-- ====== Left content end ====== -->
+
+
+                  <!-- ====== Right content start ====== -->
+                  <div class="custom-col-lg-9  rightContent">
+
+
+
+                  </div>
+
+                  <!-- ====== Right content end ====== -->
+
+            <!-- ====== Content end ====== -->
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ====== Template end ====== -->
+
+  <!-- ====== PROGRAM HOLDER, EVERYTHING WITHIN THIS End ====== -->
+
+
+
+
+
+  <!--MODAL-->
+
+  <div class="modal-container">
+    <div class="modalme">
+      <div class="editorTitle">
+
+        <h3>
+          <span id="mainTitle">Detalles de la cita</span>
+          <i class="floatRight fas fa-times closeModal"></i>
+        </h3>
+
+      </div>
+
+      <div class="editorContainer">
+
+        <div class="editor">
+          <!--Content has to be within this div-->
+
+        </div>
+        <!--Content has to be within this div-->
+
+      </div>
+
+    </div>
+
+  </div>
+  <!--MODAL-->
+
+
+
+  <div class="cAlert ">
+    <h2></h2>
+  </div>
+
+
+
+  <!-- ====== All Javascript Files ====== -->
+  <script src="../assets/js/general/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/general/wow.min.js"></script>
+  <script src="../assets/js/general/main.js"></script>
+  <script src="../assets/js/middleware/utilities.js"></script>
+
+  <script src="../assets/js/calendar/calendar.js"></script>
+
+  <script src="../assets/js/general/jquery.min.js"></script>
+  <script src="../assets/js/modal/modal.js"></script>
+
+  <script src="../assets/js/citas/citas.js"></script>
+
+  <!--CALENDARIO-->
+  <script>
+    dycalendar.draw({
+      target: '#calendar',
+      type: 'month',
+      dayformat: 'full',
+      monthformat: 'full',
+      highlightday: true,
+      prevnextbutton: 'show'
+
+    })
+  </script>
+  <!--CALENDARIO-->
+
+</body>
+
+</html>

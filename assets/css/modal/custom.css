@@ -1,0 +1,86 @@
+html {
+  overflow-x: hidden;
+}
+
+.modal-container {
+  background-color: rgba(14, 12, 12, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-container.popmodal {
+  pointer-events: auto;
+  z-index: 2000;
+  opacity: 1;
+}
+.body {
+  overflow-y: hidden;
+  margin-right: 5.6px;
+}
+.modalme {
+  background-color: white;
+  padding: 30px 50px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 60%;
+  /*  min-width: fit-content;*/
+  text-align: center;
+  height: fit-content;
+}
+/*
+.modalme * {
+  color: black !important;
+}*/
+
+@media (max-width: 768px) {
+  .modalme {
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .editor {
+    overflow-x: none !important;
+    overflow-y: auto !important;
+    font-size: 13px;
+    font-weight: bold;
+    max-height: fit-content !important;
+  }
+  td,
+  th {
+    padding: 3px !important;
+  }
+  #imgCarrito {
+    width: 30px !important;
+  }
+}
+.modalScroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 300px;
+} /**MY MODAL*/
+
+.editor {
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /*min-height: 300px;*/
+  height: auto !important;
+
+  max-height: fit-content;
+}
+
+li {
+  list-style: none;
+}
+
+i {
+  cursor: pointer;
+}

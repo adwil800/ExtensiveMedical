@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extensive medical</title>
+
+  <!--====== Favicon Icon ======-->
+  <link rel="shortcut icon" href="../assets/images/logo/logo.png" type="image/png" />
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+  <!-- ===== All CSS files ===== -->
+  <link rel="stylesheet" href="../assets/css/general/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/css/lineicons.css" />
+  <link rel="stylesheet" href="../assets/css/general/ud-styles.css" />
+
+  <link rel="stylesheet" href="../assets/css/modal/custom.css" />
+
+  <link rel="stylesheet" href="../assets/css/index/index.css" />
+
+  <!-- ===== DYNAMIC CSS files ===== -->
+
+</head>
+
+<body>
+<div class="tooClose"><h1>Your device's screen is too small to display the page content.</h1></div>
+
+  <div class="fakeBody">
+
+        <div class="dynamicCss"></div>
+        <!-- ====== Header Start ====== -->
+        <header class="ud-header sticky">
+          <nav id="tabNav" class="navbar navbar-expand-lg">
+            <div class="logo">
+              <img src="../assets/images/logo/logo.png" alt="Logo" />
+            </div>
+            <ul id="nav" class="navbar-nav">
+
+              <li class="nav-item nav-item-has-children">
+                <button class="btn btn-primary menuBtn">Pacientes <i class="fas fa-chevron-down"></i></button>
+                <ul class="ud-submenu">
+                  
+                  <li class="ud-submenu-item">
+                    <a href="#" class="ud-submenu-link" id="summonNewPatient">
+                      Nuevo
+                    </a>
+                  </li>
+
+                  <li class="ud-submenu-item">
+                    <a href="#" class="ud-submenu-link"  id="summonExistingPatient">
+                      Existente
+                    </a>
+                  </li>
+
+                </ul>
+              </li>
+
+              <li class="nav-item">
+                <button class="btn btn-primary menuBtn" id="summonCitas">Calendario de citas</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="btn btn-primary menuBtn" >Mensajería</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="btn btn-primary menuBtn" id="summonDocuments">Documentos </button>
+              </li>
+
+              <li class="nav-item">
+                <button class="btn btn-primary menuBtn">Configuración <i class="fas fa-cog"></i></button>
+              </li>
+                
+            </ul>
+          </nav>
+        </header>
+        <!-- ====== Header End ====== -->
+
+        <!-- ====== PROGRAM HOLDER, EVERYTHING WITHIN THIS Start ====== -->
+
+        <!-- ====== Template start ====== -->
+        <section id="template" class="ud-template  ">
+          <div class="container padT90 mLeft11">
+            <div class="row" id="templateContent">
+
+              <div class="skeletonLoader hide"><img src="../assets/images/blur.PNG" alt=""></div>
+              
+
+
+            </div>
+          </div>
+        </section>
+        <!-- ====== Template end ====== -->
+
+        <!-- ====== PROGRAM HOLDER, EVERYTHING WITHIN THIS End ====== -->
+
+
+
+
+
+        <!--MODAL-->
+
+        <div class="modal-container">
+          <div class="modalme">
+            <div class="editorTitle">
+
+              <h3>
+                <span id="mainTitle">Detalles de la cita</span>
+                <i class="floatRight fas fa-times closeModal"></i>
+              </h3>
+
+            </div>
+
+            <div class="editorContainer">
+
+              <div class="editor">
+                <!--Content has to be within this div-->
+
+              </div>
+              <!--Content has to be within this div-->
+
+            </div>
+
+          </div>
+
+        </div>
+        <!--MODAL-->
+
+
+
+        <div class="cAlert ">
+          <h2></h2>
+        </div>
+
+
+
+          <!-- ====== Back To Top Start ====== 
+          <a href="javascript:void(0)" class="back-to-top">
+            <i class="lni lni-chevron-up"> </i>
+          </a>
+          ====== Back To Top End ====== -->
+
+        <!-- ====== All Javascript Files ====== -->
+        <script src="../assets/js/general/bootstrap.bundle.min.js"></script>
+        <script src="../assets/js/middleware/utilities.js"></script>
+        <script src="../assets/js/middleware/customVars.js"></script>
+        <script src="../assets/js/middleware/draggable.js"></script>
+        <script src="../assets/js/general/jquery.min.js"></script>
+        <script src="../assets/js/modal/modal.js"></script>
+
+
+        <div class="dynamicJs"></div>
+
+        <script src="../assets/js/index/index.js"></script>
+
+  </div>
+
+</body>
+
+</html>

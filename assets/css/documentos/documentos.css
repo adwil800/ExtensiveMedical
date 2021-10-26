@@ -1,0 +1,84 @@
+#selectDocsPatient {
+  cursor: pointer !important;
+  padding: 5px;
+} 
+ 
+.filterDocsPa {
+  font-size: 17px;
+  padding: 5px;
+  width: 270px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #f1f1f1;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  resize: none;
+
+}
+ 
+#docInstructions {
+  height: 84px !important; /*134*/
+}
+
+.modalme {
+  text-align: left !important;
+}
+
+/*SELF*/
+
+
+.provDocs {
+  height: 50%;
+  max-height: 50%;
+  overflow-y: auto;
+  border-radius: inherit;
+}
+
+.docDetails {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 40%;
+  max-height: 40%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: white;
+  color: black;
+  padding: 10px 0px 10px 10px;
+  border: 2px solid #212b36;
+}
+
+.docButtons {
+  height: 10%;
+  max-height: 10%;
+  padding-right:5px;
+}
+
+h4 {
+  width: 12%;
+  color: black;
+  border-bottom: solid 1px;
+}
+
+.tag {
+  font-weight: bold;
+}
+
+.line {
+  margin-top: 2px;
+  border-bottom: 1px solid;
+  margin-bottom: 15px;
+}
+
+.lni-close  {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+
+.docsRightContent {
+  padding: 0 !important;
+  background: var(--subWindow);
+  border-radius: 5px;
+  height: 460px;
+}
+  
