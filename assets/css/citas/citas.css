@@ -12,26 +12,9 @@
   cursor: pointer !important;
   padding: 5px;
 }
-.filterCitasPro,
-.filterCitasPa { 
-  font-size: 17px;
-  padding: 5px;
-  width: 270px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #f1f1f1;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  resize: none;
-
-}
 
 #apptNote {
   height: 141px !important;
-}
-
-.modalme {
-  text-align: left !important;
 }
 
 .np-events {

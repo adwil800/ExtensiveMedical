@@ -9,7 +9,7 @@
 document.body.addEventListener("mousedown", e => {
 
   //Bring window to top
-  const currentDraggable = parentWorm(e);
+  const currentDraggable = parentWorm(e.target, "parentDraggable");
     if (currentDraggable !== undefined){
 
       //Get all draggableParents and remove style property
@@ -74,6 +74,16 @@ document.body.addEventListener("click", e => {
       const existingPatientListeners = ["click", "keyup", "context"],
             existingPatientCallbacks = [existingPatientClick, existingPatientKeyup, existingPatientContext];
             removeListeners(existingPatientListeners, existingPatientCallbacks);
+    } else if (e.target.classList.contains("closeDraggableConfig")){
+      //Handle window count and initial position
+      windowSubstraction(e.target.parentElement.parentElement);
+
+      configRightContent = "", consCurrentProviders = [];
+      configActive = removeDraggable(e.target, "Config");
+      //remove listeners
+      const configListeners = ["click", "keyup"],
+            configCallbacks = [configClick, configKeyup];
+            removeListeners(configListeners, configCallbacks);
     }
 
       //All thradio modal handling
@@ -133,9 +143,9 @@ document.body.addEventListener("keydown", (e) => {
 
 });
 
-function parentWorm(e){
+function parentWorm(element, parentTarget){
 
-  let search = true, element = e.target;
+  let search = true;
 
   while(search == true){
       
@@ -143,7 +153,7 @@ function parentWorm(e){
       return;
     }
 
-    if (element.classList.contains("draggableParent")){
+    if (element.classList.contains(parentTarget)){
         search = false;
         return element;
     }else{
@@ -152,6 +162,8 @@ function parentWorm(e){
     }
 
     }
+
+    return;
 
 }
 
@@ -200,7 +212,6 @@ function removeDraggable(draggable, windowType){
 
 
 
-
 function dragMouseDown(e) {
   e = e || window.event;
   e.preventDefault();
@@ -230,7 +241,364 @@ function closeDragElement() {
   document.onmouseup = null;
   document.onmousemove = null;
 }
+
 //All listeners functions to be able to remove them once the window is closed
+//CONFIGURATION
+function configClick(e){
+
+  if (e.target.classList.contains("configBtn") || e.target.parentElement.classList.contains("configBtn")){
+    let submenu; 
+    if (e.target.parentElement.classList.contains("configBtn")){
+
+        submenu = e.target.parentElement.parentElement.querySelector(".configSubMenu");
+
+    } else {
+
+        submenu = e.target.parentElement.querySelector(".configSubMenu");
+
+    }
+    //Display submenu
+        if (submenu !== null){
+
+            if(submenu.classList.contains("hide")){
+
+                submenu.classList.remove("hide");
+                
+            } else {
+
+                submenu.classList.add("hide");
+
+            }
+            
+        }
+
+  }
+
+  //mantCons
+  if (e.target.id === "mantConsultorios" || e.target.id === "backToMantCons"){
+
+    //Clear provider list 
+    consCurrentProviders = [];
+    //Add buttons
+      configRightContent.innerHTML = consBtns;
+
+  }
+  //mantCons > newCons
+  if (e.target.id === "newConsBtn"){
+
+    //Stop link activity
+     e.preventDefault();
+    //Clear provider list 
+    consCurrentProviders = [];
+    //Add content
+    configRightContent.innerHTML = newConsultorio;
+
+  }
+  //mantCons > editCons
+  if (e.target.id === "editConsBtn"){
+
+    //Stop link activity
+      e.preventDefault();
+    //Clear provider list 
+      consCurrentProviders = [];
+    //Add modalContent 
+
+      editorContainer.innerHTML = "";
+      mainTitle.innerHTML = "";
+  
+      //Create title input
+      const attrNames = ["type", "class", "placeholder"],
+        attrValue = ["text", "filterExistingCons", "Filtrar por Nombre"];
+      const input = createHtmlElement("input", attrNames, attrValue);
+  
+      mainTitle.textContent = "Consultorios ";
+      mainTitle.appendChild(input);
+      mainTitle.querySelector("input").focus();
+      //Create title input
+  
+      //Send data to genTable
+      const cols = ["Nombre ", "Dirección ", "RNC ", "Teléfono "];
+  
+      const consData = [
+  
+        {
+          "consName": "ConsultMD",
+          "address": "Luperon Gozniak, 23 street 33033",
+          "rnc": "123456789",
+          "phone": "809-999-9999",
+        },
+        {
+          "consName": "Montreal Central",
+          "address": "Street cons, 24 ln 33033",
+          "rnc": "1234567890",
+          "phone": "809-999-9998",
+        }
+  
+      ];
+      editorContainer.appendChild(genTable(consData, cols, "consBody"));
+  
+      superModal();
+
+  }
+  //mantCons > editCons > modal > editConsForm
+  if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "consBody"){
+          
+    //Get consName and Id, vvvv array
+    const logs = e.target.parentElement.querySelectorAll("td");
+
+    //Request all information from BD to proceed and update if needed
+
+    //Add editCons fields
+    configRightContent.innerHTML = newConsultorio;
+
+    //Get specific fields from editCons
+
+    const consName = configRightContent.querySelector("#consName"),
+          consAddress = configRightContent.querySelector("#consDir"),
+          consRnc = configRightContent.querySelector("#consRnc"),
+          consPhone = configRightContent.querySelector("#consPhone"),
+          consSpecialty = configRightContent.querySelector("#consSpecialties"),
+          consWorkDays = configRightContent.querySelectorAll(".checkGroup input"),
+          consDaysTimes = configRightContent.querySelectorAll(".checkGroup .dayTime"),
+          consProviders = configRightContent.querySelector("#consProviders");
+
+
+
+
+      modalRemoval();
+
+  }
+  //mantCons > editCons > modal > editConsForm && mantCons > editCons >  newCons
+  //consProviders
+  if(e.target.id === "consProviders"){
+
+    //Show modal
+          editorContainer.innerHTML = "";
+          mainTitle.innerHTML = "";
+
+        //Create title input
+          const attrNames = ["type", "class", "placeholder"],
+                attrValue = ["text", "filterConsPro", "Filtrar por Nombre"];
+          const input = createHtmlElement("input", attrNames, attrValue);
+
+          mainTitle.textContent = "Proveedores ";
+          mainTitle.appendChild(input);
+          mainTitle.querySelector("input").focus();
+          //Create title input
+
+        //Send data to genTable
+        const cols = ["Nombre ", "Apellido ", "Ubicación ", "Especialidad ", "Título "];
+
+        const sampleData = [
+          {
+            "name": "Martin Mark",
+            "lastName": "Luperon Gozniak",
+            "location": "Consult MD",
+            "specialty": "Pediatra",
+            "title": "Medical doctor"
+          },
+          {
+            "name": "Test",
+            "lastName": "Provider",
+            "location": "Test",
+            "specialty": "Test",
+            "title": "Test"
+          }
+                ];
+          editorContainer.appendChild(genTable(sampleData, cols, "consProBody"));
+          superModal();
+  }
+
+  if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "consProBody"){
+          
+    //Get consName and Id, vvvv array
+    const logs = e.target.parentElement.querySelectorAll("td");
+
+    //Request all information from BD to proceed and update if needed
+
+    //Get specific fields from editCons
+
+    const consProviders = configRightContent.querySelector("#consProviders");
+
+
+    //Add selected provider into array
+    consCurrentProviders.push(logs[0].textContent+" "+logs[1].textContent);
+    //Reload current providers list
+    const providerListContainer = configRightContent.querySelector(".consProviderList");
+    reloadConsProviders(consCurrentProviders, providerListContainer);
+
+      modalRemoval();
+
+  }
+  //Show providerList
+  if (e.target.parentElement.classList.contains("consProviderList")){
+
+  //Instantly remove selection
+    //Get actualList object
+      const actualList = e.target.parentElement.querySelector(".actualList");
+      //Show
+            actualList.classList.remove("hide");
+
+
+  }
+  //Hide providerList
+  if (e.target.classList.contains("closeDraggableProvList")){
+
+      //Get draggable parent
+      const draggableParent = parentWorm(e.target, "draggableParent");
+        if (draggableParent !== undefined){
+          
+            draggableParent.classList.add("hide");
+
+        }
+
+  }
+  //Remove current provider from list
+  if (e.target.classList.contains("removeCurrentElement")){
+
+      const index = parseInt(e.target.parentElement.innerHTML.split("-")[0])-1;
+      consCurrentProviders.splice(index, 1);
+        const parentContainer = parentWorm(e.target, "consProviderList");
+        //Reload list
+      if(consCurrentProviders.length < 1){
+
+        reloadConsProviders(consCurrentProviders, parentContainer);
+      
+      }else{
+
+        liveReloadConsProviders(consCurrentProviders, parentContainer);
+
+      }
+  }
+  //Remove providerList draggable if clicked anywhere but the div itself
+  if (parentWorm(e.target, "actualList") === undefined){
+
+      const actualList = configRightContent.querySelector(".actualList");
+        //Check for null
+        if (actualList !== null && actualList !== undefined){
+            //Check if actualList contains hide
+            if (!actualList.classList.contains("hide")){
+
+                //actualList.classList.add("hide");
+                FIGURE OUT HOW TO HIDE THE ACTUAL LIST WHEN CLICKING OUTSIDE AND KEEP UP GOING WITH THE PROVIDERS; CITAS AND HORARIOS
+            }
+
+        }
+
+
+  }
+  //mantCons
+
+}
+
+function liveReloadConsProviders(array, parentContainer){
+    
+  //create list
+  const ul = document.createElement("ul");
+
+  for (let i = 0; i < array.length; i++) {
+
+
+    const li = document.createElement("li"),
+          iTag = createHtmlElement("i", "class", "fas fa-times removeCurrentElement");
+          li.textContent = (i+1)+" - "+array[i]+" ";
+          li.insertBefore(iTag, li.firstElementChild);
+    
+          ul.appendChild(li);
+
+  }
+  
+  //remove existing span and ul
+  parentContainer.querySelector("span.liveCount").remove();
+  parentContainer.querySelector(".actualList > ul").remove();
+
+  //Add preview and count
+  const summonerSpan = document.createElement("span");
+        summonerSpan.setAttribute("class", "liveCount");
+        summonerSpan.textContent = array[0]+`...`+`(${array.length})`;
+
+  parentContainer.insertBefore(summonerSpan, parentContainer.childNodes[0]);
+  parentContainer.querySelector(".actualList").appendChild(ul);
+
+}
+
+function reloadConsProviders(array, targetElement){
+
+  if(array.length < 1){
+    targetElement.innerHTML = "";
+    return;
+  }
+  //create parentContainer, draggable
+  const parentContainer = createHtmlElement("div", "class", "actualList  draggableParent hide");
+  //create draggableTarget
+  const draggableTarget = createHtmlElement("div", "class", "draggableTarget");
+        draggableTarget.innerHTML = `
+                    <span class="tabName">Lista de proveedores</span>
+                    <i class="fas fa-times closeDraggableProvList"></i>
+        `;
+  //create list
+  const ul = document.createElement("ul");
+        
+  for (let i = 0; i < array.length; i++) {
+
+
+    const li = document.createElement("li"),
+          iTag = createHtmlElement("i", "class", "fas fa-times removeCurrentElement");
+          li.textContent = (i+1)+" - "+array[i]+" ";
+          li.insertBefore(iTag, li.firstElementChild);
+    
+          ul.appendChild(li);
+
+  }
+  //Add preview and count
+  const summonerSpan = document.createElement("span");
+        summonerSpan.setAttribute("class", "liveCount");
+        summonerSpan.textContent = array[0]+`...`+`(${array.length})`;
+
+
+  targetElement.innerHTML = "";
+  parentContainer.appendChild(draggableTarget);
+  parentContainer.appendChild(ul);
+  targetElement.appendChild(summonerSpan);
+  targetElement.appendChild(parentContainer);
+
+}
+
+
+
+function configKeyup(e){
+  //Filter from table in modal for cons
+  if (e.target.classList.contains("filterConsPro")){
+
+      
+    filter(e.target, "consProBody", checkedIndex(e.target));
+
+
+  } else if (e.target.classList.contains("filterExistingCons")){
+
+    const index = checkedIndex(e.target);
+
+    //Check for DOB or Tel to only provide 10 characters 
+        if(index === 2 || index === 3){
+              e.target.setAttribute("maxlength", "10");
+        }else{
+          e.target.removeAttribute("maxlength");
+        }
+
+      filter(e.target, "consBody", index);
+
+  }
+
+} 
+
+
+
+
+
+
+
+
+
 
 //EXISTING PATIENTS
 function existingPatientClick(e){ 
@@ -391,12 +759,17 @@ function existingPatientClick(e){
                   
       const patientName = e.target.parentElement.querySelector(".pName");
       const inputExistingP = document.querySelector("#existingPatientContent #selectExistingPatient");
-            inputExistingP.setAttribute("value", patientName.innerHTML);
 
         //Enable buttons
         const buttons = inputExistingP.parentElement.parentElement.querySelectorAll("button");
-              //Grab personal button and add selectedEButton class to set active state
-              buttons[0].classList.add("selectedEButton");
+        //Grab personal button and add selectedEButton class to set active state
+        if(!inputExistingP.hasAttribute("value"))
+            buttons[0].classList.add("selectedEButton");
+
+            //Add input value
+            inputExistingP.setAttribute("value", patientName.innerHTML);
+        
+                  
               buttons.forEach(e => {
                   e.classList.remove("disableBtn");
               });
@@ -863,13 +1236,13 @@ function citasPaste(e){
 
 function citasKeyup(e){
     //Filter from table in modal for provider and patient
-    if(e.target.classList.contains("filterCitasPro")){
+    if (e.target.classList.contains("filterCitasPro")){
 
       
       filter(e.target, "citasProBody", checkedIndex(e.target));
 
 
-    }else if(e.target.classList.contains("filterCitasPa")){
+    } else if (e.target.classList.contains("filterCitasPa")){
 
       const index = checkedIndex(e.target);
 

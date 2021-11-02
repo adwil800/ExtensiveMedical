@@ -84,3 +84,23 @@ li {
 i {
   cursor: pointer;
 }
+
+
+
+/*FOR FILTER INPUT*/
+
+#mainTitle input{
+  font-size: 17px;
+  padding: 5px;
+  width: 270px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #f1f1f1;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  resize: none;
+}
+
+.modalme {
+  text-align: left !important;
+}

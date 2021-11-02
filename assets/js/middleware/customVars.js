@@ -252,6 +252,123 @@ let positionArray = [
 
 //INDEX
 
+//CONFIG
+let configActive = false, configRightContent, consCurrentProviders = [];
+//Within configRightContent > consultorio > editar or crear
+//On link click
+const newConsultorio = `
+                  <div class="row centerSubForm">
+                    
+                    <div class="col-lg-5 offset-1">
+
+                      <div class="input-group">
+                        <label for="consName">Nombre*</label>
+                        <input type="text" name="consName" id="consName" >
+                      </div>
+                      
+                      <div class="input-group">
+                        <label for="consDir">Dirección*</label>
+                        <input type="text" name="consDir" id="consDir" >
+                      </div>
+
+                      <div class="input-group">
+                        <label for="consRnc">RNC*</label>
+                        <input type="text" name="consRnc" id="consRnc" >
+                      </div>
+                      
+                      <div class="input-group">
+                        <label for="consPhone">Teléfono*</label>
+                        <input type="text" name="consPhone" id="consPhone" >
+                      </div>
+
+                      <div class="input-group">
+                        <label for="consSpecialties">Especialidades*</label>
+                        <input type="text" name="consSpecialties" id="consSpecialties" >
+                      </div>
+
+                    </div>
+
+                    <div class="col-lg-5 ">
+
+                      <div class="checkGroup">
+                        
+                        <label for="" class="customLabel">Días laborables*</label>
+                        <div>
+                          L <input type="checkbox"> 
+                          M <input type="checkbox">
+                          X <input type="checkbox">
+                          J <input type="checkbox">
+                          V <input type="checkbox">
+                          S <input type="checkbox">
+                          D <input type="checkbox">
+                        </div>
+
+                        <label for="" class="customLabel">Horas laborables*</label>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <ul>
+
+                              <li>L <input type="time" class="dayTime l"> </li>
+                              <li>M <input type="time" class="dayTime m"> </li>
+                              <li>X <input type="time" class="dayTime x"> </li>
+                              <li>J <input type="time" class="dayTime j"> </li>
+
+                            </ul>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <ul>
+
+                              <li>V <input type="time" class="dayTime v"> </li>
+                              <li>S <input type="time" class="dayTime s"> </li>
+                              <li>D <input type="time" class="dayTime d"> </li>
+
+                            </ul>
+                          </div>
+                        </div>
+
+
+
+                      </div>
+                  
+
+                      <div class="input-group">
+                        <label for="consProviders">Incluir proveedores*</label>
+                        <input type="text" name="consProviders" id="consProviders" disabled >
+                      </div>
+
+                      <div class="consProviderList draggableParent">
+
+                      </div>
+
+                      
+
+
+
+                    </div>
+
+
+
+
+                  </div>
+`;
+//Within configRightContent > consultorio
+const consBtns = `
+      <div class="row centerSubForm">
+        <div class="col-lg-8 offset-2 ">
+
+        <h4><a href="#" id="editConsBtn">Edita un consultorio existente</a> o <a href="#" id="newConsBtn"> crea uno nuevo</a></h4>
+
+        </div>
+      </div>
+`;
+
+
+//CONFIG
+
+
+
+
 //CALENDAR
   const today = new Date();
   let selectedDate = {

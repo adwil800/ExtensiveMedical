@@ -351,6 +351,72 @@ const existingPatient = `
   <!-- ====== Content start ====== -->
 </div>
 `;
+const configForm = `
+ 
+<div class="draggableTarget"><span class="tabName">Configuración > consultorios > nuevo </span><i class="fas fa-times closeDraggableConfig"></i></div>
+<br>
+
+  
+  <div class="row" id="configContent">
+  
+          <!-- ====== Right content start ====== -->
+          <div class="col-lg-12  ">
+                
+                    <div class="row">
+                      
+                      <!--left menu-->
+                      <div class="col-lg-3 configMenu">
+  
+                          <div class="input-group">
+                            <button class="ud-main-btn configBtn" id="">
+                              Personal
+                            </button> 
+                          </div>
+
+                          <div class="input-group">
+
+                            <button class="ud-main-btn configBtn" id="">
+                              Mantenimientos <i class="fas fa-chevron-down"></i>
+                            </button>
+
+                              <div class="configSubMenu hide">
+
+                                <ul>
+                                  <li><button class="ud-main-btn" id="mantConsultorios">Consultorios</button></li>
+
+                                  <li><button class="ud-main-btn" id="mantProveedores">Proveedores</button></li>
+
+                                  <li><button class="ud-main-btn" id="mantCitas">Citas</button></li>
+
+                                  <li><button class="ud-main-btn" id="mantHorarios">Horarios</button></li>
+                                </ul>
+
+                              </div>
+
+
+                          </div>
+
+                          
+
+  
+                      </div> 
+                      
+                      <div class="col-lg-9 configRightContent">
+
+
+                      </div>
+
+                      
+                    </div>
+  
+          <!-- ====== Right content end ====== -->
+          </div>
+  
+  </div>
+
+`;
+
+
 //
 
 //That's where I'll append the draggable content
@@ -594,5 +660,55 @@ document.addEventListener("click", e => {
               }).catch( e => console.error(e));
       
     }
+    
+    if(e.target.id === "summonConfig"){
+      //Removes current top draggable
+      removeTopWindow();
+
+        if(configActive){
+          
+          const selectedDraggable = contentParent.querySelector("#configContent").parentElement;
+          if (removeTopWindow()){
+            //Set z-index to current parent
+            selectedDraggable.classList.add("topDraggable");
+          }
+
+          return;
+        }
+
+        configActive = true; 
+
+    //Add all css
+        loadFile("../assets/css/configuracion/configuracion.css", dynamicCss, "linkConfig", "link").then(e => {
+        //Add js
+            loadFile("../assets/js/configuracion/configuracion.js", dynamicJs, "scriptConfig", "script").then(e => { 
+
+                //Create parent
+                const parentConfig = document.createElement("div");
+                parentConfig.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
+
+                //Add window position prefix index
+                parentConfig.setAttribute("positionindex", windowAddition());
+                
+                //Add loaders position
+                skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+                //Add loader
+                skeletonLoader.classList.remove("hide");
+                
+                //Set initial position for parent window
+                parentConfig.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+
+                parentConfig.innerHTML = configForm;
+                //Remove loader
+                skeletonLoader.classList.add("hide");
+                contentParent.appendChild(parentConfig);
+
+                //Config vars
+                  configRightContent = contentParent.querySelector(".configRightContent");
+                  
+              }).catch( e => console.error(e));
+            }).catch( e => console.error(e));
+    
+  }
 
 });

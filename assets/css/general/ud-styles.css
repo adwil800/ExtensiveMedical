@@ -1492,15 +1492,19 @@ p {
     padding: 20px 15px;
   }
 }
-
+.ud-template-form-wrapper {
+  padding: 30px 20px;
+}
+/*
 @media only screen and (min-width: 1200px) and (max-width: 1399px),
   only screen and (min-width: 992px) and (max-width: 1199px),
-  only screen and (min-width: 576px) and (max-width: 767px) {
+  only screen and (min-width: 576px) and (max-width: 767px),
+  only screen and (min-width: 576px) and (max-width: 999px) {
   .ud-template-form-wrapper {
     padding: 30px 20px;
   }
 }
-
+*/
 .ud-template-form-wrapper .ud-template-form-title {
   font-style: normal;
   font-weight: 600;

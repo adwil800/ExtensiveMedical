@@ -1,0 +1,163 @@
+
+
+.configMenu button{
+    width: 100%;
+    padding: 0;
+}
+
+.configSubMenu li{
+    margin-top:1px;
+}
+
+
+.configSubMenu li a:hover{
+    color: #242424;
+}
+
+.configRightContent{
+    overflow: hidden;
+    padding: 0;
+    background: var(--subWindow);
+    border-radius: 5px;
+    height: 460px;
+    color:white;
+}
+
+
+/*SELF*/
+.ud-template-form-wrapper .input-group {
+    margin-bottom: 5px;
+  }
+.ud-template-form-wrapper .input-group label {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+    color:white;
+}
+
+.customLabel{
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+    color:white;
+}
+
+.ud-template-form-wrapper .input-group input,
+.ud-template-form-wrapper .input-group select,
+.ud-template-form-wrapper .input-group textarea {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #f1f1f1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px !important;
+  resize: none;
+  color: white;
+}
+
+
+.ud-template-form-wrapper .input-group input:focus,
+.ud-template-form-wrapper .input-group textarea:focus {
+  border-color: var(--primary-color);
+}
+
+.ud-main-btn{
+    border-radius: 4px !important;
+}
+
+.centerSubForm{
+    margin-top:10%;
+}
+.centerSubForm h4{
+    margin-top: 20%;
+    color:white;
+    white-space: nowrap;
+}
+.centerSubForm a:hover{
+    text-decoration: underline;
+}
+
+.checkGroup{
+    
+  display: block;
+  width: 100%;
+  padding: 5px;
+  color: white;
+
+}
+
+.checkGroup input[type='time'] {
+
+    margin-top:5px;
+    
+}
+
+#consProviders{
+    cursor: pointer; 
+}
+
+.consProviderList{
+    border:none !important;
+}
+
+.consProviderList > span{ 
+    margin-top: 5px;
+    height:26px;
+    overflow: hidden;
+    color:#0b5fdb;
+    cursor: pointer;
+}
+
+.consProviderList > span:hover{
+    text-decoration: underline; 
+}
+
+.actualList{
+    
+    width: 300px;
+    max-width: 300px;
+    max-height: 200px;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: white;
+    background: var(--subWindow);
+    border-radius: 5px;
+    top: -218px; 
+    left: -199px;
+    border: 1px solid black !important;
+
+}
+
+.actualList > ul{
+    margin-top: 37px;
+    margin-left: 5px;
+
+}
+
+.actualList > ul li i{
+
+    color: red;
+    font-size: 20px;
+
+}
+
+
+
+
+
+.l{
+    margin-left: 5px;
+}
+.x{
+    margin-left:4px;
+}
+
+.j{
+    margin-left: 6px;
+}
+.s, .v{
+    margin-left: 1px;
+}

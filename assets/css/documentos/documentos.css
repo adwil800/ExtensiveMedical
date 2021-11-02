@@ -3,25 +3,9 @@
   padding: 5px;
 } 
  
-.filterDocsPa {
-  font-size: 17px;
-  padding: 5px;
-  width: 270px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #f1f1f1;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  resize: none;
-
-}
  
 #docInstructions {
   height: 84px !important; /*134*/
-}
-
-.modalme {
-  text-align: left !important;
 }
 
 /*SELF*/
@@ -53,10 +37,10 @@
   padding-right:5px;
 }
 
-h4 {
+.docDetails h4 {
   width: 12%;
   color: black;
-  border-bottom: solid 1px;
+  text-decoration: underline;
 }
 
 .tag {
