@@ -13,12 +13,12 @@ html {
   height: 100vh;
   width: 100vw;
   opacity: 0;
+  z-index: 2000;
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
 .modal-container.popmodal {
   pointer-events: auto;
-  z-index: 2000;
   opacity: 1;
 }
 .body {

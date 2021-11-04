@@ -6,13 +6,22 @@
 //Make the DIV element draggagle:
 
 
+/*DRAGGABLE AND EVENTS */
 document.body.addEventListener("mousedown", e => {
 
   //Bring window to top
-  const currentDraggable = parentWorm(e.target, "parentDraggable");
+  let currentDraggable = parentWorm(e.target, "draggableParent");
     if (currentDraggable !== undefined){
 
-      //Get all draggableParents and remove style property
+
+        if(currentDraggable.classList.contains("actualList") || currentDraggable.classList.contains("configList") ){
+
+        //Actual list is a draggable parent, send top parent to the main window
+        currentDraggable = parentWorm(currentDraggable.parentElement.parentElement, "draggableParent");
+        
+        }
+
+        //Get all draggableParents and remove style property
         if (removeTopWindow()){
 
             //Set z-index to current parent
@@ -78,7 +87,7 @@ document.body.addEventListener("click", e => {
       //Handle window count and initial position
       windowSubstraction(e.target.parentElement.parentElement);
 
-      configRightContent = "", consCurrentProviders = [];
+      configRightContent = "", configCurrentList = [];
       configActive = removeDraggable(e.target, "Config");
       //remove listeners
       const configListeners = ["click", "keyup"],
@@ -128,50 +137,10 @@ document.body.addEventListener("click", e => {
       }
     
 });
+ 
 
-document.body.addEventListener("keydown", (e) => {
-  /* 
-    if(e.key.toLowerCase() === "escape" && e.target.querySelector(".draggableParent") !== null){
-        
-        e.target.querySelector(".draggableParent").remove();
-        const scripts = dynamicJs.querySelectorAll("script");
-        scripts.forEach(e => e.remove());
 
-        //remove listeners
-
-    }*/
-
-});
-
-function parentWorm(element, parentTarget){
-
-  let search = true;
-
-  while(search == true){
-      
-    if (element === undefined || element === null){
-      return;
-    }
-
-    if (element.classList.contains(parentTarget)){
-        search = false;
-        return element;
-    }else{
-
-      element = element.parentElement;
-    }
-
-    }
-
-    return;
-
-}
-
-function removeTopWindow(){
-  const allWindows = document.querySelectorAll("#templateContent .draggableParent");
-        allWindows.forEach(e => e.classList.remove("topDraggable"));
-        return true;
-}
+/*PREVENT DRAGGABLES TO BE MOVED OUTSIDE OF THE SCREEN */
 
 function removeListeners(listeners, callbacks){
 
@@ -196,22 +165,7 @@ function removeDraggable(draggable, windowType){
   return false;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 function dragMouseDown(e) {
   e = e || window.event;
   e.preventDefault();
@@ -231,9 +185,64 @@ function elementDrag(e) {
   pos2 = pos4 - e.clientY;
   pos3 = e.clientX;
   pos4 = e.clientY;
-  // set the element's new position:
-  elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-  elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+  const top = elmnt.offsetTop-pos2, left = elmnt.offsetLeft-pos1;
+
+  //TESTAREA
+  
+    //Check when scroll is enabled
+
+  //TESTAREA
+
+  //window limits
+  if(elmnt.classList.contains("actualList")){ 
+  
+  elmnt.style.top = top + "px";
+  elmnt.style.left = left + "px";
+  }
+  //Check for max top and min left
+  else if (top <= 38 && left <= 0){
+
+    elmnt.style.top = "38px";
+    elmnt.style.left = "0px";
+
+  }
+  //Check for max top and max left
+  else if (top <= 38 && left >= 317){
+
+    elmnt.style.top = "38px";
+    elmnt.style.left = "317px";
+
+  }
+  //Check for max top
+  else if (top <= 38){
+  
+    elmnt.style.top = "38px";
+    elmnt.style.left = left + "px";
+  
+  } 
+  //Check for min left
+  else if (left <= 0){
+  
+    elmnt.style.top = top + "px";
+    elmnt.style.left = "0px";
+  
+  } 
+  //Check for max left
+  else if (left >= 317){
+  
+    elmnt.style.top = top + "px";
+    elmnt.style.left = "317px";
+  
+  } 
+  //default
+  else {
+
+    // set the element's new position:
+    elmnt.style.top = top + "px";
+    elmnt.style.left = left + "px";
+    
+  }
 }
 
 function closeDragElement() {
@@ -241,355 +250,97 @@ function closeDragElement() {
   document.onmouseup = null;
   document.onmousemove = null;
 }
+/*DRAGGABLE AND EVENTS */
+
+
+
+
+
 
 //All listeners functions to be able to remove them once the window is closed
-//CONFIGURATION
-function configClick(e){
+/*CONFIG FUNCTIONS */
+function configClick(e){ 
 
-  if (e.target.classList.contains("configBtn") || e.target.parentElement.classList.contains("configBtn")){
-    let submenu; 
-    if (e.target.parentElement.classList.contains("configBtn")){
+  // General list handling
+  
+  //Show list
+    if (e.target.parentElement.classList.contains("configList")){
 
-        submenu = e.target.parentElement.parentElement.querySelector(".configSubMenu");
-
-    } else {
-
-        submenu = e.target.parentElement.querySelector(".configSubMenu");
-
+    //Instantly remove selection
+      //Get actualList object
+        const actualList = e.target.parentElement.querySelector(".actualList");
+        //Show
+              actualList.classList.remove("hide");
+  
+  
     }
-    //Display submenu
-        if (submenu !== null){
-
-            if(submenu.classList.contains("hide")){
-
-                submenu.classList.remove("hide");
-                
-            } else {
-
-                submenu.classList.add("hide");
-
-            }
+    //Hide list
+    else if (e.target.classList.contains("closeDraggableList")){
+  
+        //Get draggable parent
+        const draggableParent = parentWorm(e.target, "draggableParent");
+          if (draggableParent !== undefined){
             
-        }
-
-  }
-
-  //mantCons
-  if (e.target.id === "mantConsultorios" || e.target.id === "backToMantCons"){
-
-    //Clear provider list 
-    consCurrentProviders = [];
-    //Add buttons
-      configRightContent.innerHTML = consBtns;
-
-  }
-  //mantCons > newCons
-  if (e.target.id === "newConsBtn"){
-
-    //Stop link activity
-     e.preventDefault();
-    //Clear provider list 
-    consCurrentProviders = [];
-    //Add content
-    configRightContent.innerHTML = newConsultorio;
-
-  }
-  //mantCons > editCons
-  if (e.target.id === "editConsBtn"){
-
-    //Stop link activity
-      e.preventDefault();
-    //Clear provider list 
-      consCurrentProviders = [];
-    //Add modalContent 
-
-      editorContainer.innerHTML = "";
-      mainTitle.innerHTML = "";
+              draggableParent.classList.add("hide");
   
-      //Create title input
-      const attrNames = ["type", "class", "placeholder"],
-        attrValue = ["text", "filterExistingCons", "Filtrar por Nombre"];
-      const input = createHtmlElement("input", attrNames, attrValue);
-  
-      mainTitle.textContent = "Consultorios ";
-      mainTitle.appendChild(input);
-      mainTitle.querySelector("input").focus();
-      //Create title input
-  
-      //Send data to genTable
-      const cols = ["Nombre ", "Dirección ", "RNC ", "Teléfono "];
-  
-      const consData = [
-  
-        {
-          "consName": "ConsultMD",
-          "address": "Luperon Gozniak, 23 street 33033",
-          "rnc": "123456789",
-          "phone": "809-999-9999",
-        },
-        {
-          "consName": "Montreal Central",
-          "address": "Street cons, 24 ln 33033",
-          "rnc": "1234567890",
-          "phone": "809-999-9998",
-        }
-  
-      ];
-      editorContainer.appendChild(genTable(consData, cols, "consBody"));
-  
-      superModal();
-
-  }
-  //mantCons > editCons > modal > editConsForm
-  if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "consBody"){
-          
-    //Get consName and Id, vvvv array
-    const logs = e.target.parentElement.querySelectorAll("td");
-
-    //Request all information from BD to proceed and update if needed
-
-    //Add editCons fields
-    configRightContent.innerHTML = newConsultorio;
-
-    //Get specific fields from editCons
-
-    const consName = configRightContent.querySelector("#consName"),
-          consAddress = configRightContent.querySelector("#consDir"),
-          consRnc = configRightContent.querySelector("#consRnc"),
-          consPhone = configRightContent.querySelector("#consPhone"),
-          consSpecialty = configRightContent.querySelector("#consSpecialties"),
-          consWorkDays = configRightContent.querySelectorAll(".checkGroup input"),
-          consDaysTimes = configRightContent.querySelectorAll(".checkGroup .dayTime"),
-          consProviders = configRightContent.querySelector("#consProviders");
-
-
-
-
-      modalRemoval();
-
-  }
-  //mantCons > editCons > modal > editConsForm && mantCons > editCons >  newCons
-  //consProviders
-  if(e.target.id === "consProviders"){
-
-    //Show modal
-          editorContainer.innerHTML = "";
-          mainTitle.innerHTML = "";
-
-        //Create title input
-          const attrNames = ["type", "class", "placeholder"],
-                attrValue = ["text", "filterConsPro", "Filtrar por Nombre"];
-          const input = createHtmlElement("input", attrNames, attrValue);
-
-          mainTitle.textContent = "Proveedores ";
-          mainTitle.appendChild(input);
-          mainTitle.querySelector("input").focus();
-          //Create title input
-
-        //Send data to genTable
-        const cols = ["Nombre ", "Apellido ", "Ubicación ", "Especialidad ", "Título "];
-
-        const sampleData = [
-          {
-            "name": "Martin Mark",
-            "lastName": "Luperon Gozniak",
-            "location": "Consult MD",
-            "specialty": "Pediatra",
-            "title": "Medical doctor"
-          },
-          {
-            "name": "Test",
-            "lastName": "Provider",
-            "location": "Test",
-            "specialty": "Test",
-            "title": "Test"
           }
-                ];
-          editorContainer.appendChild(genTable(sampleData, cols, "consProBody"));
-          superModal();
-  }
-
-  if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "consProBody"){
-          
-    //Get consName and Id, vvvv array
-    const logs = e.target.parentElement.querySelectorAll("td");
-
-    //Request all information from BD to proceed and update if needed
-
-    //Get specific fields from editCons
-
-    const consProviders = configRightContent.querySelector("#consProviders");
-
-
-    //Add selected provider into array
-    consCurrentProviders.push(logs[0].textContent+" "+logs[1].textContent);
-    //Reload current providers list
-    const providerListContainer = configRightContent.querySelector(".consProviderList");
-    reloadConsProviders(consCurrentProviders, providerListContainer);
-
-      modalRemoval();
-
-  }
-  //Show providerList
-  if (e.target.parentElement.classList.contains("consProviderList")){
-
-  //Instantly remove selection
-    //Get actualList object
-      const actualList = e.target.parentElement.querySelector(".actualList");
-      //Show
-            actualList.classList.remove("hide");
-
-
-  }
-  //Hide providerList
-  if (e.target.classList.contains("closeDraggableProvList")){
-
-      //Get draggable parent
-      const draggableParent = parentWorm(e.target, "draggableParent");
-        if (draggableParent !== undefined){
-          
-            draggableParent.classList.add("hide");
-
-        }
-
-  }
-  //Remove current provider from list
-  if (e.target.classList.contains("removeCurrentElement")){
-
-      const index = parseInt(e.target.parentElement.innerHTML.split("-")[0])-1;
-      consCurrentProviders.splice(index, 1);
-        const parentContainer = parentWorm(e.target, "consProviderList");
-        //Reload list
-      if(consCurrentProviders.length < 1){
-
-        reloadConsProviders(consCurrentProviders, parentContainer);
-      
-      }else{
-
-        liveReloadConsProviders(consCurrentProviders, parentContainer);
-
-      }
-  }
-  //Remove providerList draggable if clicked anywhere but the div itself
-  if (parentWorm(e.target, "actualList") === undefined){
-
-      const actualList = configRightContent.querySelector(".actualList");
-        //Check for null
-        if (actualList !== null && actualList !== undefined){
-            //Check if actualList contains hide
-            if (!actualList.classList.contains("hide")){
-
-                //actualList.classList.add("hide");
-                FIGURE OUT HOW TO HIDE THE ACTUAL LIST WHEN CLICKING OUTSIDE AND KEEP UP GOING WITH THE PROVIDERS; CITAS AND HORARIOS
-            }
-
-        }
-
-
-  }
-  //mantCons
-
-}
-
-function liveReloadConsProviders(array, parentContainer){
-    
-  //create list
-  const ul = document.createElement("ul");
-
-  for (let i = 0; i < array.length; i++) {
-
-
-    const li = document.createElement("li"),
-          iTag = createHtmlElement("i", "class", "fas fa-times removeCurrentElement");
-          li.textContent = (i+1)+" - "+array[i]+" ";
-          li.insertBefore(iTag, li.firstElementChild);
-    
-          ul.appendChild(li);
-
-  }
   
-  //remove existing span and ul
-  parentContainer.querySelector("span.liveCount").remove();
-  parentContainer.querySelector(".actualList > ul").remove();
-
-  //Add preview and count
-  const summonerSpan = document.createElement("span");
-        summonerSpan.setAttribute("class", "liveCount");
-        summonerSpan.textContent = array[0]+`...`+`(${array.length})`;
-
-  parentContainer.insertBefore(summonerSpan, parentContainer.childNodes[0]);
-  parentContainer.querySelector(".actualList").appendChild(ul);
-
-}
-
-function reloadConsProviders(array, targetElement){
-
-  if(array.length < 1){
-    targetElement.innerHTML = "";
-    return;
-  }
-  //create parentContainer, draggable
-  const parentContainer = createHtmlElement("div", "class", "actualList  draggableParent hide");
-  //create draggableTarget
-  const draggableTarget = createHtmlElement("div", "class", "draggableTarget");
-        draggableTarget.innerHTML = `
-                    <span class="tabName">Lista de proveedores</span>
-                    <i class="fas fa-times closeDraggableProvList"></i>
-        `;
-  //create list
-  const ul = document.createElement("ul");
+    }
+    //Remove current provider from list
+    else if (e.target.classList.contains("removeCurrentElement")){
+  
+        const index = parseInt(e.target.parentElement.innerHTML.split("-")[0])-1;
+        configCurrentList.splice(index, 1);
+          const parentContainer = parentWorm(e.target, "configList");
+          //Reload list
+        if(configCurrentList.length < 1){
+  
+          reloadConfigList(configCurrentList, parentContainer);
         
-  for (let i = 0; i < array.length; i++) {
+        }else{
+  
+          liveReloadConfigList(configCurrentList, parentContainer);
+  
+        }
+    }
+   
+  // General list handling
 
 
-    const li = document.createElement("li"),
-          iTag = createHtmlElement("i", "class", "fas fa-times removeCurrentElement");
-          li.textContent = (i+1)+" - "+array[i]+" ";
-          li.insertBefore(iTag, li.firstElementChild);
-    
-          ul.appendChild(li);
-
-  }
-  //Add preview and count
-  const summonerSpan = document.createElement("span");
-        summonerSpan.setAttribute("class", "liveCount");
-        summonerSpan.textContent = array[0]+`...`+`(${array.length})`;
-
-
-  targetElement.innerHTML = "";
-  parentContainer.appendChild(draggableTarget);
-  parentContainer.appendChild(ul);
-  targetElement.appendChild(summonerSpan);
-  targetElement.appendChild(parentContainer);
+  consConfigClick(e);
+  providerConfigClick(e);
 
 }
-
-
 
 function configKeyup(e){
-  //Filter from table in modal for cons
+
+  //CONFIG > CONSULTORIOS > NEW > INCLUDE PROV
   if (e.target.classList.contains("filterConsPro")){
 
+    keyupFilter(e.target, "consProBody", true)
       
-    filter(e.target, "consProBody", checkedIndex(e.target));
+  } 
+  //CONFIG > CONSULTORIOS > EDIT EXISTING
+  else if (e.target.classList.contains("filterExistingCons")){
 
+    keyupFilter(e.target, "configConsBody", false)
 
-  } else if (e.target.classList.contains("filterExistingCons")){
+  }
+  //CONFIG > PROVIDERS > NEW > INCLUDE CONS
+  else if (e.target.classList.contains("filterProCons")){
 
-    const index = checkedIndex(e.target);
+    keyupFilter(e.target, "proConsBody", true)
 
-    //Check for DOB or Tel to only provide 10 characters 
-        if(index === 2 || index === 3){
-              e.target.setAttribute("maxlength", "10");
-        }else{
-          e.target.removeAttribute("maxlength");
-        }
+  }
+  //CONFIG > PROVIDERS > EDIT EXISTING
+  else if (e.target.classList.contains("filterConfigProv")){
 
-      filter(e.target, "consBody", index);
+    keyupFilter(e.target, "configProvBody", true)
 
   }
 
 } 
+/*CONFIG FUNCTIONS */
 
 
 
@@ -597,19 +348,16 @@ function configKeyup(e){
 
 
 
-
-
-
-//EXISTING PATIENTS
-function existingPatientClick(e){ 
+/*EXISTING PATIENTS FUNCTIONS */
+function existingPatientClick(e){  
   
 
   if(e.target.id === "existingPersonalTab"){ 
  
       //Set selected button
           let buttonsParent = e.target.parentElement.parentElement;
-          removeAllClasses(buttonsParent, "selectedEButton", "button");
-          e.target.classList.add("selectedEButton");
+          removeAllClasses(buttonsParent, "selectedBtn", "button");
+          e.target.classList.add("selectedBtn");
 
             //Appt
             tableViewer.classList.add("hide");
@@ -668,14 +416,14 @@ function existingPatientClick(e){
   if(e.target.id === "existingApptTab"){ 
 
           //Set selected button
-          let buttonsParent = e.target.parentElement.parentElement;
-          removeAllClasses(buttonsParent, "selectedEButton", "button");
-          e.target.classList.add("selectedEButton");
+          let buttonsParent = e.target.parentElement.parentElement; 
+          removeAllClasses(buttonsParent, "selectedBtn", "button");
+          e.target.classList.add("selectedBtn");
 
     //Send data to genTable
           const cols = ["Paciente", "Ubicación ", "Fecha ", "Hora", "Tipo", "Proveedor"];
 
-          const sampleData = [
+          const patientData = [
             {
               "name": "Martin Luperon",
               "location": "Consult MD",
@@ -694,10 +442,8 @@ function existingPatientClick(e){
             }
                   ];
 
-           
             tableViewer.innerHTML = ""; contentViewer.innerHTML = ""; personalViewer.innerHTML = "";
             contentViewer.innerHTML = `<h3>No hay ninguna cita seleccionada</h3>`;
-
 
               //Personal
               personalViewer.classList.add("hide");
@@ -710,123 +456,107 @@ function existingPatientClick(e){
 
   }
 
-  //Select existing patient with modal
+  //Select existing patient with modal 
   if(e.target.id === "selectExistingPatient"){
+     
 
+      //Create title input
+
+      //Send data to genTable
+      const cols = ["Nombre ", "Apellido ", "Fecha de nacimiento ", "Teléfono "];
+      //DB request
+      const patientData = [
+
+                {
+                  "name": "Martin Mark",
+                  "lastName": "Luperon Gozniak",
+                  "dob": "01/25/2001",
+                  "phone": "809-999-9999",
+                },
+                {
+                  "name": "John Mark",
+                  "lastName": "Kon Gozniak",
+                  "dob": "01/25/2201",
+                  "phone": "809-999-8888",
+                }
                 
-          editorContainer.innerHTML = "";
-          mainTitle.innerHTML = "";
-
-          //Create title input
-          const attrNames = ["type", "class", "placeholder"],
-                attrValue = ["text", "filterExistingPatient", "Filtrar por Nombre"];
-          const input = createHtmlElement("input", attrNames, attrValue);
-
-          mainTitle.textContent = "Pacientes ";
-          mainTitle.appendChild(input);
-          mainTitle.querySelector("input").focus();
-          //Create title input
-
-          //Send data to genTable
-          const cols = ["Nombre ", "Apellido ", "Fecha de nacimiento ", "Teléfono "];
-          //DB request
-          const patientData = [
-
-                    {
-                      "name": "Martin Mark",
-                      "lastName": "Luperon Gozniak",
-                      "dob": "01/25/2001",
-                      "phone": "809-999-9999",
-                    },
-                    {
-                      "name": "John Mark",
-                      "lastName": "Kon Gozniak",
-                      "dob": "01/25/2201",
-                      "phone": "809-999-8888",
-                    }
-                    
-                  ];
-
-          editorContainer.appendChild(genTable(patientData, cols, "existingPaBody"));
-
-          superModal();
+              ];
+      modalFieldSelection("filterExistingPatient", "Pacientes ", cols, patientData, "existingPaBody");
 
           
   }
 
-    //Grab information from modal table for patient selection
-    if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "existingPaBody"){
-                  
-      const patientName = e.target.parentElement.querySelector(".pName");
-      const inputExistingP = document.querySelector("#existingPatientContent #selectExistingPatient");
+  //Grab information from modal table for patient selection
+  if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "existingPaBody"){
+                
+    const patientName = e.target.parentElement.querySelector(".pName");
+    const inputExistingP = document.querySelector("#existingPatientContent #selectExistingPatient");
 
-        //Enable buttons
-        const buttons = inputExistingP.parentElement.parentElement.querySelectorAll("button");
-        //Grab personal button and add selectedEButton class to set active state
-        if(!inputExistingP.hasAttribute("value"))
-            buttons[0].classList.add("selectedEButton");
+      //Enable buttons
+      const buttons = inputExistingP.parentElement.parentElement.querySelectorAll("button");
+      //Grab personal button and add selectedBtn class to set active state
+      if(!inputExistingP.hasAttribute("value"))
+          buttons[0].classList.add("selectedBtn");
 
-            //Add input value
-            inputExistingP.setAttribute("value", patientName.innerHTML);
-        
-                  
-              buttons.forEach(e => {
-                  e.classList.remove("disableBtn");
-              });
-              
-
-
-            //Request and dynamically add the fileds to patientPersonal
-            const patientPersonal = ` <h3 >Personal</h3>  
-
-            <div class="row center" >
-
-              <div class="col-lg-6 customOffset-1">
-
-                <ul>
-                  <li>Nombres: <span>Juan Manuel</span></li>
-                  <li>Apellidos: <span>Perez Hernandez</span></li>
-                  <li># paciente: <span>32</span></li>
-                  <li>Sexo: <span>M</span></li>
-                  <li>Dirección: <span>Las cayenas, calle 23, la vega</span></li>
-                  <li>Proveedor: <span>Maria Alberto De Jesus</span></li>
-                  <li>Creado: <span>05/12/2012</span></li>
-                </ul>
-
-              </div>
-
-              <div class="col-lg-5">
-
-                <ul>
-                  <li>Email: <span>Juanso@gmail.com</span></li>
-                  <li>Teléfono: 
-                                  <li class="indent"><span>809-619-5358</span></li>
-                                  <li class="indent"><span>809-619-9999</span></li>
-                                </li>
-                  <li>Contacto de emergencia: 
-                                  <li class="indent">Nombre: <span>Maria Jimenez</span></li>
-                                  <li class="indent">Teléfono: <span>809-619-9999</span></li>
-                  </li>
-
-                </ul>
-
-              </div>
-
-              <div class="ud-form-group">
-                <button  class="btn btn-primary bottomRight">
-                  Editar paciente
-                </button>
-              </div>
-
-            </div>`;
-            personalViewer.classList.remove("hide"); 
-            personalViewer.innerHTML = patientPersonal;
-
-        modalRemoval();
-
-    }
+          //Add input value
+          inputExistingP.setAttribute("value", patientName.innerHTML);
+      
+                
+            buttons.forEach(e => {
+                e.classList.remove("disableBtn");
+            });
+            
 
 
+          //Request and dynamically add the fileds to patientPersonal
+          const patientPersonal = ` <h3 >Personal</h3>  
+
+          <div class="row center" >
+
+            <div class="col-lg-6 customOffset-1">
+
+              <ul>
+                <li>Nombres: <span>Juan Manuel</span></li>
+                <li>Apellidos: <span>Perez Hernandez</span></li>
+                <li># paciente: <span>32</span></li>
+                <li>Sexo: <span>M</span></li>
+                <li>Dirección: <span>Las cayenas, calle 23, la vega</span></li>
+                <li>Proveedor: <span>Maria Alberto De Jesus</span></li>
+                <li>Creado: <span>05/12/2012</span></li>
+              </ul>
+
+            </div>
+
+            <div class="col-lg-5">
+
+              <ul>
+                <li>Email: <span>Juanso@gmail.com</span></li>
+                <li>Teléfono: 
+                                <li class="indent"><span>809-619-5358</span></li>
+                                <li class="indent"><span>809-619-9999</span></li>
+                              </li>
+                <li>Contacto de emergencia: 
+                                <li class="indent">Nombre: <span>Maria Jimenez</span></li>
+                                <li class="indent">Teléfono: <span>809-619-9999</span></li>
+                </li>
+
+              </ul>
+
+            </div>
+
+            <div class="ud-form-group">
+              <button  class="btn btn-primary bottomRight">
+                Editar paciente
+              </button>
+            </div>
+
+          </div>`;
+          personalViewer.classList.remove("hide"); 
+          personalViewer.innerHTML = patientPersonal;
+
+      modalRemoval();
+
+  }
 
   //Handle appointment selection
   if (e.target.parentElement.classList.contains("existingPatientApptRow")) {
@@ -913,20 +643,12 @@ function existingPatientClick(e){
 
 function existingPatientKeyup(e){
 
-  if(e.target.classList.contains("filterExistingPatient")){
-
-    const index = checkedIndex(e.target);
-
-    //Check for DOB or Tel to only provide 10 characters 
-        if(index === 2 || index === 3){
-              e.target.setAttribute("maxlength", "10");
-        }else{
-          e.target.removeAttribute("maxlength");
-        }
-
-      filter(e.target, "existingPaBody", index);
+  if (e.target.classList.contains("filterExistingPatient")){
+      
+      keyupFilter(e.target, "existingPaBody", false)
 
   }
+
 }
 
 function existingPatientContext(e){
@@ -952,11 +674,11 @@ function existingPatientContext(e){
 
         //Clear targetField
         targetField.removeAttribute("value");
-        //Disable buttons and remove selectedEButton
+        //Disable buttons and remove selectedBtn
         const buttons = targetField.parentElement.parentElement.querySelectorAll("button");
               buttons.forEach(e => {
                   e.classList.add("disableBtn");
-                  e.classList.remove("selectedEButton")
+                  e.classList.remove("selectedBtn")
               });
         customAlert("Campo \'"+ fieldName.toLowerCase() +"\' limpiado.");
   
@@ -967,8 +689,14 @@ function existingPatientContext(e){
       }
     }
 } 
+/*EXISTING PATIENTS FUNCTIONS */
 
-//CITAS
+
+
+
+
+
+/*CITAS FUNCTIONS */
 function citasClick(e){
   
   //Forbidden click alert
@@ -976,21 +704,11 @@ function citasClick(e){
     customAlert("Aún no seleccionas el proveedor!")
   }
 
-  //selectCitasProvider
+  //selectCitasProvider 
     //Summon modal
     if(e.target.id === "selectCitasProvider"){
 
-        editorContainer.innerHTML = "";
-        mainTitle.innerHTML = "";
 
-      //Create title input
-        const attrNames = ["type", "class", "placeholder"],
-              attrValue = ["text", "filterCitasPro", "Filtrar por Nombre"];
-        const input = createHtmlElement("input", attrNames, attrValue);
-
-        mainTitle.textContent = "Proveedores ";
-        mainTitle.appendChild(input);
-        mainTitle.querySelector("input").focus();
         //Create title input
 
       //Send data to genTable
@@ -1012,8 +730,7 @@ function citasClick(e){
           "title": "Test"
         }
               ];
-        editorContainer.appendChild(genTable(sampleData, cols, "citasProBody"));
-        superModal();
+      modalFieldSelection("filterCitasPro", "Proveedores ", cols, sampleData, "citasProBody");
 
     }
 
@@ -1033,21 +750,9 @@ function citasClick(e){
   //selectCitasPatient
 
   //selectCitasPatient
-    //Summon modal
+    //Summon modal 
     if(e.target.id === "selectCitasPatient"){
 
-
-        editorContainer.innerHTML = "";
-        mainTitle.innerHTML = "";
-
-        //Create title input
-        const attrNames = ["type", "class", "placeholder"],
-              attrValue = ["text", "filterCitasPa", "Filtrar por Nombre"];
-        const input = createHtmlElement("input", attrNames, attrValue);
-
-        mainTitle.textContent = "Pacientes ";
-        mainTitle.appendChild(input);
-        mainTitle.querySelector("input").focus();
         //Create title input
 
         //Send data to genTable
@@ -1069,12 +774,7 @@ function citasClick(e){
                   }
                   
                 ];
-
-        editorContainer.appendChild(genTable(patientData, cols, "citasPaBody"));
-
-        superModal();
-
-
+        modalFieldSelection("filterCitasPa", "Pacientes ", cols, patientData, "citasPaBody");
 
     }
   //selectCitasPatient
@@ -1235,28 +935,16 @@ function citasPaste(e){
 }
 
 function citasKeyup(e){
-    //Filter from table in modal for provider and patient
-    if (e.target.classList.contains("filterCitasPro")){
+    
+  if (e.target.classList.contains("filterCitasPro")){
+    
+    keyupFilter(e.target, "citasProBody", true)
+  
+  }else if(e.target.classList.contains("filterCitasPa")){
 
-      
-      filter(e.target, "citasProBody", checkedIndex(e.target));
+    keyupFilter(e.target, "citasPaBody", false)
 
-
-    } else if (e.target.classList.contains("filterCitasPa")){
-
-      const index = checkedIndex(e.target);
-
-      //Check for DOB or Tel to only provide 10 characters 
-          if(index === 2 || index === 3){
-                e.target.setAttribute("maxlength", "10");
-          }else{
-            e.target.removeAttribute("maxlength");
-          }
-
-        filter(e.target, "citasPaBody", index);
-
-    }
-
+  }
 } 
 
 function citasContext(e){
@@ -1294,8 +982,13 @@ function citasContext(e){
       }
     }
 }
+/*CITAS FUNCTIONS */
 
-//CALENDAR
+
+
+
+
+/*CALENDAR FUNCTIONS */ 
 function calendarClick(e){
   
  // If date is changed then selectedDate object changes, if month is changed then selected object persists
@@ -1399,26 +1092,20 @@ function calendarClick(e){
       drawCalendar(option);
   }
 }
+/*CALENDAR FUNCTIONS */ 
 
-//DOCUMENTOS
+
+
+
+
+
+/*DOCUMENTOS FUNCTIONS */
 function documentosClick(e){
   
   //selectDocsPatient
-  //Summon modal
+  //Summon modal 
   if (e.target.id === "selectDocsPatient") {
 
-
-    editorContainer.innerHTML = "";
-    mainTitle.innerHTML = "";
-
-    //Create title input
-    const attrNames = ["type", "class", "placeholder"],
-      attrValue = ["text", "filterDocsPa", "Filtrar por Nombre"];
-    const input = createHtmlElement("input", attrNames, attrValue);
-
-    mainTitle.textContent = "Pacientes ";
-    mainTitle.appendChild(input);
-    mainTitle.querySelector("input").focus();
     //Create title input
 
     //Send data to genTable
@@ -1440,12 +1127,7 @@ function documentosClick(e){
       }
 
     ];
-
-    editorContainer.appendChild(genTable(patientData, cols, "docsPaBody"));
-
-    superModal();
-
-
+    modalFieldSelection("filterDocsPa", "Pacientes ", cols, patientData, "docsPaBody");
 
   }
   //selectDocsPatient
@@ -1476,14 +1158,13 @@ function documentosClick(e){
   //Create new document
   if (e.target.id === "newDoc") {
 
-
     editorContainer.innerHTML = "";
     mainTitle.innerHTML = "";
     editorContainer.innerHTML = newDocForm;
     mainTitle.innerHTML = "Nuevo documento";
 
-
     superModal();
+
   }
   //Delete document
   if (e.target.id === "delDoc") {
@@ -1641,16 +1322,7 @@ function documentosKeyup(e){
   //Filter from table in modal for provider and patient
   if (e.target.classList.contains("filterDocsPa")){
 
-    const index = checkedIndex(e.target);
-
-    //Check for DOB or Tel to only provide 10 characters 
-        if(index === 2 || index === 3){
-              e.target.setAttribute("maxlength", "10");
-        }else{
-          e.target.removeAttribute("maxlength");
-        }
-
-      filter(e.target, "docsPaBody", index);
+      keyupFilter(e.target, "docsPaBody", false)
 
   }
 
@@ -1726,3 +1398,4 @@ function documentosInput(e){
     }
 }
 }
+/*DOCUMENTOS FUNCTIONS */

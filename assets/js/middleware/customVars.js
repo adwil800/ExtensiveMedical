@@ -1,5 +1,4 @@
-
-//DOCUMENTS
+/*DOCUMENTS VARIABLES */
 const customH3 = `<h3 class="alterH3">No hay ningún documento seleccionado</h3>`;
 const newDocForm = ` 
         <div class="modalFormWrapper" >
@@ -214,31 +213,66 @@ const result = `  <!--LEFT SIDE, SPECIFIC-->
 
 `;
 
+let provDocs, docDetails, newDoc, delDoc, downDoc, documentosActive = false;
+/*DOCUMENTS VARIABLES */
 
-//MODAL
+
+
+
+
+
+
+
+
+
+/*MODAL VARIABLES */
 const editorContainer = document.querySelector(".editor");
 const mainTitle = document.querySelector("span#mainTitle");
-//MODAL
+/*MODAL VARIABLES */
 
-//DOCUMENTS
-let provDocs, docDetails, newDoc, delDoc, downDoc, documentosActive = false;
-//DOCUMENTS
 
-//CITAS
+
+
+
+
+
+
+
+
+/*CITAS VARIABLES */
 let calendarParent, mainRightContentContainer, citasActive = false;
-//CITAS
+/*CITAS VARIABLES */
 
-//PATIENTS
+
+
+
+
+
+
+
+
+
+
+
+/*PATIENTS VARIABLES */
 //NEW
 let newPatientActive = false;
 //EXISTING
 let existingPatientActive = false, pacientesRightContent, tableViewer, contentViewer, personalViewer;
+/*PATIENTS VARIABLES */
 
 
 
-//PATIENTS
 
-//INDEX
+
+
+
+
+
+
+
+
+/*INDEX VARIABLES */
 //Vars to handle window cascade positioning
 let topPosition, leftPosition, windowCount = 0;
 let positionArray = [
@@ -249,15 +283,25 @@ let positionArray = [
                  [182, 282, false], 
                  [215, 315, false]
                 ];
+/*INDEX VARIABLES */
 
-//INDEX
 
-//CONFIG
-let configActive = false, configRightContent, consCurrentProviders = [];
+
+
+
+
+
+
+
+
+
+/*CONFIG VARIABLES */
+let configActive = false, configRightContent, consCurrentProviders = [], provCurrentCons = [];
 //Within configRightContent > consultorio > editar or crear
 //On link click
 const newConsultorio = `
                   <div class="row centerSubForm">
+                      <i class="fas fa-arrow-circle-left" id="backToMantCons"></i>
                     
                     <div class="col-lg-5 offset-1">
 
@@ -337,7 +381,7 @@ const newConsultorio = `
                         <input type="text" name="consProviders" id="consProviders" disabled >
                       </div>
 
-                      <div class="consProviderList draggableParent">
+                      <div class="configList draggableParent">
 
                       </div>
 
@@ -352,24 +396,87 @@ const newConsultorio = `
 
                   </div>
 `;
-//Within configRightContent > consultorio
-const consBtns = `
-      <div class="row centerSubForm">
-        <div class="col-lg-8 offset-2 ">
+ //MantProvider
+ const newMantProvider = `
+                <div class="row centerSubForm">
+                    <i class="fas fa-arrow-circle-left" id="backToMantProv"></i>
+                    
+                    <div class="col-lg-5 offset-1">
 
-        <h4><a href="#" id="editConsBtn">Edita un consultorio existente</a> o <a href="#" id="newConsBtn"> crea uno nuevo</a></h4>
+                      <div class="input-group">
+                        <label for="provFirstName">Nombres*</label>
+                        <input type="text" name="provFirstName" id="provFirstName" >
+                      </div>
+                      
+                      <div class="input-group">
+                        <label for="provLastName">Apellidos*</label>
+                        <input type="text" name="provLastName" id="provLastName" >
+                      </div>
 
-        </div>
-      </div>
+                      <div class="input-group">
+                        <label for="provSpecialty">Especialidad*</label>
+                        <input type="text" name="provSpecialty" id="provSpecialty" >
+                      </div>
+
+                      <div class="input-group">
+                        <label for="provTitle">Título*</label>
+                        <input type="text" name="provTitle" id="provTitle" >
+                      </div>
+                      
+                      <div class="input-group">
+                        <label for="provPhone">Teléfono*</label>
+                        <input type="text" name="provPhone" id="provPhone" >
+                      </div>
+
+
+                    </div>
+
+
+                    <div class="col-lg-5 ">
+                    
+                      <div class="input-group">
+                        <label for="provDescription">Descripción</label>
+                        <textarea name="provDescription" id="provDescription" cols="30" rows="10"></textarea>
+                      </div>
+                  
+                      <div class="input-group">
+                        <label for="provWorkingCenter">Centros de servicio*</label>
+                        <input type="text" name="provWorkingCenter" id="provWorkingCenter" disabled >
+                      </div>
+
+
+                      <div class="configList draggableParent">
+
+                      </div>
+
+                    </div>
+
+                    
+                   
+
+                </div>
+
 `;
+/*CONFIG VARIABLES */
+ 
 
 
-//CONFIG
 
 
 
 
-//CALENDAR
+
+
+
+
+
+
+
+
+
+
+
+/*CALENDAR VARIABLES */
   const today = new Date();
   let selectedDate = {
     "day": parseInt(today.getDate()),
@@ -402,4 +509,4 @@ const consBtns = `
     dd: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     ddd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   };
-//CALENDAR
+/*CALENDAR VARIABLES */

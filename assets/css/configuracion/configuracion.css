@@ -15,7 +15,8 @@
 }
 
 .configRightContent{
-    overflow: hidden;
+    
+    position: relative;
     padding: 0;
     background: var(--subWindow);
     border-radius: 5px;
@@ -23,6 +24,13 @@
     color:white;
 }
 
+#backToMantCons, #backToMantProv{
+    position: absolute;
+    top: 5px;
+    font-size: 22px;
+    left: -7px;
+    width: fit-content;
+}
 
 /*SELF*/
 .ud-template-form-wrapper .input-group {
@@ -91,18 +99,19 @@
 .checkGroup input[type='time'] {
 
     margin-top:5px;
+    padding-left: 3px;
     
 }
 
-#consProviders{
+#consProviders, #provWorkingCenter{
     cursor: pointer; 
 }
 
-.consProviderList{
+.configList{
     border:none !important;
 }
 
-.consProviderList > span{ 
+.configList > span{ 
     margin-top: 5px;
     height:26px;
     overflow: hidden;
@@ -110,7 +119,7 @@
     cursor: pointer;
 }
 
-.consProviderList > span:hover{
+.configList > span:hover{
     text-decoration: underline; 
 }
 
@@ -130,6 +139,9 @@
     border: 1px solid black !important;
 
 }
+.actualList .draggableTarget{
+    border-radius: 0;
+}
 
 .actualList > ul{
     margin-top: 37px;
@@ -142,6 +154,12 @@
     color: red;
     font-size: 20px;
 
+}
+
+
+/*Provider*/
+#provDescription{
+    height: 150px;
 }
 
 
@@ -161,3 +179,4 @@
 .s, .v{
     margin-left: 1px;
 }
+

@@ -60,7 +60,7 @@ body{
 }
 
 .draggableTarget {
-    z-index: 10;
+    z-index: 9; /*10*/
     background-color: #2196F3;
     color: #fff;
     cursor: move;
@@ -98,11 +98,15 @@ body{
     margin-bottom: 15px;
 }
 
-CHECK INDEX OMG
+body,html, .fakeBody {
+    height: 100%;
+    overflow:hidden;
+}
 
-
-
-
+/*SECTION HEIGHT*/
+#templateContent{
+    height:100%;
+}
 
 
 

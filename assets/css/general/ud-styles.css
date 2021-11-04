@@ -1399,8 +1399,9 @@ p {
   width: 100%;
   top: 0;
   left: 0;
-  height: 50%;
-  /*background: #f3f4fe;*/
+  /*height: 100%;/*50%;*/
+  background: darkblue;
+  
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -1677,4 +1678,9 @@ tbody tr {
 
 .alterH3{
   margin: 50px;
+}
+
+
+.selectedBtn{
+    background: #212b36;
 }

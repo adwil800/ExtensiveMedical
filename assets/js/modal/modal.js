@@ -23,7 +23,7 @@ document.body.addEventListener("keydown", (e) => {
          modalRemoval();
       }
 
-});
+}); 
 
 
 function superModal(timeout){
