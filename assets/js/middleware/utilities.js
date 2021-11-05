@@ -2,7 +2,7 @@
 
 /*QUALITY OF LIFE FUNCTIONS */ 
 /**
- * this function will alert a message at the bottom of the page
+ * This function will alert a message at the bottom of the page
  * 
  * @param {string} message message to display
  *  must be on file
@@ -33,7 +33,7 @@ function customAlert(message) {
 
 }
 /**
- * this function will create an html element with requested attributes
+ * This function will create an html element with requested attributes
  * 
  * @param {string} tag HTML tag of element to create
  * @param {Array}attrName attrName: array of attribute names or single name
@@ -76,7 +76,7 @@ function createHtmlElement(tag, attrName, attrValue) {
 
 }
 /**
- * this function will generate a table.
+ * This function will generate a table.
  *
  * @param {JSON} data: Json that contains the data
  * @param {Array} cols: table headers
@@ -154,7 +154,7 @@ function genTable(data, cols, bodyId, addRadio = true, addTrClass = false) {
   return table;
 }
 /**
- * this function will return requested parent object
+ * This function will return requested parent object
  *
  * @param {HTMLElement} element HTML tag of element to create
  * @param {string} parentTarget class to look for
@@ -213,7 +213,7 @@ function modalFieldSelection (filterClass, modalTitle, tableCols, tableContent, 
 
 }
 /**
- * this function will remove a class from all elements in a parent
+ * This function will remove a class from all elements in a parent
  *
  * @param {HTMLElement} parent contains all childs to remove a class
  * @param {string}classToRemove class to remove
@@ -229,7 +229,7 @@ function removeAllClasses(parent, classToRemove, selector){
 
 }
 /**
- * this function will bring the requested window to the front
+ * This function will bring the requested window to the front
  *
  * @returns {boolean} 
  */
@@ -239,7 +239,7 @@ function removeTopWindow(){
         return true;
 }
 /**
- * this function will filter from given table.
+ * This function will filter from given table.
  *
  * @param {HTMLElement} target: Html element to work on
  * @param {string} parentId: table body identifier for parent selection
@@ -271,7 +271,7 @@ function removeTopWindow(){
 
 }
 /**
-* this function will return the checked radio button index.
+* This function will return the checked radio button index.
 *
 * @param {HTMLElement} target: Html element to work on
 * @returns int 
@@ -376,7 +376,7 @@ function loadFile(file, parent, fileClass, fileTag){
 
 }
 /**
- * this function will organize new window position 
+ * This function will organize new window position 
  * @returns {boolean}
  */
 function windowAddition(){//CHECKED
@@ -398,7 +398,7 @@ function windowAddition(){//CHECKED
 
 }
 /**
- * this function will remove a window count and free a position index from window positioning array
+ * This function will remove a window count and free a position index from window positioning array
  * @param {HTMLElement} parentDraggable: window to get position index to organize new windows
  */
 function windowSubstraction(parentDraggable){//CHECKED
@@ -406,9 +406,11 @@ function windowSubstraction(parentDraggable){//CHECKED
   //Free taken position prefix
   const posIndex = parentDraggable.getAttribute("positionindex");
   positionArray[posIndex][2] = false;
+  //Remove attribute
+  parentDraggable.removeAttribute("positionindex");
 }
 /**
- * this function will check for free positions for new window
+ * This function will check for free positions for new window
  * @returns {Number} : next available position
  */
 function handleWindowPositioning(){//CHECKED
@@ -423,6 +425,33 @@ function handleWindowPositioning(){//CHECKED
 
       return false;
 }
+
+/**
+ * This function will restore a minimized window handling its position
+ * @param {HTMLElement} window: Parent draggable to maximize
+ */
+function removeMinimized(window){
+
+  //Remove remove any other top window
+  removeTopWindow();
+  //Add to top
+  window.classList.add("topDraggable");
+  //Add to available position
+  window.setAttribute("positionindex", windowAddition());
+  //Reposition window
+  window.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+  //Remove minimized
+  window.classList.remove("hide");
+  
+  const windowName = window.querySelector(".tabName").getAttribute("windowName");
+
+  //Look for minimized Btn
+  const minimized = document.querySelector(".minimizedWindows");
+  const minWindowBtn = minimized.querySelector("#max"+windowName);
+        minWindowBtn.remove();
+
+}
+
 /*INDEX QUALITY OF LIFE FUNCTIONS */ 
 
 
@@ -566,10 +595,12 @@ function consConfigClick(e){ //CHECKED
       removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
       e.target.classList.add("selectedBtn"); 
     }
-    //Clear provider list 
+    specialtyListActive = true;
+    //Clear list 
     configCurrentList = [];
+    specialtyCurrentList = [];
     //Add buttons
-      configRightContent.innerHTML = `
+      controlRightContent.innerHTML = `
       <div class="row centerSubForm">
         <div class="col-lg-8 offset-2 ">
 
@@ -585,10 +616,11 @@ function consConfigClick(e){ //CHECKED
 
     //Stop link activity
      e.preventDefault();
-    //Clear provider list 
+    //Clear  list 
     configCurrentList = [];
+    specialtyCurrentList = [];
     //Add content
-    configRightContent.innerHTML = newConsultorio;
+    controlRightContent.innerHTML = newConsultorio;
 
   }
   //mantCons > editCons
@@ -597,6 +629,7 @@ function consConfigClick(e){ //CHECKED
     //Stop link activity
       e.preventDefault();
       //Clear list 
+      specialtyCurrentList = [];
       configCurrentList = [];
     //Add modalContent 
       const cols = ["Nombre ", "Dirección ", "RNC ", "Teléfono "];
@@ -629,18 +662,18 @@ function consConfigClick(e){ //CHECKED
     //Request all information from BD to proceed and update if needed
 
     //Add editCons fields
-    configRightContent.innerHTML = newConsultorio;
+    controlRightContent.innerHTML = newConsultorio;
 
     //Get specific fields from editCons
 
-    const consName = configRightContent.querySelector("#consName"),
-          consAddress = configRightContent.querySelector("#consDir"),
-          consRnc = configRightContent.querySelector("#consRnc"),
-          consPhone = configRightContent.querySelector("#consPhone"),
-          consSpecialty = configRightContent.querySelector("#consSpecialties"),
-          consWorkDays = configRightContent.querySelectorAll(".checkGroup input"),
-          consDaysTimes = configRightContent.querySelectorAll(".checkGroup .dayTime"),
-          consProviders = configRightContent.querySelector("#consProviders");
+    const consName = controlRightContent.querySelector("#consName"),
+          consAddress = controlRightContent.querySelector("#consDir"),
+          consRnc = controlRightContent.querySelector("#consRnc"),
+          consPhone = controlRightContent.querySelector("#consPhone"),
+          consSpecialty = controlRightContent.querySelector("#consSpecialties"),
+          consWorkDays = controlRightContent.querySelectorAll(".checkGroup input"),
+          consDaysTimes = controlRightContent.querySelectorAll(".checkGroup .dayTime"),
+          consProviders = controlRightContent.querySelector("#consProviders");
 
 
 
@@ -649,7 +682,7 @@ function consConfigClick(e){ //CHECKED
 
   }
   //mantCons > editCons > modal > editConsForm && mantCons > editCons >  newCons
-  //consProviders
+  //Provider list for cons
   else if(e.target.id === "consProviders"){
 
           //Create title input
@@ -675,7 +708,7 @@ function consConfigClick(e){ //CHECKED
                 ];
       modalFieldSelection("filterConsPro", "Proveedores ", cols, providersData, "consProBody");
   }
-
+  //Provider list for cons
   else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "consProBody"){
           
     //Get consName and Id, vvvv array
@@ -685,19 +718,68 @@ function consConfigClick(e){ //CHECKED
 
     //Get specific fields from editCons
 
-    const consProviders = configRightContent.querySelector("#consProviders");
-
+    const consProviders = controlRightContent.querySelector("#consProviders");
 
     //Add selected provider into array
     configCurrentList.push(logs[0].textContent+" "+logs[1].textContent);
     //Reload current providers list
-    const providerListContainer = configRightContent.querySelector(".configList");
-    reloadConfigList(configCurrentList, providerListContainer);
+    const providerListContainer = controlRightContent.querySelector(".configList");
+    reloadConfigList(configCurrentList, providerListContainer, "provider");
 
       modalRemoval();
 
   }
-  //mantCons
+
+
+
+
+  //Specialty list for cons
+  else if(e.target.id === "consSpecialties"){
+
+        //Create title input
+      //Send data to genTable
+      const cols = ["Especialidad ", "Descripción "];
+
+      const specialtyData = [
+        {
+          "name": "Pediatría",
+          "desc": "Revisiones generales, cuidados anuales, inmunización, físicos escolares...",
+        },
+        {
+          "name": "Pediatría",
+          "desc": "Revisiones generales, cuidados anuales, inmunización, físicos escolares...",
+        },
+              ];
+      modalFieldSelection("filterConsSpec", "Proveedores ", cols, specialtyData, "consSpecialtyBody");
+
+  }
+    //Provider list for cons
+  else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "consSpecialtyBody"){
+        
+    //Get consName and Id, vvvv array
+    const logs = e.target.parentElement.querySelectorAll("td");
+
+    //Add selected provider into array
+    specialtyCurrentList.push(logs[0].textContent);
+    const specialtyListContainer = controlRightContent.querySelector(".configList");
+
+    reloadConfigList(specialtyCurrentList, specialtyListContainer, "specialty");
+    modalRemoval();
+
+  }
+
+  else if(e.target.classList.contains("multiList")){
+    const providerListContainer = controlRightContent.querySelector(".configList");
+      liveReloadConfigList(configCurrentList, providerListContainer, "provider");
+  }
+  else if(e.target.classList.contains("specialtyList")){
+    const specialtyListContainer = controlRightContent.querySelector(".configList");
+      liveReloadConfigList(specialtyCurrentList, specialtyListContainer, "specialty");
+  }
+
+
+  
+    //mantCons
 
 }
 
@@ -711,12 +793,13 @@ function providerConfigClick(e){ //CHECKED
         removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
         e.target.classList.add("selectedBtn"); 
     }
+    specialtyListActive = false;
     //Set selected btn
     //Clear list
     configCurrentList = [];
 
     //Add buttons
-      configRightContent.innerHTML = `
+      controlRightContent.innerHTML = `
       <div class="row centerSubForm">
         <div class="col-lg-8 offset-2 ">
 
@@ -737,7 +820,7 @@ function providerConfigClick(e){ //CHECKED
     configCurrentList = [];
 
     //Add content
-    configRightContent.innerHTML = newMantProvider; //New provider form 
+    controlRightContent.innerHTML = newMantProvider; //New provider form 
 
   }
   //mantProv > editProv
@@ -779,18 +862,18 @@ function providerConfigClick(e){ //CHECKED
     //Request all information from BD to proceed and update if needed
 
     //Add editCons fields
-    configRightContent.innerHTML = newMantProvider; //New provider form
+    controlRightContent.innerHTML = newMantProvider; //New provider form
 
     //Get specific fields from editCons
 
-    /*const consName = configRightContent.querySelector("#consName"),
-          consAddress = configRightContent.querySelector("#consDir"),
-          consRnc = configRightContent.querySelector("#consRnc"),
-          consPhone = configRightContent.querySelector("#consPhone"),
-          consSpecialty = configRightContent.querySelector("#consSpecialties"),
-          consWorkDays = configRightContent.querySelectorAll(".checkGroup input"),
-          consDaysTimes = configRightContent.querySelectorAll(".checkGroup .dayTime"),
-          consProviders = configRightContent.querySelector("#consProviders");*/
+    /*const consName = controlRightContent.querySelector("#consName"),
+          consAddress = controlRightContent.querySelector("#consDir"),
+          consRnc = controlRightContent.querySelector("#consRnc"),
+          consPhone = controlRightContent.querySelector("#consPhone"),
+          consSpecialty = controlRightContent.querySelector("#consSpecialties"),
+          consWorkDays = controlRightContent.querySelectorAll(".checkGroup input"),
+          consDaysTimes = controlRightContent.querySelectorAll(".checkGroup .dayTime"),
+          consProviders = controlRightContent.querySelector("#consProviders");*/
 
       modalRemoval();
 
@@ -826,13 +909,13 @@ function providerConfigClick(e){ //CHECKED
 
     //Get specific fields from editCons
 
-    const provCenters = configRightContent.querySelector("#provWorkingCenter");
+    const provCenters = controlRightContent.querySelector("#provWorkingCenter");
 
     //Add selected provider into array
     configCurrentList.push(logs[0].textContent);
     //Reload current providers list
-    const consListContainer = configRightContent.querySelector(".configList");
-    reloadConfigList(configCurrentList, consListContainer);
+    const consListContainer = controlRightContent.querySelector(".configList");
+    reloadConfigList(configCurrentList, consListContainer, "cons", true);
 
       modalRemoval();
 
@@ -842,16 +925,128 @@ function providerConfigClick(e){ //CHECKED
 
 
 } 
+
+function tCitasConfigClick(e){ //CHECKED
+  
+  //mantCitas *
+  if (e.target.id === "mantCitas" || e.target.id === "backToMantCitas"){//DONE
+ 
+     //Get menu Btns
+     if (e.target.id === "mantCitas"){
+         removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
+         e.target.classList.add("selectedBtn"); 
+     }
+     //Set selected btn
+ 
+     //Add buttons
+       controlRightContent.innerHTML = `
+       <div class="row centerSubForm">
+         <div class="col-lg-8 offset-2 ">
+ 
+           <h4><a href="#" id="editTCitaBtn">Edita un tipo de cita existente</a> o <a href="#" id="newTCitaBtn"> crea uno nuevo</a></h4>
+ 
+         </div>
+       </div>
+     `;
+ 
+   } 
+ 
+   //mantCitas > newTCitaBtn
+   else if (e.target.id === "newTCitaBtn"){//DONE
+    
+     //Stop link activity
+      e.preventDefault();
+ 
+     //Add content
+     controlRightContent.innerHTML = newMantCitas; //New provider form 
+ 
+   }
+   //mantCitas > editTCitaBtn
+   else if (e.target.id === "editTCitaBtn"){
+ 
+     //Stop link activity
+       e.preventDefault();
+     //Add modalContent 
+     const cols = ["Tipo ", "Descripción ", "Duración ", "Código "];
+ 
+     const apptTypeData = [
+       {
+         "type": "Chequeo pediátrico",
+         "desc": "Revisión general para niños de 1 a 16 años de edad",
+         "duration": "30",
+         "id": "chpd30",
+       },
+       {
+        "type": "Pap smear",
+        "desc": "Revisión mamária para adultos de 30 a 45 años de edad",
+        "duration": "60",
+        "id": "pasm60",
+       }
+             ];
+       modalFieldSelection("filterConfigTCita", "Tipos de citas ", cols, apptTypeData, "configTCitaBody");
+
+       //Alter desc field width to even the TH height
+       editorContainer.querySelectorAll("thead th")[1].classList.add("w300px")
+      console.log()
+ 
+   }
+   //mantProv > editProv > modal > editProvForm
+   else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "configTCitaBody"){
+           //FILL ALL FIELDS
+     //Get consName and Id, vvvv array
+     const logs = e.target.parentElement.querySelectorAll("td");
+ 
+     //Request all information from BD to proceed and update if needed
+ 
+     //Add editCons fields
+     controlRightContent.innerHTML = newMantCitas; //New provider form
+ 
+     //Get specific fields from editCons
+ 
+     /*const consName = controlRightContent.querySelector("#consName"),
+           consAddress = controlRightContent.querySelector("#consDir"),
+           consRnc = controlRightContent.querySelector("#consRnc"),
+           consPhone = controlRightContent.querySelector("#consPhone"),
+           consSpecialty = controlRightContent.querySelector("#consSpecialties"),
+           consWorkDays = controlRightContent.querySelectorAll(".checkGroup input"),
+           consDaysTimes = controlRightContent.querySelectorAll(".checkGroup .dayTime"),
+           consProviders = controlRightContent.querySelector("#consProviders");*/
+ 
+       modalRemoval();
+ 
+   }
+ 
+} 
 /*CONFIG EVENTS QUALITY OF LIFE FUNCTIONS */ 
 
 
 
 
-
-
-/*CONFIG QUALITY OF LIFE FUNCTIONS */ 
-function liveReloadConfigList(array, parentContainer){//CHECKED
+function liveReloadConfigList(array, parentContainer, listType = ""){//CHECKED
     
+
+  let listName = "Lista de proveedores", listIdentifier = "Prov: ", 
+      iRemoveClass = "removeCurrentElement";
+  if(listType === "specialty"){
+      listIdentifier = "Spec: "
+      listName = "Lista de especialidades";
+      iRemoveClass = "removeCurrentSElement";
+      
+  }else if (listType === "cons"){
+
+    listIdentifier = "Cons: "
+    listName = "Lista de consultorios";
+
+  }
+      parentContainer.querySelector(".actualList .tabName").textContent = listName;
+      
+    let summonerSpanContent = listIdentifier+array[0]+`...`+`(${array.length})`;
+
+    if(array.length < 1){
+        summonerSpanContent = listName+" vacía."
+    }
+
+
   //create list
   const ul = document.createElement("ul");
 
@@ -859,7 +1054,7 @@ function liveReloadConfigList(array, parentContainer){//CHECKED
 
 
     const li = document.createElement("li"),
-          iTag = createHtmlElement("i", "class", "fas fa-times removeCurrentElement");
+          iTag = createHtmlElement("i", "class", "fas fa-times "+iRemoveClass);
           li.textContent = (i+1)+" - "+array[i]+" ";
           li.insertBefore(iTag, li.firstElementChild);
     
@@ -868,33 +1063,85 @@ function liveReloadConfigList(array, parentContainer){//CHECKED
   }
   
   //remove existing span and ul
-  console.log(parentContainer)
   parentContainer.querySelector("span.liveCount").remove();
   parentContainer.querySelector(".actualList > ul").remove();
 
   //Add preview and count
   const summonerSpan = document.createElement("span");
         summonerSpan.setAttribute("class", "liveCount");
-        summonerSpan.textContent = array[0]+`...`+`(${array.length})`;
+        summonerSpan.textContent = summonerSpanContent;
 
   parentContainer.insertBefore(summonerSpan, parentContainer.childNodes[0]);
   parentContainer.querySelector(".actualList").appendChild(ul);
 
 }
 
-function reloadConfigList(array, targetElementContainer){//CHECKED
 
-  if(array.length < 1){
-    targetElementContainer.innerHTML = "";
-    return;
-  }
+
+
+
+
+
+
+
+
+
+
+
+function reloadConfigList(array, targetElementContainer, listType = "", isProviderCenter = false){//CHECKED
+
+
+  let listName = "Lista de proveedores", listIdentifier = "Prov: ",
+      iRemoveClass = "removeCurrentElement", 
+      listSwitchers = `<i class="fas fa-chevron-right specialtyList">
+                   </i><i class="fas fa-chevron-left multiList"></i>`;
+
+      //Check for Provider center only list and if so, hide list toggles
+      if(isProviderCenter){
+        listSwitchers = "";
+      }
+
+    if (listType === "specialty"){
+
+        listIdentifier = "Spec: "
+        listName = "Lista de especialidades";
+        iRemoveClass = "removeCurrentSElement";
+
+    }else if (listType === "cons"){
+
+        listIdentifier = "Cons: "
+        listName = "Lista de consultorios";
+
+    }
+      
+    let summonerSpanContent = listIdentifier+array[0]+`...`+`(${array.length})`;
+
+    if (array.length < 1){
+        summonerSpanContent = listName+" vacía."
+    }
+
+    if (listType === "provider" || listType === "specialty"){
+     
+      if (configCurrentList.length < 1 && specialtyCurrentList.length < 1){
+          targetElementContainer.innerHTML = "";
+        return;
+      }
+
+    }else if (array.length < 1){
+      targetElementContainer.innerHTML = "";
+      return;
+    }
+
+
+
   //create parentContainer, draggable
   const parentContainer = createHtmlElement("div", "class", "actualList  draggableParent hide");
   //create draggableTarget
   const draggableTarget = createHtmlElement("div", "class", "draggableTarget");
         draggableTarget.innerHTML = `
-                    <span class="tabName">Lista de proveedores</span>
+                    <span class="tabName">${listName}</span>
                     <i class="fas fa-times closeDraggableList"></i>
+                    ${listSwitchers}
         `;
   //create list
   const ul = document.createElement("ul");
@@ -903,7 +1150,7 @@ function reloadConfigList(array, targetElementContainer){//CHECKED
 
 
     const li = document.createElement("li"),
-          iTag = createHtmlElement("i", "class", "fas fa-times removeCurrentElement");
+          iTag = createHtmlElement("i", "class", "fas fa-times "+iRemoveClass);
           li.textContent = (i+1)+" - "+array[i]+" ";
           li.insertBefore(iTag, li.firstElementChild);
     
@@ -913,7 +1160,7 @@ function reloadConfigList(array, targetElementContainer){//CHECKED
   //Add preview and count
   const summonerSpan = document.createElement("span");
         summonerSpan.setAttribute("class", "liveCount");
-        summonerSpan.textContent = array[0]+`...`+`(${array.length})`;
+        summonerSpan.textContent = summonerSpanContent;
 
 
   targetElementContainer.innerHTML = "";

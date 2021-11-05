@@ -296,8 +296,9 @@ let positionArray = [
 
 
 /*CONFIG VARIABLES */
-let configActive = false, configRightContent, consCurrentProviders = [], provCurrentCons = [];
-//Within configRightContent > consultorio > editar or crear
+let configActive = false, controlRightContent, consCurrentProviders = [], provCurrentCons = [],
+    specialtyCurrentList = [], configCurrentList = [], specialtyListActive = false;
+//Within controlRightContent > consultorio > editar or crear
 //On link click
 const newConsultorio = `
                   <div class="row centerSubForm">
@@ -327,7 +328,7 @@ const newConsultorio = `
 
                       <div class="input-group">
                         <label for="consSpecialties">Especialidades*</label>
-                        <input type="text" name="consSpecialties" id="consSpecialties" >
+                        <input type="text" name="consSpecialties" id="consSpecialties" disabled >
                       </div>
 
                     </div>
@@ -456,10 +457,58 @@ const newConsultorio = `
 
                 </div>
 
+`;//MantCitas
+const newMantCitas = `
+                <div class="row centerSubForm">
+                    <i class="fas fa-arrow-circle-left" id="backToMantCitas"></i>
+                    
+                    <div class="col-lg-8 offset-2">
+
+                      <div class="input-group">
+                        <label for="tCitasName">Nombre*</label>
+                        <input type="text" name="tCitasName" id="tCitasName" >
+                      </div>
+                        
+                      <div class="row">
+
+                        <div class="col-lg-6">
+
+                          <div class="input-group">
+                            <label for="tCitasDuration">Duración*</label>
+                            <input type="number" name="tCitasDuration" id="tCitasDuration" >
+                          </div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                          <div class="input-group">
+                            <label for="tCitasSpecialty">Especialidad*</label>
+
+                            <select name="tCitasSpecialty" id="tCitasSpecialty">
+                              <option value="">Pediatría</option>
+                              <option value="">Ginecología</option>
+                              <option value="">Medicina general</option>
+                            </select>
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="input-group">
+                        <label for="tCitasDesc">Descripción*</label>
+                        <textarea name="tCitasDesc" id="tCitasDesc" cols="30" rows="10"></textarea>
+                      </div>
+
+                    </div>
+
+
+                </div>
+
 `;
 /*CONFIG VARIABLES */
  
-
 
 
 

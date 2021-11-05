@@ -14,7 +14,7 @@
     color: #242424;
 }
 
-.configRightContent{
+.controlRightContent{
     
     position: relative;
     padding: 0;
@@ -24,7 +24,7 @@
     color:white;
 }
 
-#backToMantCons, #backToMantProv{
+#backToMantCons, #backToMantProv, #backToMantCitas{
     position: absolute;
     top: 5px;
     font-size: 22px;
@@ -103,7 +103,7 @@
     
 }
 
-#consProviders, #provWorkingCenter{
+#consProviders, #provWorkingCenter, #consSpecialties{
     cursor: pointer; 
 }
 
@@ -162,9 +162,14 @@
     height: 150px;
 }
 
+/*Mant citas*/
+#tCitasDesc{ /*textarea*/
+    height: 107px;
+}
 
-
-
+.w300px{
+    width: 300px;
+}
 
 .l{
     margin-left: 5px;

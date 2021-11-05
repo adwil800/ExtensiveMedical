@@ -1,6 +1,12 @@
 //All citas content
 const citas = `   
-<div class="draggableTarget"><span class="tabName">Calendario de citas</span><i class="fas fa-times closeDraggableCitas"></i></div>
+<div class="draggableTarget">
+
+<span class="tabName" windowname="CalCitas">Calendario de citas</span>
+<i class="fas fa-times closeDraggableCitas"></i>
+<i class="fas fa-minus minimizeDraggable"></i>
+
+</div>
 
 <br>
 
@@ -66,7 +72,13 @@ const citas = `
 
 `;
 const documentos = `
-<div class="draggableTarget"><span class="tabName">Documentos</span><i class="fas fa-times closeDraggableDocs"></i></div>
+<div class="draggableTarget">
+
+<span class="tabName" windowname="Docs">Documentos</span>
+<i class="fas fa-times closeDraggableDocs"></i>
+<i class="fas fa-minus minimizeDraggable"></i>
+
+</div>
 <br>
      <div class="row" id="docsContent">
             <!-- ====== Content start ====== -->
@@ -115,7 +127,13 @@ const documentos = `
           </div>
 `;
 const nuevoPaciente = `
-<div class="draggableTarget"><span class="tabName">Nuevo paciente</span><i class="fas fa-times closeDraggableNewPatient"></i></div>
+<div class="draggableTarget">
+
+<span class="tabName" windowname="PNuevo">Nuevo paciente</span>
+<i class="fas fa-times closeDraggableNewPatient"></i>
+<i class="fas fa-minus minimizeDraggable"></i>
+
+</div>
 <br>
 
 
@@ -290,7 +308,13 @@ const nuevoPaciente = `
 </div>
 `;
 const existingPatient = `
-<div class="draggableTarget"><span class="tabName">Pacientes - patientName, DOB, ID</span><i class="fas fa-times closeDraggableExistingPatient"></i></div>
+<div class="draggableTarget">
+
+<span class="tabName" windowname="PExist">Pacientes - patientName, DOB, ID</span>
+<i class="fas fa-times closeDraggableExistingPatient"></i>
+<i class="fas fa-minus minimizeDraggable"></i>
+
+</div>
 <br>
 
 
@@ -351,12 +375,18 @@ const existingPatient = `
   <!-- ====== Content start ====== -->
 </div>
 `;
-const configForm = `
+const controlForm = `
  
-<div class="draggableTarget"><span class="tabName">Configuración > consultorios > nuevo </span><i class="fas fa-times closeDraggableConfig"></i></div>
+<div class="draggableTarget">
+
+<span class="tabName" windowname="Panel">Panel de control > consultorios > nuevo </span>
+<i class="fas fa-times closeDraggableControl"></i>
+<i class="fas fa-minus minimizeDraggable"></i>
+
+</div>
 <br>
   
-  <div class="row" id="configContent">
+  <div class="row" id="controlContent">
   
           <!-- ====== Right content start ====== -->
           <div class="col-lg-12  ">
@@ -388,10 +418,8 @@ const configForm = `
 
               </div>
 
-
-
             
-              <div class="col-lg-9 configRightContent">
+              <div class="col-lg-9 controlRightContent">
 
               </div>
 
@@ -416,7 +444,7 @@ const dynamicJs = document.querySelector(".dynamicJs");
 
 document.addEventListener("click", e => {
 
-    if (e.target.classList.contains("menuBtn")){
+    if (e.target.tagName.toLowerCase() === "button"){
         $(e.target).blur();
     }
 
@@ -426,12 +454,19 @@ document.addEventListener("click", e => {
 
           if(newPatientActive){
             const selectedDraggable = contentParent.querySelector("#newPatientContent").parentElement;
+
+              if(selectedDraggable.classList.contains("hide")){
+
+                //remove minimized
+                  removeMinimized(selectedDraggable);
+
+              }
+
               if (removeTopWindow()){
                 //Set z-index to current parent
                 selectedDraggable.classList.add("topDraggable");
               }
             return;
-
           }
 
 
@@ -471,17 +506,24 @@ document.addEventListener("click", e => {
       //Removes current top draggable
       removeTopWindow();
 
-       if(existingPatientActive){
+        if(existingPatientActive){
 
-        const selectedDraggable = contentParent.querySelector("#existingPatientContent").parentElement;
-          if (removeTopWindow()){
-            //Set z-index to current parent
-            selectedDraggable.classList.add("topDraggable");
-          }
-        return;
-      }
-      
-      existingPatientActive = true;
+          const selectedDraggable = contentParent.querySelector("#existingPatientContent").parentElement;
+            if(selectedDraggable.classList.contains("hide")){
+
+              //remove minimized
+                removeMinimized(selectedDraggable);
+
+            }
+            
+            if (removeTopWindow()){
+              //Set z-index to current parent
+              selectedDraggable.classList.add("topDraggable");
+            }
+          return;
+        }
+        
+        existingPatientActive = true;
 
      //Add Css 
           loadFile("../assets/css/pacientes/pacienteExistente.css", dynamicCss, "linkExistingPatient", "link").then(e => {
@@ -529,10 +571,16 @@ document.addEventListener("click", e => {
             if(citasActive){
 
               const selectedDraggable = contentParent.querySelector("#citasContent").parentElement;
-                if (removeTopWindow()){
-                  //Set z-index to current parent
-                  selectedDraggable.classList.add("topDraggable");
-                }
+              if(selectedDraggable.classList.contains("hide")){
+
+                //remove minimized
+                  removeMinimized(selectedDraggable);
+  
+              }
+              if (removeTopWindow()){
+                //Set z-index to current parent
+                selectedDraggable.classList.add("topDraggable");
+              }
               return;
             }
             
@@ -602,6 +650,12 @@ document.addEventListener("click", e => {
           if(documentosActive){
             
             const selectedDraggable = contentParent.querySelector("#docsContent").parentElement;
+            if(selectedDraggable.classList.contains("hide")){
+
+              //remove minimized
+                removeMinimized(selectedDraggable);
+
+            }
             if (removeTopWindow()){
               //Set z-index to current parent
               selectedDraggable.classList.add("topDraggable");
@@ -649,13 +703,19 @@ document.addEventListener("click", e => {
       
     }
     
-    if(e.target.id === "summonConfig"){
+    if(e.target.id === "summonControl"){
       //Removes current top draggable
       removeTopWindow();
 
         if(configActive){
           
-          const selectedDraggable = contentParent.querySelector("#configContent").parentElement;
+          const selectedDraggable = contentParent.querySelector("#controlContent").parentElement;
+          if(selectedDraggable.classList.contains("hide")){
+
+            //remove minimized
+              removeMinimized(selectedDraggable);
+
+          }
           if (removeTopWindow()){
             //Set z-index to current parent
             selectedDraggable.classList.add("topDraggable");
@@ -686,17 +746,95 @@ document.addEventListener("click", e => {
                 //Set initial position for parent window
                 parentConfig.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
 
-                parentConfig.innerHTML = configForm;
+                parentConfig.innerHTML = controlForm;
                 //Remove loader
                 skeletonLoader.classList.add("hide");
                 contentParent.appendChild(parentConfig);
 
                 //Config vars
-                  configRightContent = contentParent.querySelector(".configRightContent");
+                  controlRightContent = contentParent.querySelector(".controlRightContent");
                   
               }).catch( e => console.error(e));
             }).catch( e => console.error(e));
     
-  }
+    }
+
+
+  /*Minimize windows */
+    if (e.target.classList.contains("minimizeDraggable")){
+
+      //Get current window name 
+        const windowName = e.target.parentElement.querySelector(".tabName").getAttribute("windowName");
+      //Hide parent draggable and remove topDraggable
+        const windowDragg = parentWorm(e.target, "draggableParent");
+              windowDragg.classList.add("hide");
+              windowDragg.classList.remove("topDraggable");
+            
+        //Restore position availability
+        windowSubstraction(windowDragg);
+
+      //Add minimized submenu
+        const minimized = document.querySelector(".minimizedWindows");
+              minimized.classList.remove("hide");
+          //Create button
+          const buttonN = createHtmlElement("button", ["class", "id"], 
+                                            ["btn btn-primary btn-sm maximizeDraggable", "max"+windowName])
+                buttonN.textContent = windowName;
+          const icon = createHtmlElement("i", "class", "lni lni-full-screen floatRight");
+
+            buttonN.appendChild(icon);
+            minimized.appendChild(buttonN);
+            $(minimized).mouseover();
+
+        //Trigger hover-like event to show newly minimized windows
+          minimized.setAttribute("style", "left: 0px; background-color: inherit;");
+          //Clear timeouts
+          let id = window.setTimeout(function () { }, 0);
+          while (id--) {
+            window.clearTimeout(id);
+          }
+          //Remove hover-like event
+          setTimeout(() => {
+            minimized.removeAttribute("style");
+          }, 1000);
+
+    }
+  /*Maximize windows */
+    if (e.target.classList.contains("maximizeDraggable") || e.target.parentElement.classList.contains("maximizeDraggable")){
+
+        //Get windowName, aka: ID
+        const windowName = e.target.id.slice(3,);
+        //Find tabName that contains windowName attribute as windowName, contentParent
+        const windowToMax = contentParent.querySelectorAll(".draggableParent > .draggableTarget > .tabName");
+              //windowToMax is a node list, turn into array to allow the use of its methods
+
+          for (let i = 0; i < windowToMax.length; i++) {
+
+
+              const eWindowName = windowToMax[i].getAttribute("windowName");
+              if (eWindowName !== null && eWindowName.toLowerCase() === windowName.toLowerCase()){
+                  //Remove taken window from the array
+                  removeMinimized(parentWorm(windowToMax[i], "draggableParent"))
+                  break;
+
+              }
+
+          };
+            
+          //Check for minimizedCount length to hide minimize tab
+          const minimized = document.querySelector(".minimizedWindows");
+          const minimizedCount = minimized.querySelectorAll("button").length;
+
+          if(minimizedCount < 1){
+                  minimized.classList.add("hide");
+          }
+
+
+    }
 
 });
+ 
+
+
+
+

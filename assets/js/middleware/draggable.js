@@ -83,11 +83,11 @@ document.body.addEventListener("click", e => {
       const existingPatientListeners = ["click", "keyup", "context"],
             existingPatientCallbacks = [existingPatientClick, existingPatientKeyup, existingPatientContext];
             removeListeners(existingPatientListeners, existingPatientCallbacks);
-    } else if (e.target.classList.contains("closeDraggableConfig")){
+    } else if (e.target.classList.contains("closeDraggableControl")){
       //Handle window count and initial position
       windowSubstraction(e.target.parentElement.parentElement);
 
-      configRightContent = "", configCurrentList = [];
+      controlRightContent = "", configCurrentList = [], specialtyCurrentList = [];
       configActive = removeDraggable(e.target, "Config");
       //remove listeners
       const configListeners = ["click", "keyup"],
@@ -258,7 +258,7 @@ function closeDragElement() {
 
 
 //All listeners functions to be able to remove them once the window is closed
-/*CONFIG FUNCTIONS */
+/*CONTROL FUNCTIONS */
 function configClick(e){ 
 
   // General list handling
@@ -293,54 +293,108 @@ function configClick(e){
         configCurrentList.splice(index, 1);
           const parentContainer = parentWorm(e.target, "configList");
           //Reload list
-        if(configCurrentList.length < 1){
-  
-          reloadConfigList(configCurrentList, parentContainer);
+
+          //Im working with both specialty and provider, consConfig
+        if (specialtyListActive === true){
+            if(configCurrentList.length < 1 && specialtyCurrentList < 1){
+      
+              //Clear list
+              parentContainer.innerHTML = "";
+            
+            }else{
+      
+              //remove current element
+              liveReloadConfigList(configCurrentList, parentContainer, "provider");
+      
+            }
+
+
+          //Im working with service center in providerConfig
+        } else {
+
+            if(configCurrentList.length < 1){
         
-        }else{
-  
-          liveReloadConfigList(configCurrentList, parentContainer);
-  
+              //Clear list
+              parentContainer.innerHTML = "";
+            
+            }else{
+      
+              //remove current element
+              liveReloadConfigList(configCurrentList, parentContainer, "cons");
+      
+            }
+
         }
+
+
     }
-   
+    //Remove current Specialty list if exists
+    else if (e.target.classList.contains("removeCurrentSElement")){
+
+
+        const index = parseInt(e.target.parentElement.innerHTML.split("-")[0])-1;
+        specialtyCurrentList.splice(index, 1);
+          const parentContainer = parentWorm(e.target, "configList");
+          //Reload list
+
+          //Im working with both specialty and provider, consConfig
+            if(configCurrentList.length < 1 && specialtyCurrentList < 1){
+      
+              //Clear list
+              parentContainer.innerHTML = "";
+            
+            }else{
+      
+              //remove current element
+              liveReloadConfigList(specialtyCurrentList, parentContainer, "specialty");
+      
+            }
+
+    }
+
   // General list handling
 
 
   consConfigClick(e);
   providerConfigClick(e);
-
+  tCitasConfigClick(e);
 }
 
 function configKeyup(e){
 
-  //CONFIG > CONSULTORIOS > NEW > INCLUDE PROV
+  //CONTROL > CONSULTORIOS > NEW > INCLUDE PROV
   if (e.target.classList.contains("filterConsPro")){
 
     keyupFilter(e.target, "consProBody", true)
       
   } 
-  //CONFIG > CONSULTORIOS > EDIT EXISTING
+  //CONTROL > CONSULTORIOS > EDIT EXISTING
   else if (e.target.classList.contains("filterExistingCons")){
 
     keyupFilter(e.target, "configConsBody", false)
 
   }
-  //CONFIG > PROVIDERS > NEW > INCLUDE CONS
+  //CONTROL > PROVIDERS > NEW > INCLUDE CONS
   else if (e.target.classList.contains("filterProCons")){
 
     keyupFilter(e.target, "proConsBody", true)
 
   }
-  //CONFIG > PROVIDERS > EDIT EXISTING
+  //CONTROL > PROVIDERS > EDIT EXISTING
   else if (e.target.classList.contains("filterConfigProv")){
 
     keyupFilter(e.target, "configProvBody", true)
 
+  } 
+  //CONTROL > PROVIDERS > EDIT EXISTING
+  else if (e.target.classList.contains("filterConfigTCita")){
+
+    keyupFilter(e.target, "configTCitaBody", true)
+
   }
 
 } 
-/*CONFIG FUNCTIONS */
+/*CONTROL FUNCTIONS */
 
 
 
@@ -452,7 +506,7 @@ function existingPatientClick(e){
               contentViewer.classList.remove("hide");
                 
 
-            tableViewer.appendChild(genTable(sampleData, cols, "existingPatientApptBody", false, "existingPatientApptRow"));
+            tableViewer.appendChild(genTable(patientData, cols, "existingPatientApptBody", false, "existingPatientApptRow"));
 
   }
 
@@ -736,7 +790,7 @@ function citasClick(e){
 
     //Grab information from modal table for provider selection
     if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "citasProBody"){
-        
+
         const providerName = e.target.parentElement.querySelector(".pName");
         const input = mainRightContentContainer.parentElement.querySelector("#selectCitasProvider");
         input.setAttribute("value", providerName.innerHTML); 
@@ -1134,7 +1188,7 @@ function documentosClick(e){
 
   //Grab information from modal table for patient selection
   if (e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "docsPaBody") {
-
+        console.log(e.target.parentElement.parentElement)
     const patientName = e.target.parentElement.querySelector(".pName");
     const inputDocsP = document.querySelector("#docsContent #selectDocsPatient");
     console.log(inputDocsP)

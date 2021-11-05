@@ -63,7 +63,7 @@ body{
     z-index: 9; /*10*/
     background-color: #2196F3;
     color: #fff;
-    cursor: move;
+    /*cursor: move;*/
     position: absolute;
     top: 0px;
     width: 100%;
@@ -108,12 +108,32 @@ body,html, .fakeBody {
     height:100%;
 }
 
-
-
-
-
-
-
+.minimizedWindows{
+    background-color: #3056d3;
+    position: absolute;
+    height: 100%;
+    width: 97px;/*92*/
+    left:-88px;
+    margin-top: 38px;
+    padding-right: 5px;
+    overflow: hidden;
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+.minimizedWindows:hover{
+    background-color: inherit;
+    left: 0px;
+}
+.minimizedWindows button{
+    padding: 5px;
+    width: 100%;
+    margin-top:5px;
+    margin-right:5px;
+    margin-left: 5px;
+}
+.minimizedWindows button i{
+    margin-top:3px;
+}
 
 
 
