@@ -397,7 +397,7 @@ const newConsultorio = `
 
                   </div>
 `;
- //MantProvider
+  //MantProvider
  const newMantProvider = `
                 <div class="row centerSubForm">
                     <i class="fas fa-arrow-circle-left" id="backToMantProv"></i>
@@ -457,7 +457,8 @@ const newConsultorio = `
 
                 </div>
 
-`;//MantCitas
+`;
+  //MantCitas
 const newMantCitas = `
                 <div class="row centerSubForm">
                     <i class="fas fa-arrow-circle-left" id="backToMantCitas"></i>
@@ -507,6 +508,57 @@ const newMantCitas = `
                 </div>
 
 `;
+  //MantHorarios
+const editMantHorarios = `
+          <div class="row centerSubForm">
+
+
+            <div class="col-lg-3 offset-1">
+
+                <!--CALENDARIO-->
+                <div class="input-group">
+                  <label for="calendar">Calendario</label>
+                  <section id="calendarSection" style="cursor: not-allowed;">
+                    <div class="box np-events">
+                      <div class="calendarContainer">
+                        
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <!--CALENDARIO-->
+
+                <div class="input-group">
+
+                  <label for="provider">Proveedor*</label>
+                  <input type="text" id="schedProvSelection" disabled="">
+
+                </div>
+
+
+                <div class="input-group">
+
+                  <label for="cons">Centro de servicio*</label>
+                  <select name="cons" id="schedConsSelection">
+
+                    <option value="center">center</option>
+                    <option value="center">center</option>
+                    <option value="center">center</option>
+
+                  </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-7 schedRightContent">
+            </div>
+
+          </div>
+`;
+
+
 /*CONFIG VARIABLES */
  
 

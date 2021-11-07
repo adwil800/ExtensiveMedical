@@ -139,7 +139,7 @@ function genTable(data, cols, bodyId, addRadio = true, addTrClass = false) {
         td.setAttribute("class", "pName");
       }
       //Add content
-      td.textContent = e[key];
+      td.innerHTML = e[key]; //td.textContent ;; originally
       //Append to tr
       tbodyTr.appendChild(td);
 
@@ -750,7 +750,7 @@ function consConfigClick(e){ //CHECKED
           "desc": "Revisiones generales, cuidados anuales, inmunización, físicos escolares...",
         },
               ];
-      modalFieldSelection("filterConsSpec", "Proveedores ", cols, specialtyData, "consSpecialtyBody");
+      modalFieldSelection("filterConsSpec", "Especialidades ", cols, specialtyData, "consSpecialtyBody");
 
   }
     //Provider list for cons
@@ -810,7 +810,6 @@ function providerConfigClick(e){ //CHECKED
     `;
 
   } 
-
   //mantProv > newProv
   else if (e.target.id === "newProvBtn"){
 
@@ -921,9 +920,6 @@ function providerConfigClick(e){ //CHECKED
 
   }
 
-
-
-
 } 
 
 function tCitasConfigClick(e){ //CHECKED
@@ -1017,7 +1013,251 @@ function tCitasConfigClick(e){ //CHECKED
    }
  
 } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function consScheduleClick(e){
+
+
+    //First choose whether you alter a cons schedule or you create a schedule template
+    //Got to use calendar here
+    if (e.target.id === "mantHorarios" || e.target.id === "backToMantSched"){
+        //Get menu Btns
+        if (e.target.id === "mantHorarios"){
+          removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
+          e.target.classList.add("selectedBtn"); 
+        }
+        //Add buttons
+        controlRightContent.innerHTML = `
+          <div class="row centerSubForm">
+            <div class="col-lg-8 offset-2 ">
+    
+              <h4><a href="#" id="editSchedBtn">Edita un horario existente</a> o <a href="#" id="newSchedBtn"> crea una plantilla</a></h4>
+
+            </div>
+          </div>
+        `;
+  
+    }
+    //Edit existing schedule by selecting a provider, location and date
+    else if (e.target.id === "editSchedBtn"){
+        //Stop link activity
+        e.preventDefault();
+        //Add content
+        controlRightContent.innerHTML = editMantHorarios; 
+    }
+    //Create a new schedule template either by slot or day
+    else if (e.target.id === "newSchedBtn"){
+        //Stop link activity
+        e.preventDefault();
+        //Add content
+        controlRightContent.innerHTML = newMantHorarios;
+
+    }
+    //select schedule cons
+    else if (e.target.id === "schedProvSelection"){
+
+
+      //Create title input
+
+    //Send data to genTable
+    const cols = ["Nombre ", "Apellido ", "Ubicación ", "Especialidad ", "Título "];
+
+    const sampleData = [
+      {
+        "name": "Martin Mark",
+        "lastName": "Luperon Gozniak",
+        "location": "Consult MD",
+        "specialty": "Pediatra",
+        "title": "Medical doctor"
+      },
+      {
+        "name": "Test",
+        "lastName": "Provider",
+        "location": "Test",
+        "specialty": "Test",
+        "title": "Test"
+      }
+            ];
+    modalFieldSelection("filterSchedProv", "Proveedores ", cols, sampleData, "schedProvBody");
+
+    }
+    //Grab information from modal table for provider selection
+    else if (e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "schedProvBody"){
+
+        const logs = e.target.parentElement.querySelectorAll("td");
+        const inputProv = controlRightContent.querySelector("#schedProvSelection");
+
+        const schedRightSide = controlRightContent.querySelector(".centerSubForm .schedRightContent");
+            console.log(schedRightSide)
+//CHECK FOR INPUT PROVIDER AND SCHED CONS INPUT TO DISPLAY TABLE AND POST THE SCHEDULE
+          //logs[0] = provName
+          inputProv.setAttribute("value", logs[0].innerHTML); 
+        //The provider selection will fill up service center then display the table
+          //
+          //Add modalContent 
+      const cols = ["Hora ", "Tipo ", "Duración ", "Plantilla"];
+  
+      const apptData = [
+  
+        {
+          "time": "09:15",
+          "apptType": "-",
+          "duration": "-",
+          "template": `<i class="far fa-plus-square" id="selectSchedTemplate"></i>`,
+        },
+        {
+          "time": "09:30",
+          "apptType": "-",
+          "duration": "-",
+          "template": `<i class="far fa-plus-square" id="selectSchedTemplate"></i>`,
+        }
+  
+      ];
+      
+      schedRightSide.appendChild(genTable(apptData, cols, "apptCreationBody", false));
+
+          //Validate for schedProvSelection and schedConsSelection to display current day and alter existing slots
+          modalRemoval();
+
+    }
+    //select schedule cons
+    //Grab information from modal table for patient selection
+    else if (e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "apptCreationBody"){
+            
+        //Contains current row to start the appointment from  
+        const logs = e.target.parentElement.querySelectorAll("td");
+            
+          //Modal appt creation or template usage
+            
+        const apptForm = ` <div class="modalFormWrapper" >
+                    
+        <!-- ====== Content start ====== -->
+
+                <form class="ud-template-form">
+
+                  <div class="row">
+
+
+
+                      <!--Proveedor, Paciente, Nota-->
+                      <div class="col-lg-10 offset-1">
+                        
+                            <div class="ud-form-group">
+
+                              <label for="schedNApptTime">Hora*</label>
+                              <input type="text" name="schedNApptTime" id="schedNApptTime" disabled>
+                            
+                            </div>
+
+                            <div class="ud-form-group">
+
+                              <label for="schedNApptSpecialty">Especialidad*</label>
+                              <select name="schedNApptSpecialty" id="schedNApptSpecialty">
+
+                                <option value="center">center</option>
+                                <option value="center">center</option>
+                                <option value="center">center</option>
+            
+                              </select>
+
+                            </div>
+                            
+                            <div class="ud-form-group">
+
+                            <label for="schedNApptDuration">Duración*</label>
+                            <input type="text" name="schedNApptDuration" id="schedNApptDuration" disabled>
+
+
+                            </div>
+
+                      </div> 
+
+                   
+
+                </div> 
+
+
+                <div class="ud-form-group padT10 floatRight">
+                  <button type="submit" class="ud-main-btn ">
+                      Programar
+                  </button>
+                  <button  class="btn btn-danger closeModal">
+                      Cancelar
+                  </button>
+                </div>
+                
+
+              </form>
+
+        <!-- ====== Content end ====== -->
+        </div>
+        `;
+
+        mainTitle.innerHTML = "";
+        editorContainer.innerHTML = "";
+          //Validate the provider has been selected
+        const provider ="x";
+        
+          if(provider.length === 0){
+
+            customAlert("Aún no seleccionas el proveedor!")
+              return;
+
+          }
+
+
+        mainTitle.innerHTML = "Alteración de horario: fecha tal, centro tal, provider tal"
+
+        editorContainer.innerHTML = apptForm;
+
+        superModal();
+
+              
+
+    }
+    //Thats the plus sign on the appt creation table in horarios
+    else if (e.target.id === "selectSchedTemplate"){
+      Opens modal or well, a list and allows user to select an existing appt template
+
+    }
+
+
+
+
+
+}
+
 /*CONFIG EVENTS QUALITY OF LIFE FUNCTIONS */ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

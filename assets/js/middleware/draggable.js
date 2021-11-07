@@ -177,6 +177,36 @@ function dragMouseDown(e) {
   document.onmousemove = elementDrag;
 }
 
+window.addEventListener('resize', () => {
+  //const browserZoomLevel = (window.outerWidth - 8) / window.innerWidth;
+  //console.log(browserZoomLevel)
+  //Rearrange window to zoom's minimum value
+
+  //Windows
+  if(templateContent.querySelectorAll(".ud-template-form-wrapper") !== null &&
+    templateContent.querySelectorAll(".ud-template-form-wrapper").length > 0){
+      
+    const allWindows = templateContent.querySelectorAll(".ud-template-form-wrapper"); 
+        
+        allWindows.forEach(e =>  {
+
+          const actualL = e.querySelectorAll("#controlContent .actualList");
+          if(actualL !== null){
+            actualL.forEach(e => e.setAttribute("style", `top: 0px; left: 0px;`));
+          }
+          const top = positionArray[e.getAttribute("positionindex")][0], 
+                left = positionArray[e.getAttribute("positionindex")][1];
+          //Reset positions
+          e.setAttribute("style", `top: ${top}px; left: ${left}px;`);
+        
+        });
+
+
+  }
+
+  
+})
+
 function elementDrag(e) {
   e = e || window.event;
   e.preventDefault();
@@ -188,17 +218,18 @@ function elementDrag(e) {
 
   const top = elmnt.offsetTop-pos2, left = elmnt.offsetLeft-pos1;
 
-  //TESTAREA
-  
-    //Check when scroll is enabled
+  //Get current window size regardless of the zoom level
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+  const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
 
-  //TESTAREA
+  console.log(vw, vh);
 
   //window limits
   if(elmnt.classList.contains("actualList")){ 
   
-  elmnt.style.top = top + "px";
-  elmnt.style.left = left + "px";
+    elmnt.style.top = top + "px";
+    elmnt.style.left = left + "px";
+
   }
   //Check for max top and min left
   else if (top <= 38 && left <= 0){
@@ -208,10 +239,10 @@ function elementDrag(e) {
 
   }
   //Check for max top and max left
-  else if (top <= 38 && left >= 317){
+  else if (top <= 38 && left >= (vw-1050)){
 
     elmnt.style.top = "38px";
-    elmnt.style.left = "317px";
+    elmnt.style.left = (vw-1050)+"px";
 
   }
   //Check for max top
@@ -229,10 +260,10 @@ function elementDrag(e) {
   
   } 
   //Check for max left
-  else if (left >= 317){
+  else if (left >= (vw-1050)){
   
     elmnt.style.top = top + "px";
-    elmnt.style.left = "317px";
+    elmnt.style.left = (vw-1050)+"px";
   
   } 
   //default
@@ -358,6 +389,7 @@ function configClick(e){
   consConfigClick(e);
   providerConfigClick(e);
   tCitasConfigClick(e);
+  consScheduleClick(e);
 }
 
 function configKeyup(e){
@@ -392,7 +424,14 @@ function configKeyup(e){
     keyupFilter(e.target, "configTCitaBody", true)
 
   }
+  //CONTROL > SCHEDULE > EDIT EXISTING
+  else if (e.target.classList.contains("filterSchedECons")){
 
+    keyupFilter(e.target, "schedConsBody", false)
+
+  }
+  
+  
 } 
 /*CONTROL FUNCTIONS */
 
@@ -844,7 +883,7 @@ function citasClick(e){
     }
 
     //Create selected appointment
-    if(e.target.parentElement.classList.contains("appt")){
+    if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.classList.contains("appt")){
 
       const apptForm = ` <div class="modalFormWrapper" >
                   

@@ -444,7 +444,9 @@ const dynamicJs = document.querySelector(".dynamicJs");
 
 document.addEventListener("click", e => {
 
-    if (e.target.tagName.toLowerCase() === "button"){
+  if (e.target !== null){
+
+   if (e.target.tagName.toLowerCase() === "button"){
         $(e.target).blur();
     }
 
@@ -800,7 +802,7 @@ document.addEventListener("click", e => {
 
     }
   /*Maximize windows */
-    if (e.target.classList.contains("maximizeDraggable") || e.target.parentElement.classList.contains("maximizeDraggable")){
+    if (e.target !== null && e.target.classList.contains("maximizeDraggable") || e.target !== null && e.target.parentElement.classList.contains("maximizeDraggable")){
 
         //Get windowName, aka: ID
         const windowName = e.target.id.slice(3,);
@@ -831,6 +833,12 @@ document.addEventListener("click", e => {
 
 
     }
+
+
+
+
+  }
+
 
 });
  
