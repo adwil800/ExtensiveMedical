@@ -51,7 +51,7 @@ function createHtmlElement(tag, attrName, attrValue) {
   if (Array.isArray(attrName) && Array.isArray(attrValue)) {
 
     if (attrName.length !== attrValue.length) {
-      console.error("Different length of attribute name and values.");
+      console.error("Different length of attribute names and values.");
       return;
     }
 
@@ -65,9 +65,17 @@ function createHtmlElement(tag, attrName, attrValue) {
     //Check if string for single attribute
     element.setAttribute(attrName, attrValue);
 
+  }else if (Array.isArray(attrName) && typeof (attrValue) === "string") {
+    //Check if string for single attribute
+    for (let i = 0; i < attrName.length; i++) {
+
+      element.setAttribute(attrName[i], attrValue);
+
+    }
+
   } else {
 
-    console.error("Mixed parameter types, expected String, Array, Array or String, String, String");
+    console.error("Mixed parameter types, expected (String, Array, Array), (String, String, String) or (String, Array, String)");
     return;
   }
 
@@ -200,7 +208,7 @@ function modalFieldSelection (filterClass, modalTitle, tableCols, tableContent, 
 
     //Create title input
     const attrNames = ["type", "class", "placeholder"],
-    attrValue = ["text", filterClass, "Filtrar por Nombre"];
+    attrValue = ["text", filterClass, "Filtrar por "+tableCols[0]];
     const input = createHtmlElement("input", attrNames, attrValue);
     
     //Set title and filter input
@@ -449,8 +457,50 @@ function removeMinimized(window){
   const minimized = document.querySelector(".minimizedWindows");
   const minWindowBtn = minimized.querySelector("#max"+windowName);
         minWindowBtn.remove();
+        if(minimized.querySelectorAll("button").length < 1){
+
+          minimized.classList.add("hide");
+
+        }
 
 }
+
+/**
+ * 
+ * Returns a select element as string
+ * @param {Object} options JSON that contains key-value pair with the select value and textcontent
+ * @param {string} id select id
+ * @returns 
+ */
+
+function selectOptions(options, id){
+
+  //Receives json object and produces a set of options for a select tag
+
+  let select = `<select id="${id}">`;
+  let valuesArray = [];
+  select += `<option value="null">Selecciona</option>`;
+
+  for (let i = 0; i < options.data.length; i++) {
+
+    for (const value in options.data[i]) {
+
+      valuesArray.push(options.data[i][value]);
+
+    }
+
+     select += `<option value="${valuesArray[0]}">${valuesArray[1]}</option>`;
+
+    valuesArray = [];
+
+  }
+
+  select += `</select>`
+
+  return select;
+
+}
+
 
 /*INDEX QUALITY OF LIFE FUNCTIONS */ 
 
@@ -465,45 +515,25 @@ function requestResponse() {
 
   const sampleData = [
     {
-      "pName": "Johnny Buttons",
+      "pName": "John Mark",
       "date": "05/21/2019",
       "type": "Resultados",
     },
     {
-      "pName": "Juanzo Marrillos",
-      "date": "09/13/2021",
-      "type": "Prescripción",
-    },
-    {
-      "pName": "Johnny Buttons",
+      "pName": "John Mark",
       "date": "05/21/2019",
       "type": "Resultados",
     },
     {
-      "pName": "Juanzo Marrillos",
-      "date": "09/13/2021",
-      "type": "Prescripción",
-    },
-    {
-      "pName": "Johnny Buttons",
+      "pName": "John Mark",
       "date": "05/21/2019",
       "type": "Resultados",
     },
     {
-      "pName": "Juanzo Marrillos",
-      "date": "09/13/2021",
-      "type": "Prescripción",
-    },
-    {
-      "pName": "Johnny Buttons",
+      "pName": "John Mark",
       "date": "05/21/2019",
       "type": "Resultados",
     },
-    {
-      "pName": "Juanzo Marrillos",
-      "date": "09/13/2021",
-      "type": "Prescripción",
-    }
   ];
   return sampleData;
 }
@@ -586,7 +616,7 @@ function detailsList(data, divide = false) {//CHECKED
 
 
 /*CONFIG EVENTS QUALITY OF LIFE FUNCTIONS */ 
-function consConfigClick(e){ //CHECKED
+async function consConfigClick(e){ //CHECKED
   
   //mantCons
   if (e.target.id === "mantConsultorios" || e.target.id === "backToMantCons"){
@@ -595,10 +625,9 @@ function consConfigClick(e){ //CHECKED
       removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
       e.target.classList.add("selectedBtn"); 
     }
-    specialtyListActive = true;
-    //Clear list 
-    configCurrentList = [];
-    specialtyCurrentList = [];
+    //Empty lists
+    consProviderArray = [];
+    consSpecialtyArray = [];
     //Add buttons
       controlRightContent.innerHTML = `
       <div class="row centerSubForm">
@@ -614,11 +643,11 @@ function consConfigClick(e){ //CHECKED
   //mantCons > newCons
   else if (e.target.id === "newConsBtn"){
 
+    //Empty lists
+    consProviderArray = [];
+    consSpecialtyArray = [];
     //Stop link activity
      e.preventDefault();
-    //Clear  list 
-    configCurrentList = [];
-    specialtyCurrentList = [];
     //Add content
     controlRightContent.innerHTML = newConsultorio;
 
@@ -626,11 +655,12 @@ function consConfigClick(e){ //CHECKED
   //mantCons > editCons
   else if (e.target.id === "editConsBtn"){
 
+    //Empty lists
+    consProviderArray = [];
+    consSpecialtyArray = [];
+
     //Stop link activity
       e.preventDefault();
-      //Clear list 
-      specialtyCurrentList = [];
-      configCurrentList = [];
     //Add modalContent 
       const cols = ["Nombre ", "Dirección ", "RNC ", "Teléfono "];
   
@@ -688,10 +718,11 @@ function consConfigClick(e){ //CHECKED
           //Create title input
 
         //Send data to genTable
-        const cols = ["Nombre ", "Apellido ", "Ubicación ", "Especialidad ", "Título "];
+        const cols = ["Código ", "Nombre ", "Apellido ", "Ubicación ", "Especialidad ", "Título "];
 
         const providersData = [
           {
+            "id": "mMArk10",
             "name": "Martin Mark",
             "lastName": "Luperon Gozniak",
             "location": "Consult MD",
@@ -699,6 +730,7 @@ function consConfigClick(e){ //CHECKED
             "title": "Medical doctor"
           },
           {
+            "id": "mMArk10",
             "name": "Test",
             "lastName": "Provider",
             "location": "Test",
@@ -719,18 +751,15 @@ function consConfigClick(e){ //CHECKED
     //Get specific fields from editCons
 
     const consProviders = controlRightContent.querySelector("#consProviders");
-
+    const listedInput = consProviders.parentElement;
+ 
     //Add selected provider into array
-    configCurrentList.push(logs[0].textContent+" "+logs[1].textContent);
-    //Reload current providers list
-    const providerListContainer = controlRightContent.querySelector(".configList");
-    reloadConfigList(configCurrentList, providerListContainer, "provider");
-
+    if(!repeatedItem(consProviderArray, logs)){
+      updateInputLink(consProviderArray, listedInput);
       modalRemoval();
+    } 
 
   }
-
-
 
 
   //Specialty list for cons
@@ -738,19 +767,11 @@ function consConfigClick(e){ //CHECKED
 
         //Create title input
       //Send data to genTable
-      const cols = ["Especialidad ", "Descripción "];
+      const cols = ["Código ", "Especialidad "];
 
-      const specialtyData = [
-        {
-          "name": "Pediatría",
-          "desc": "Revisiones generales, cuidados anuales, inmunización, físicos escolares...",
-        },
-        {
-          "name": "Pediatría",
-          "desc": "Revisiones generales, cuidados anuales, inmunización, físicos escolares...",
-        },
-              ];
-      modalFieldSelection("filterConsSpec", "Especialidades ", cols, specialtyData, "consSpecialtyBody");
+     const specData = await selectQuery("select * from especialidad;");
+
+      modalFieldSelection("filterConsSpec", "Especialidades ", cols, specData.data, "consSpecialtyBody");
 
   }
     //Provider list for cons
@@ -758,24 +779,18 @@ function consConfigClick(e){ //CHECKED
         
     //Get consName and Id, vvvv array
     const logs = e.target.parentElement.querySelectorAll("td");
-
+    
+    const consSpecialties = controlRightContent.querySelector("#consSpecialties");
+    const listedInput = consSpecialties.parentElement;
+ 
     //Add selected provider into array
-    specialtyCurrentList.push(logs[0].textContent);
-    const specialtyListContainer = controlRightContent.querySelector(".configList");
-
-    reloadConfigList(specialtyCurrentList, specialtyListContainer, "specialty");
-    modalRemoval();
-
+    if(!repeatedItem(consSpecialtyArray, logs)){
+      updateInputLink(consSpecialtyArray, listedInput);
+      modalRemoval();
+    }
+      
   }
 
-  else if(e.target.classList.contains("multiList")){
-    const providerListContainer = controlRightContent.querySelector(".configList");
-      liveReloadConfigList(configCurrentList, providerListContainer, "provider");
-  }
-  else if(e.target.classList.contains("specialtyList")){
-    const specialtyListContainer = controlRightContent.querySelector(".configList");
-      liveReloadConfigList(specialtyCurrentList, specialtyListContainer, "specialty");
-  }
 
 
   
@@ -783,7 +798,7 @@ function consConfigClick(e){ //CHECKED
 
 }
 
-function providerConfigClick(e){ //CHECKED
+async function providerConfigClick(e){ //CHECKED 
   
  //mantProv *
  if (e.target.id === "mantProveedores" || e.target.id === "backToMantProv"){
@@ -793,10 +808,10 @@ function providerConfigClick(e){ //CHECKED
         removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
         e.target.classList.add("selectedBtn"); 
     }
-    specialtyListActive = false;
     //Set selected btn
     //Clear list
-    configCurrentList = [];
+      provSpecialtyArray = [];
+      provWorkingCenterArray = [];
 
     //Add buttons
       controlRightContent.innerHTML = `
@@ -815,20 +830,24 @@ function providerConfigClick(e){ //CHECKED
 
     //Stop link activity
      e.preventDefault();
-    //Clear list
-    configCurrentList = [];
 
+    //Empty lists
+    provSpecialtyArray = [];
+    provWorkingCenterArray = [];
     //Add content
-    controlRightContent.innerHTML = newMantProvider; //New provider form 
+    controlRightContent.innerHTML = await newMantProvider(); //New provider form 
 
   }
+  
   //mantProv > editProv
   else if (e.target.id === "editProvBtn"){
 
+    //Empty lists
+    provSpecialtyArray = [];
+    provWorkingCenterArray = [];
+    
     //Stop link activity
       e.preventDefault();
-      //Clear list 
-      configCurrentList = [];
     //Add modalContent 
     const cols = ["Nombre ", "Apellido ", "Ubicación ", "Especialidad ", "Título "];
 
@@ -861,8 +880,9 @@ function providerConfigClick(e){ //CHECKED
     //Request all information from BD to proceed and update if needed
 
     //Add editCons fields
-    controlRightContent.innerHTML = newMantProvider; //New provider form
+    controlRightContent.innerHTML = await newMantProvider(); //New provider form 
 
+    //Add all lists
     //Get specific fields from editCons
 
     /*const consName = controlRightContent.querySelector("#consName"),
@@ -881,48 +901,267 @@ function providerConfigClick(e){ //CHECKED
   else if(e.target.id === "provWorkingCenter"){
 
     //Show modal
-      const cols = ["Nombre ", "Dirección ", "Días laborables "];
+      const cols = ["Código ", "Nombre ", "Dirección ", "Días laborables "];
+
+
+      const consData1 = await selectQuery("select c.idCentro, ter.nombre, c.direccion from centro as c join tercero as ter on c.idTercero = ter.idTercero;");
+
 
       const consData = [
           {
+            "id": "ch20",
             "name": "Consult MD",
             "address": "Calle 12, Street 12, hun 12 ",
             "days": "L-V",
           },
           {
+            "id": "ch21",
             "name": "La charra",
             "address": "Calle 12, Street 12, hun 12 ",
             "days": "L-S",
           }
                 ];
+
       modalFieldSelection("filterProCons", "Consultorios ", cols, consData, "proConsBody");
   }
   //mantProv > editProv & newProv  > editProvForm & newProv > provWorkingCenter > modal
   else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "proConsBody"){
-    //Handle multiple cons      
-
-    //Get consName and Id, vvvv array
-    const logs = e.target.parentElement.querySelectorAll("td");
-
     //Request all information from BD to proceed and update if needed
 
     //Get specific fields from editCons
 
+      const logs = e.target.parentElement.querySelectorAll("td");
+
+      //Get specific fields from editCons
     const provCenters = controlRightContent.querySelector("#provWorkingCenter");
+      const listedInput = provCenters.parentElement;
+ 
+      if(!repeatedItem(provWorkingCenterArray, logs)){
+        updateInputLink(provWorkingCenterArray, listedInput);
+        modalRemoval();
+      }
+        
 
-    //Add selected provider into array
-    configCurrentList.push(logs[0].textContent);
-    //Reload current providers list
-    const consListContainer = controlRightContent.querySelector(".configList");
-    reloadConfigList(configCurrentList, consListContainer, "cons", true);
+  } 
+  //Prov specialty select
+  else if (e.target.id === "provSpecialty"){
+     //Show modal
+     const cols = ["Código ", "Especialidad "];
 
+     const specData = await selectQuery("select * from especialidad;");
+
+
+     modalFieldSelection("filterProSpec", "Especialidades ", cols, specData.data, "provSpecBody");
+  }
+  else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "provSpecBody"){
+
+    //Get consName and Id, vvvv array
+    const logs = e.target.parentElement.querySelectorAll("td");
+    //Request all information from BD to proceed and update if needed
+
+    //Get specific fields from editCons
+
+    const provSpecialty = controlRightContent.querySelector("#provSpecialty");
+    const listedInput = provSpecialty.parentElement;
+ 
+    if(!repeatedItem(provSpecialtyArray, logs)){
+      updateInputLink(provSpecialtyArray, listedInput);
       modalRemoval();
+    }
+      
 
   }
 
+  //REGISTER NEW PATIENT
+  else if(e.target.id === "registerNewProvider"){
+
+      /*
+      provFirstName
+      provLastName
+      provSpecialty : provSpecialtyArray
+      provSex
+      provPhone
+      
+      provDescription
+      provWorkingCenter: provWorkingCenterArray
+      */
+    
+
+    const name = controlRightContent.querySelector("#provFirstName");
+    if(!validateEmptyField(name, "Nombres"))
+          return;
+    const lastName = controlRightContent.querySelector("#provLastName");
+    if(!validateEmptyField(lastName, "Apellidos"))
+          return;
+    if(provSpecialtyArray.length < 1){
+      customAlert("El proveedor debe tener al menos una especialidad");
+      return;
+    }
+
+    const sex = controlRightContent.querySelector("#provSex");
+    if(!validateEmptyField(sex, "Sexo"))
+        return;
+    const phone = controlRightContent.querySelector("#provPhone");
+    if(!validateEmptyField(phone, "Teléfono"))
+          return;
+    const description = controlRightContent.querySelector("#provDescription");
+    if(!validateEmptyField(description, "Descripción"))
+          return;
+
+    //provWorkingCenterArray
+    if(provWorkingCenterArray.length < 1){
+      customAlert("El proveedor debe tener al menos un centro de servicio");
+      return;
+    }
+
+
+
+    //Just got to make the route in the API and post it
+    
+    
+
+
+  }
+
+
 } 
 
-function tCitasConfigClick(e){ //CHECKED
+
+
+function repeatedItem(list, row){
+
+  for (let i = 0; i < list.length; i++) {
+
+      if(list[i][0] == row[0].textContent){
+        //exists then alert
+        customAlert(row[1].textContent+" ya existe en la lista");
+        return true;
+      }
+
+  }
+
+  //doesn't exist, then add
+  list.push([row[0].textContent, row[1].textContent]);
+  return false;
+
+} 
+function updateInputLink(list, listParent, hide=true){
+
+    //Remove existing list trigger
+    const listTrigger = listParent.querySelector(".listTrigger");
+        if(listTrigger){
+          listTrigger.remove();
+        }
+
+    //Add list trigger
+    if(list.length > 0){
+      listParent.innerHTML += `<span class="listTrigger">${list[0][1]}...(${list.length})</span>`
+    }
+    //hide list draggable
+    if(hide){
+      configList.classList.add("hide");
+    }
+
+}
+function updateList(actualList, tabName, listName, list, listId){
+  
+
+  tabName.textContent = listName;
+
+  const ul = document.createElement("ul");
+        ul.id = listId;
+
+  //read all values
+  for (let i = 0; i < list.length; i++) {
+
+    const li = document.createElement("li");
+          li.textContent = (i+1)+": "+list[i][1] + " ";
+
+    const icon = createHtmlElement("i", "class", 
+                                        "fas fa-times removeCurrentElement");      
+          li.insertBefore(icon, li.nextSibling);
+          ul.appendChild(li);
+
+  }
+
+  actualList.appendChild(ul);
+  configList.classList.remove("hide");
+
+
+}
+function liveReloadList(inputId, array, listName){
+
+
+  const listInput = controlRightContent.querySelector("#"+inputId);
+  const listedInputGroup = listInput.parentElement;
+  //Updates list trigger
+  updateInputLink(array, listedInputGroup, false);
+  
+  if(array.length < 1){
+    configList.classList.add("hide");
+    return;
+  }
+
+
+  //Update opened list
+  const actualList = configList.querySelector(".actualList"); 
+  const tabName = actualList.querySelector(".tabName");
+  const existingUl = actualList.querySelector("ul");
+    if(existingUl){
+      existingUl.remove();
+    }
+
+  updateList(actualList, tabName, listName, array, inputId+"List");
+
+}
+
+
+
+function validateEmptyField(field, fieldName){
+
+  const value = field.value || false;
+
+  if(!value || value === null || value === undefined || value.length === 0 || value === "" || value === "null" ){
+
+   
+      customAlert("El campo "+fieldName+" es obligatorio");
+      field.focus(); 
+    
+    return false;
+  }
+
+  return true;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function tCitasConfigClick(e){ //CHECKED
   
   //mantCitas *
   if (e.target.id === "mantCitas" || e.target.id === "backToMantCitas"){//DONE
@@ -954,7 +1193,7 @@ function tCitasConfigClick(e){ //CHECKED
       e.preventDefault();
  
      //Add content
-     controlRightContent.innerHTML = newMantCitas; //New provider form 
+     controlRightContent.innerHTML = await newMantCitas(); //New provider form 
  
    }
    //mantCitas > editTCitaBtn
@@ -983,7 +1222,6 @@ function tCitasConfigClick(e){ //CHECKED
 
        //Alter desc field width to even the TH height
        editorContainer.querySelectorAll("thead th")[1].classList.add("w300px")
-      console.log()
  
    }
    //mantProv > editProv > modal > editProvForm
@@ -995,7 +1233,7 @@ function tCitasConfigClick(e){ //CHECKED
      //Request all information from BD to proceed and update if needed
  
      //Add editCons fields
-     controlRightContent.innerHTML = newMantCitas; //New provider form
+     controlRightContent.innerHTML = await newMantCitas(); //New provider form
  
      //Get specific fields from editCons
  
@@ -1014,16 +1252,158 @@ function tCitasConfigClick(e){ //CHECKED
  
 } 
 
+async function tSegurosConfigClick(e){ //CHECKED
+  
+  //mantCitas *
+  if (e.target.id === "mantSeguros" || e.target.id === "backToMantSeguros"){//DONE
+ 
+     //Get menu Btns
+     if (e.target.id === "mantSeguros"){
+         removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
+         e.target.classList.add("selectedBtn"); 
+     }
+     //Set selected btn
+ 
+     //Add buttons
+       controlRightContent.innerHTML = `
+       <div class="row centerSubForm">
+         <div class="col-lg-8 offset-2 ">
+ 
+           <h4><a href="#" id="editTSegurosBtn">Edita un tipo de seguro existente</a> o <a href="#" id="newTSegurosBtn"> crea uno nuevo</a></h4>
+ 
+         </div>
+       </div>
+     `;
+ 
+   } 
+ 
+   //mantCitas > newTCitaBtn
+   else if (e.target.id === "newTSegurosBtn"){//DONE
+    
+     //Stop link activity
+      e.preventDefault();
+ 
+     //Add content
+     controlRightContent.innerHTML = newMantSeguros(); //New provider form 
+ 
+   }
+   //mantCitas > editTCitaBtn
+   else if (e.target.id === "editTSegurosBtn"){
+ 
+     //Stop link activity
+       e.preventDefault();
+     //Add modalContent 
+     const cols = ["Código ", "Seguro "];
+ 
 
+     const segurosData = await selectQuery("select * from tipoSeguro;");
+     
+       modalFieldSelection("filterConfigTSeguros", "Seguros ", cols, segurosData.data, "configTSegurosBody");
 
+       //Alter desc field width to even the TH height
+       editorContainer.querySelectorAll("thead th")[1].classList.add("w300px")
+ 
+   }
+   //mantProv > editProv > modal > editProvForm
+   else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "configTSegurosBody"){
+           //FILL ALL FIELDS
+     //Get consName and Id, vvvv array
+     const logs = e.target.parentElement.querySelectorAll("td");
+ 
+     //Request all information from BD to proceed and update if needed
+ 
+     //Add editCons fields
+     controlRightContent.innerHTML =  updMantSeguros(); //New provider form
+ 
+ 
+       modalRemoval();
+ 
+   }
+   //Validate new name and update in BD
+   else if(e.target.id === "updNewSegurosType"){
 
+   }
+ 
+} 
+ DOEVERY FORM IN ORDER, LINK THEM TO BD IMMEDIATELY
+async function tEspecialidadConfigClick(e){ //CHECKED
+  
+  //mantCitas *
+  if (e.target.id === "mantEspecialidad" || e.target.id === "backToMantEspecialidades"){//DONE
+ 
+     //Get menu Btns
+     if (e.target.id === "mantEspecialidad"){
+         removeAllClasses(parentWorm(e.target, "configMenu"), "selectedBtn", "button");
+         e.target.classList.add("selectedBtn"); 
+     }
+     //Set selected btn
+ 
+     //Add buttons
+       controlRightContent.innerHTML = `
+       <div class="row centerSubForm">
+         <div class="col-lg-8 offset-2 ">
+ 
+           <h4><a href="#" id="editEspecialidadesBtn">Edita una especialidad existente</a> o <a href="#" id="newEspecialidadBtn"> crea una nuevo</a></h4>
+ 
+         </div>
+       </div>
+     `;
+ 
+   } 
+ 
+   //mantCitas > newTCitaBtn
+   else if (e.target.id === "newEspecialidadBtn"){//DONE
+    
+     //Stop link activity
+      e.preventDefault();
+ 
+     //Add content
+     controlRightContent.innerHTML = newMantEspecialidades(); //New provider form 
+ 
+   }
+   //mantCitas > editTCitaBtn
+   else if (e.target.id === "editEspecialidadesBtn"){
+ 
+     //Stop link activity
+       e.preventDefault();
+     //Add modalContent 
+     const cols = ["Código ", "Especialidad "];
+ 
 
+     const specData = await selectQuery("select * from especialidad;");
 
+     
+       modalFieldSelection("filterConfigEspecialidad", "Especialidades ", cols, specData.data, "configEspecialidadBody");
 
+       //Alter desc field width to even the TH height
+       editorContainer.querySelectorAll("thead th")[1].classList.add("w300px")
+ 
+   }
+   //mantProv > editProv > modal > editProvForm
+   else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "configEspecialidadBody"){
+           //FILL ALL FIELDS
+     //Get consName and Id, vvvv array
+     const logs = e.target.parentElement.querySelectorAll("td");
+ 
+     //Request all information from BD to proceed and update if needed
+ 
+     //Add editCons fields
+     controlRightContent.innerHTML =  updMantEspecialidades(); //New provider form
+    
 
+     
+       modalRemoval();
+ 
+   }
+   //Validate new name and update in bd
+   else if(e.target.id === "updNewSpecialty"){
 
+    //Grab tracker info
 
-
+   }
+ 
+} 
+ 
 
 
 
@@ -1058,6 +1438,7 @@ function consScheduleClick(e){
         e.preventDefault();
         //Add content
         controlRightContent.innerHTML = editMantHorarios; 
+        
     }
     //Create a new schedule template either by slot or day
     else if (e.target.id === "newSchedBtn"){
@@ -1102,8 +1483,7 @@ function consScheduleClick(e){
         const inputProv = controlRightContent.querySelector("#schedProvSelection");
 
         const schedRightSide = controlRightContent.querySelector(".centerSubForm .schedRightContent");
-            console.log(schedRightSide)
-//CHECK FOR INPUT PROVIDER AND SCHED CONS INPUT TO DISPLAY TABLE AND POST THE SCHEDULE
+        //CHECK FOR INPUT PROVIDER AND SCHED CONS INPUT TO DISPLAY TABLE AND POST THE SCHEDULE
           //logs[0] = provName
           inputProv.setAttribute("value", logs[0].innerHTML); 
         //The provider selection will fill up service center then display the table
@@ -1117,13 +1497,25 @@ function consScheduleClick(e){
           "time": "09:15",
           "apptType": "-",
           "duration": "-",
-          "template": `<i class="far fa-plus-square" id="selectSchedTemplate"></i>`,
+          "template": `<select id="selectSchedTemplate">
+                            
+                            <option value="planPed">Pediatra</option>
+                            <option value="planGen">General</option>
+                            <option value="planDent">Dental</option>
+          
+                      </select>`,
         },
         {
           "time": "09:30",
           "apptType": "-",
           "duration": "-",
-          "template": `<i class="far fa-plus-square" id="selectSchedTemplate"></i>`,
+          "template": `<select id="selectSchedTemplate">
+                            
+                            <option value="planPed">Pediatra</option>
+                            <option value="planGen">General</option>
+                            <option value="planDent">Dental</option>
+
+                      </select>`,
         }
   
       ];
@@ -1231,7 +1623,8 @@ function consScheduleClick(e){
     }
     //Thats the plus sign on the appt creation table in horarios
     else if (e.target.id === "selectSchedTemplate"){
-      Opens modal or well, a list and allows user to select an existing appt template
+      //Opens modal or well, a list and allows user to select an existing appt template
+      
 
     }
 
@@ -1262,152 +1655,58 @@ function consScheduleClick(e){
 
 
 
-function liveReloadConfigList(array, parentContainer, listType = ""){//CHECKED
-    
 
-  let listName = "Lista de proveedores", listIdentifier = "Prov: ", 
-      iRemoveClass = "removeCurrentElement";
-  if(listType === "specialty"){
-      listIdentifier = "Spec: "
-      listName = "Lista de especialidades";
-      iRemoveClass = "removeCurrentSElement";
-      
-  }else if (listType === "cons"){
+/*FECTH API FUNCTION */
+/**
+ * await postRequest("/em/api/patients/new", {"o": "An item"})
+ * @param {string} route API route 
+ * @param {Object} data Data sent to the server
+ * @returns 
+ */
+async function postRequest(route, data){
 
-    listIdentifier = "Cons: "
-    listName = "Lista de consultorios";
+  const result = await fetch("http://localhost:5000"+route, {
 
-  }
-      parentContainer.querySelector(".actualList .tabName").textContent = listName;
-      
-    let summonerSpanContent = listIdentifier+array[0]+`...`+`(${array.length})`;
-
-    if(array.length < 1){
-        summonerSpanContent = listName+" vacía."
-    }
-
-
-  //create list
-  const ul = document.createElement("ul");
-
-  for (let i = 0; i < array.length; i++) {
-
-
-    const li = document.createElement("li"),
-          iTag = createHtmlElement("i", "class", "fas fa-times "+iRemoveClass);
-          li.textContent = (i+1)+" - "+array[i]+" ";
-          li.insertBefore(iTag, li.firstElementChild);
-    
-          ul.appendChild(li);
-
-  }
-  
-  //remove existing span and ul
-  parentContainer.querySelector("span.liveCount").remove();
-  parentContainer.querySelector(".actualList > ul").remove();
-
-  //Add preview and count
-  const summonerSpan = document.createElement("span");
-        summonerSpan.setAttribute("class", "liveCount");
-        summonerSpan.textContent = summonerSpanContent;
-
-  parentContainer.insertBefore(summonerSpan, parentContainer.childNodes[0]);
-  parentContainer.querySelector(".actualList").appendChild(ul);
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-function reloadConfigList(array, targetElementContainer, listType = "", isProviderCenter = false){//CHECKED
-
-
-  let listName = "Lista de proveedores", listIdentifier = "Prov: ",
-      iRemoveClass = "removeCurrentElement", 
-      listSwitchers = `<i class="fas fa-chevron-right specialtyList">
-                   </i><i class="fas fa-chevron-left multiList"></i>`;
-
-      //Check for Provider center only list and if so, hide list toggles
-      if(isProviderCenter){
-        listSwitchers = "";
+      method: "POST",
+      body: JSON.stringify(data),
+      mode: "cors",
+      headers:{
+        "Content-Type": "application/json",
       }
 
-    if (listType === "specialty"){
+    });
 
-        listIdentifier = "Spec: "
-        listName = "Lista de especialidades";
-        iRemoveClass = "removeCurrentSElement";
-
-    }else if (listType === "cons"){
-
-        listIdentifier = "Cons: "
-        listName = "Lista de consultorios";
-
-    }
-      
-    let summonerSpanContent = listIdentifier+array[0]+`...`+`(${array.length})`;
-
-    if (array.length < 1){
-        summonerSpanContent = listName+" vacía."
-    }
-
-    if (listType === "provider" || listType === "specialty"){
-     
-      if (configCurrentList.length < 1 && specialtyCurrentList.length < 1){
-          targetElementContainer.innerHTML = "";
-        return;
-      }
-
-    }else if (array.length < 1){
-      targetElementContainer.innerHTML = "";
-      return;
-    }
-
-
-
-  //create parentContainer, draggable
-  const parentContainer = createHtmlElement("div", "class", "actualList  draggableParent hide");
-  //create draggableTarget
-  const draggableTarget = createHtmlElement("div", "class", "draggableTarget");
-        draggableTarget.innerHTML = `
-                    <span class="tabName">${listName}</span>
-                    <i class="fas fa-times closeDraggableList"></i>
-                    ${listSwitchers}
-        `;
-  //create list
-  const ul = document.createElement("ul");
-        
-  for (let i = 0; i < array.length; i++) {
-
-
-    const li = document.createElement("li"),
-          iTag = createHtmlElement("i", "class", "fas fa-times "+iRemoveClass);
-          li.textContent = (i+1)+" - "+array[i]+" ";
-          li.insertBefore(iTag, li.firstElementChild);
-    
-          ul.appendChild(li);
-
-  }
-  //Add preview and count
-  const summonerSpan = document.createElement("span");
-        summonerSpan.setAttribute("class", "liveCount");
-        summonerSpan.textContent = summonerSpanContent;
-
-
-  targetElementContainer.innerHTML = "";
-  parentContainer.appendChild(draggableTarget);
-  parentContainer.appendChild(ul);
-  targetElementContainer.appendChild(summonerSpan);
-  targetElementContainer.appendChild(parentContainer);
+    return await result.json();
 
 }
+ 
+/**
+ * await getRequest("/em/api/patients/new")
+ * @param {string} route API route 
+ * @returns 
+ */
+async function getRequest(route){
+
+    const result = await fetch("http://localhost:5000"+route, {
+      method: "GET",
+      mode: "cors",
+    });
+
+    return await result.json();
+
+} 
+async function selectQuery(query){
+
+  const result = await fetch("http://localhost:5000"+"/em/api/auth/"+query, {
+    method: "GET",
+    mode: "cors",
+  });
+
+  return await result.json();
+
+} 
 /*CONFIG QUALITY OF LIFE FUNCTIONS */ 
+
+
+
+

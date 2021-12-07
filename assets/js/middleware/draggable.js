@@ -14,12 +14,6 @@ document.body.addEventListener("mousedown", e => {
     if (currentDraggable !== undefined){
 
 
-        if(currentDraggable.classList.contains("actualList") || currentDraggable.classList.contains("configList") ){
-
-        //Actual list is a draggable parent, send top parent to the main window
-        currentDraggable = parentWorm(currentDraggable.parentElement.parentElement, "draggableParent");
-        
-        }
 
         //Get all draggableParents and remove style property
         if (removeTopWindow()){
@@ -70,9 +64,9 @@ document.body.addEventListener("click", e => {
 
       newPatientActive = removeDraggable(e.target, "NewPatient");
       //remove listeners
-     // const newPatientListener = ["click", "paste", "keyup", "contextmenu", "input"],
-      //      newPatientCallbacks = [documentosClick, documentosPaste, documentosKeyup,documentosInput];
-            //removeListeners(docsListeners, docsCallbacks);
+      const newPatientListener = ["click", "keyup"],
+            newPatientCallbacks = [newPatientClick, newPatientKeyup];
+            removeListeners(newPatientListener, newPatientCallbacks);
     } else if (e.target.classList.contains("closeDraggableExistingPatient")){
       //Handle window count and initial position
       windowSubstraction(e.target.parentElement.parentElement);
@@ -87,7 +81,7 @@ document.body.addEventListener("click", e => {
       //Handle window count and initial position
       windowSubstraction(e.target.parentElement.parentElement);
 
-      controlRightContent = "", configCurrentList = [], specialtyCurrentList = [];
+      controlRightContent = "";
       configActive = removeDraggable(e.target, "Config");
       //remove listeners
       const configListeners = ["click", "keyup"],
@@ -292,104 +286,99 @@ function closeDragElement() {
 /*CONTROL FUNCTIONS */
 function configClick(e){ 
 
-  // General list handling
-  
-  //Show list
-    if (e.target.parentElement.classList.contains("configList")){
+  // General list handling 
 
-    //Instantly remove selection
-      //Get actualList object
-        const actualList = e.target.parentElement.querySelector(".actualList");
-        //Show
-              actualList.classList.remove("hide");
-  
-  
-    }
-    //Hide list
-    else if (e.target.classList.contains("closeDraggableList")){
-  
-        //Get draggable parent
-        const draggableParent = parentWorm(e.target, "draggableParent");
-          if (draggableParent !== undefined){
-            
-              draggableParent.classList.add("hide");
-  
-          }
-  
-    }
-    //Remove current provider from list
-    else if (e.target.classList.contains("removeCurrentElement")){
-  
-        const index = parseInt(e.target.parentElement.innerHTML.split("-")[0])-1;
-        configCurrentList.splice(index, 1);
-          const parentContainer = parentWorm(e.target, "configList");
-          //Reload list
+  //Preview any list list
+   if(e.target.classList.contains("listTrigger")){
 
-          //Im working with both specialty and provider, consConfig
-        if (specialtyListActive === true){
-            if(configCurrentList.length < 1 && specialtyCurrentList < 1){
-      
-              //Clear list
-              parentContainer.innerHTML = "";
-            
-            }else{
-      
-              //remove current element
-              liveReloadConfigList(configCurrentList, parentContainer, "provider");
-      
+        const actualList = configList.querySelector(".actualList"); 
+        const tabName = actualList.querySelector(".tabName");
+            //remove UL if exists
+            const existingUl = actualList.querySelector("ul");
+            if(existingUl){
+              existingUl.remove();
             }
 
 
-          //Im working with service center in providerConfig
-        } else {
+        //PROVIDER
+        if(e.target.parentElement.querySelector("input").id === "provSpecialty"){
 
-            if(configCurrentList.length < 1){
+          updateList(actualList, tabName, "Especialidades", provSpecialtyArray, "provSpecialtyList");
+
+        }
         
-              //Clear list
-              parentContainer.innerHTML = "";
-            
-            }else{
-      
-              //remove current element
-              liveReloadConfigList(configCurrentList, parentContainer, "cons");
-      
-            }
+        else if(e.target.parentElement.querySelector("input").id === "provWorkingCenter"){
+
+          updateList(actualList, tabName, "Centros de servicio", provWorkingCenterArray, "provWorkingCenterList");
+
+        } 
+        //CONSULTORIOS
+        else if(e.target.parentElement.querySelector("input").id === "consSpecialties"){
+
+          updateList(actualList, tabName, "Especialidades", consSpecialtyArray, "consSpecialtiesList");
+
+        }
+        else if(e.target.parentElement.querySelector("input").id === "consProviders"){
+
+          updateList(actualList, tabName, "Proveedores", consProviderArray, "consProvidersList");
 
         }
 
+  }
+  else if(e.target.classList.contains("closeDraggableList")){
+      e.target.parentElement.parentElement.parentElement.classList.add("hide");
+  }
+  else if(e.target.classList.contains("removeCurrentElement")){
 
-    }
-    //Remove current Specialty list if exists
-    else if (e.target.classList.contains("removeCurrentSElement")){
+      const index = e.target.parentElement.textContent.split(":")[0]-1;
+
+      //PROVIDERS 
+      //provWorkingCenterArray
+      if(e.target.parentElement.parentElement.id === "provWorkingCenterList"){
+        console.log(provWorkingCenterArray)
+        provWorkingCenterArray.splice(index, 1);
+        console.log(provWorkingCenterArray)
+        liveReloadList("provWorkingCenter", provWorkingCenterArray, "Centros de servicio")
+      }
+      //provSpecialtyArray
+      else if(e.target.parentElement.parentElement.id === "provSpecialtyList"){
+            provSpecialtyArray.splice(index, 1);
+            liveReloadList("provSpecialty", provSpecialtyArray, "Especialidades")
+        
+      }
+
+      //CONSULTORIOS
+      //consSpecialtyArray
+      else if(e.target.parentElement.parentElement.id === "consSpecialtiesList"){
+            consSpecialtyArray.splice(index, 1);
+            liveReloadList("consSpecialties", consSpecialtyArray, "Especialidades")
+        
+      }
+      //consProviderArray
+      else if(e.target.parentElement.parentElement.id === "consProvidersList"){
+            consProviderArray.splice(index, 1);
+            liveReloadList("consProviders", consProviderArray, "Proveedores")
+        
+      }
 
 
-        const index = parseInt(e.target.parentElement.innerHTML.split("-")[0])-1;
-        specialtyCurrentList.splice(index, 1);
-          const parentContainer = parentWorm(e.target, "configList");
-          //Reload list
 
-          //Im working with both specialty and provider, consConfig
-            if(configCurrentList.length < 1 && specialtyCurrentList < 1){
-      
-              //Clear list
-              parentContainer.innerHTML = "";
-            
-            }else{
-      
-              //remove current element
-              liveReloadConfigList(specialtyCurrentList, parentContainer, "specialty");
-      
-            }
+  }
 
-    }
 
   // General list handling
+
+
+
+
 
 
   consConfigClick(e);
   providerConfigClick(e);
   tCitasConfigClick(e);
   consScheduleClick(e);
+  tSegurosConfigClick(e);
+  tEspecialidadConfigClick(e);
 }
 
 function configKeyup(e){
@@ -424,6 +413,17 @@ function configKeyup(e){
     keyupFilter(e.target, "configTCitaBody", true)
 
   }
+  else if (e.target.classList.contains("filterConfigTSeguros")){
+
+    keyupFilter(e.target, "configTSegurosBody", true)
+
+  }
+  else if (e.target.classList.contains("filterConfigEspecialidad")){
+
+    keyupFilter(e.target, "configEspecialidadBody", true)
+
+  }
+  
   //CONTROL > SCHEDULE > EDIT EXISTING
   else if (e.target.classList.contains("filterSchedECons")){
 
@@ -433,6 +433,112 @@ function configKeyup(e){
   
   
 } 
+
+
+function calendarClickSchedMaker(e){
+  
+  // If date is changed then selectedDate object changes, if month is changed then selected object persists
+  
+     //Get clicked date and handle class removals
+     if(e.target.tagName.toLowerCase() === "td"){
+       if(e.target.parentElement.parentElement.parentElement.id === "calendarTable"){
+           let allDays =  e.target.parentElement.parentElement.querySelectorAll("tr>td");
+ 
+           if(e.target.innerHTML.length !== 0){
+ 
+               allDays.forEach(element => {
+                   
+                       if(element.classList.contains("dycalendar-target-date")){
+                           element.classList.remove("dycalendar-target-date")
+                       }
+                               
+               });
+ 
+               selectedDate = {
+ 
+                   "day":  parseInt(e.target.innerHTML),
+                   "month": parseInt(e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector(".dycalendar-header .prev-btn").getAttribute("data-month")),
+                   "year": parseInt(e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector(".dycalendar-header .prev-btn").getAttribute("data-year"))
+       
+               };
+ 
+               e.target.classList.add("dycalendar-target-date");
+               //GET SELECTED DATE and send it over to citas.js
+               dateChangeSchedMaker(selectedDate.day, selectedDate.month+1, selectedDate.year);
+                
+           }
+ 
+       }
+   }
+ 
+   //get event object (window.event for IE compatibility)
+   e = event || e;
+ 
+   let
+       //get target dom object reference
+       targetDomObject = e.target || e.srcElement,
+ 
+       //other letiables
+       date, month, year, btn, option, dateObj;
+ 
+        
+   //prev-next button click
+   //extra checks to make sure object exists and contains the class of interest
+   if ((targetDomObject) && (targetDomObject.classList) && (targetDomObject.classList.contains("dycalendar-prev-next-btn"))) {
+ 
+ 
+       date = parseInt(targetDomObject.getAttribute("data-date"));
+       month = parseInt(targetDomObject.getAttribute("data-month"));
+       year = parseInt(targetDomObject.getAttribute("data-year"));
+       btn = targetDomObject.getAttribute("data-btn");
+       option = JSON.parse(targetDomObject.parentElement.getAttribute("data-option"));
+       
+       //Add custom selected date obj to option
+       option.selectedDate = selectedDate;
+ 
+       if (btn === "prev") {
+           month = month - 1;
+           if (month < 0) {
+               year = year - 1;
+               month = 11;
+           }
+       }
+       else if (btn === "next") {
+           month = month + 1;
+           if (month > 11) {
+               year = year + 1;
+               month = 0;
+           }
+       }
+ 
+       option.date = date;
+       option.month = month;
+       option.year = year;
+ 
+       drawCalendar(option);
+   }
+ 
+   //month click
+   //extra checks to make sure object exists and contains the class of interest
+   if ((targetDomObject) && (targetDomObject.classList) && (targetDomObject.classList.contains("dycalendar-span-month-year"))) {
+       option = JSON.parse(targetDomObject.parentElement.getAttribute("data-option"));
+       dateObj = new Date();
+       //default
+       option.date = dateObj.getDate();
+       option.month = dateObj.getMonth();
+       option.year = dateObj.getFullYear();
+       //default
+ 
+       option.selectedDate.day = dateObj.getDate();
+       option.selectedDate.month = dateObj.getMonth();
+       option.selectedDate.year = dateObj.getFullYear();
+ 
+       dateChangeSchedule(option.selectedDate.day, option.selectedDate.month+1, option.selectedDate.year);
+ 
+       drawCalendar(option);
+   }
+ }
+
 /*CONTROL FUNCTIONS */
 
 
@@ -1080,6 +1186,157 @@ function citasContext(e){
 
 
 
+/*NEW PATIENT FUNCTIONS */
+async function newPatientClick(e){ 
+
+
+
+  //Set modal selection for provider and 
+
+
+
+  //Select existing patient with modal 
+  if(e.target.id === "providerName"){
+     
+
+      //Create title input
+
+      //Send data to genTable
+      const cols = ["Nombre ", "Apellido ", "Ubicación ", "Especialidad ", "Título"];
+
+      //DB request
+      const sampleData = [
+        {
+          "name": "Martin Mark",
+          "lastName": "Luperon Gozniak",
+          "location": "Consult MD",
+          "specialty": "Pediatra",
+          "title": "Medical doctor"
+        },
+        {
+          "name": "Test",
+          "lastName": "Provider",
+          "location": "Test",
+          "specialty": "Test",
+          "title": "Test"
+        }
+              ];
+      modalFieldSelection("filterNewPatientProv", "Proveedores ", cols, sampleData, "newPatientProviderBody");
+
+          
+  }
+
+  //Grab information from modal table for patient selection
+  else if(e.target.parentElement.tagName.toLowerCase() === "tr" && e.target.parentElement.parentElement.id === "newPatientProviderBody"){
+                
+    const logs = e.target.parentElement.querySelectorAll("td");
+    const provCode = logs[0].textContent;
+    const provName = logs[1].textContent;
+
+    const patientProvider = newPatientContent.querySelector("#providerName");
+    console.log(provCode, provName, patientProvider);
+    patientProvider.setAttribute("value", provName);
+      modalRemoval();
+
+  }
+
+  else if(e.target.id === "registerNewPatient"){
+
+    //Validate all fields
+  
+    //Get all fields
+    const parentDiv = e.target.parentElement.parentElement;
+
+    //Obligatorios
+      const names = parentDiv.querySelector("#names");
+       if(!validateEmptyField(names, "Nombres"))
+            return;
+
+      const lastNames = parentDiv.querySelector("#lastNames");
+      if(!validateEmptyField(lastNames, "Apellidos"))
+            return;
+
+      const sex = parentDiv.querySelector("#sex");
+      if(!validateEmptyField(sex, "Sexo"))
+            return;
+
+      const dob = parentDiv.querySelector("#dob");
+      if(!validateEmptyField(dob, "Fecha de nacimiento"))
+            return;
+
+      const address = parentDiv.querySelector("#address");
+      if(!validateEmptyField(address, "Dirección"))
+            return;
+
+      const phone1 = parentDiv.querySelector("#phone1");
+      if(!validateEmptyField(phone1, "Teléfono móvil"))
+            return;
+
+
+      const provincia = parentDiv.querySelector("#provincia");
+      if(!validateEmptyField(provincia, "Provincia"))
+            return;
+      
+
+    //Optional
+    const email = parentDiv.querySelector("#email").value || null;
+    const phone2 = parentDiv.querySelector("#phone2").value || null;
+    const emerName = parentDiv.querySelector("#emerName").value || null;
+    const emerPhone = parentDiv.querySelector("#emerPhone").value || null;
+    const idProvider = parentDiv.querySelector("#providerName").value || null;
+    const patAllergies = parentDiv.querySelector("#patAllergies").value || null;
+    const idSeguro = parentDiv.querySelector("#insurance").value || null;
+    const numSeguro = parentDiv.querySelector("#insuranceId").value || null;
+
+    // YOU ARE HERE, GO TO THE API AND CONTINUE FIXING THE INSERT, THEN PULL ALL SELECT ITEMS FROM DB
+
+    const dataObj = {
+            names: names.value,
+            lastNames: lastNames.value,
+            sex: sex.value,
+            dob: dob.value,
+            address: address.value,
+            phone1: phone1.value,
+            provincia: provincia.value,
+            
+            email,
+            phone2,
+            emerName,
+            emerPhone,
+            idProvider,
+            patAllergies,
+            idSeguro,
+            numSeguro
+    };
+
+
+   // console.log("names: "+ names, "lastNAmes: " +lastNames, "Sex: "+ sex, "DOB: "+ dob, "Address: "+ address, "phone1 : " +phone1, "prov: "+ provincia);
+   // console.log("email: "+email, "phone: "+ phone2, "emerN: "+emerName, "emerP: "+emerPhone, "PNAME: "+providerName, "paTALLRG: "+patAllergies);
+    const reqResult = await postRequest("/em/api/patients/new", dataObj);
+
+
+  }
+
+
+
+}
+
+
+function newPatientKeyup(e){
+
+  if (e.target.classList.contains("filterNewPatientProv")){
+      
+      keyupFilter(e.target, "newPatientProviderBody", false)
+
+  }
+
+}
+
+/*NEW PATIENT FUNCTIONS */
+
+
+
+
 
 /*CALENDAR FUNCTIONS */ 
 function calendarClick(e){
@@ -1186,7 +1443,6 @@ function calendarClick(e){
   }
 }
 /*CALENDAR FUNCTIONS */ 
-
 
 
 

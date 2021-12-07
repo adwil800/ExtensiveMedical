@@ -5,3 +5,7 @@
 .emergencyLabelParent{
     text-align: center;
 }
+
+#providerName{
+    cursor: pointer;
+}

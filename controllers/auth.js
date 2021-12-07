@@ -19,6 +19,7 @@ exports.login =  (req, res) => {
         console.log(req.body.username, req.body.password)
     if(req.body.username === "Locky" && req.body.password === "123"){
 
+        fetch()
         session = req.session;
         session.userid = req.body.username;
         console.log(req.session)

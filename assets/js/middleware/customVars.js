@@ -256,7 +256,7 @@ let calendarParent, mainRightContentContainer, citasActive = false;
 
 /*PATIENTS VARIABLES */
 //NEW
-let newPatientActive = false;
+let newPatientActive = false, newPatientContent;
 //EXISTING
 let existingPatientActive = false, pacientesRightContent, tableViewer, contentViewer, personalViewer;
 /*PATIENTS VARIABLES */
@@ -296,13 +296,18 @@ let positionArray = [
 
 
 /*CONFIG VARIABLES */
-let configActive = false, controlRightContent, consCurrentProviders = [], provCurrentCons = [],
-    specialtyCurrentList = [], configCurrentList = [], specialtyListActive = false;
+let configActive = false, controlRightContent, configList;
+
+//Config list
+let provSpecialtyArray = [], provWorkingCenterArray = [],
+    consSpecialtyArray = [], consProviderArray = [];
+
+
 //Within controlRightContent > consultorio > editar or crear
 //On link click
 const newConsultorio = `
                   <div class="row centerSubForm">
-                      <i class="fas fa-arrow-circle-left" id="backToMantCons"></i>
+                      <i class="fas fa-arrow-circle-left backToMant" id="backToMantCons"></i>
                     
                     <div class="col-lg-5 offset-1">
 
@@ -326,11 +331,22 @@ const newConsultorio = `
                         <input type="text" name="consPhone" id="consPhone" >
                       </div>
 
-                      <div class="input-group">
-                        <label for="consSpecialties">Especialidades*</label>
-                        <input type="text" name="consSpecialties" id="consSpecialties" disabled >
-                      </div>
+                    <div class="row ">
+                      <div class="col-lg-6 ">
+                          <div class="input-group listed">
+                            <label for="consSpecialties">Especialidades*</label>
+                            <input type="text" name="consSpecialties" id="consSpecialties" disabled >
+                          </div>
+                        </div>
 
+                      <div class="col-lg-6 ">
+                          <div class="input-group listed">
+                            <label for="consProviders">Incluir proveedores*</label>
+                            <input type="text" name="consProviders" id="consProviders" disabled >
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
 
                     <div class="col-lg-5 ">
@@ -377,15 +393,8 @@ const newConsultorio = `
                       </div>
                   
 
-                      <div class="input-group">
-                        <label for="consProviders">Incluir proveedores*</label>
-                        <input type="text" name="consProviders" id="consProviders" disabled >
-                      </div>
 
-                      <div class="configList draggableParent">
-
-                      </div>
-
+                   
                       
 
 
@@ -393,75 +402,117 @@ const newConsultorio = `
                     </div>
 
 
-
+                    <div class="ud-form-group  ">
+                    <button class="ud-main-btn controlRegisterBtn" id="registerNewConsultory">
+                      Registrar
+                    </button>
+                  </div>
+          
+          
 
                   </div>
-`;
-  //MantProvider
- const newMantProvider = `
-                <div class="row centerSubForm">
-                    <i class="fas fa-arrow-circle-left" id="backToMantProv"></i>
-                    
-                    <div class="col-lg-5 offset-1">
+`; 
 
-                      <div class="input-group">
-                        <label for="provFirstName">Nombres*</label>
-                        <input type="text" name="provFirstName" id="provFirstName" >
-                      </div>
-                      
-                      <div class="input-group">
-                        <label for="provLastName">Apellidos*</label>
-                        <input type="text" name="provLastName" id="provLastName" >
-                      </div>
+//Mant provider 
 
-                      <div class="input-group">
-                        <label for="provSpecialty">Especialidad*</label>
-                        <input type="text" name="provSpecialty" id="provSpecialty" >
-                      </div>
+async function newMantProvider(){
 
-                      <div class="input-group">
-                        <label for="provTitle">Título*</label>
-                        <input type="text" name="provTitle" id="provTitle" >
-                      </div>
-                      
-                      <div class="input-group">
-                        <label for="provPhone">Teléfono*</label>
-                        <input type="text" name="provPhone" id="provPhone" >
-                      </div>
+  //Get from DB
+    //Get Sexo 
+      const sexo = await selectQuery("select * from sexo;");
 
 
-                    </div>
+      return `
+      <div class="row centerSubForm">
+          <i class="fas fa-arrow-circle-left backToMant" id="backToMantProv"></i>
+          
+          <div class="col-lg-5 offset-1">
 
+            <div class="input-group">
+              <label for="provFirstName">Nombres*</label>
+              <input type="text" name="provFirstName" id="provFirstName" >
+            </div>
+            
+            <div class="input-group">
+              <label for="provLastName">Apellidos*</label>
+              <input type="text" name="provLastName" id="provLastName" >
+            </div>
 
-                    <div class="col-lg-5 ">
-                    
-                      <div class="input-group">
-                        <label for="provDescription">Descripción</label>
-                        <textarea name="provDescription" id="provDescription" cols="30" rows="10"></textarea>
-                      </div>
-                  
-                      <div class="input-group">
-                        <label for="provWorkingCenter">Centros de servicio*</label>
-                        <input type="text" name="provWorkingCenter" id="provWorkingCenter" disabled >
-                      </div>
+            <div class="input-group listed">
+              <label for="provSpecialty">Especialidad*</label>
+              
+              <input type="text" name="provSpecialty" id="provSpecialty" disabled>
+              
+            </div>
 
-
-                      <div class="configList draggableParent">
-
-                      </div>
-
-                    </div>
-
-                    
-                   
-
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <label for="provSex">Sexo*</label>
+                  ${selectOptions(sexo, "provSex")} 
                 </div>
+              </div>
+                
+              <div class="col-lg-6">
+                <div class="input-group">
+                    <label for="provPhone">Teléfono*</label>
+                    <input type="text" name="provPhone" id="provPhone" >
+                  </div>
+                </div>
+              </div>
+
+
+          </div>
+
+
+          <div class="col-lg-5 ">
+          
+            <div class="input-group">
+              <label for="provDescription">Descripción*</label>
+              <textarea name="provDescription" id="provDescription" cols="30" rows="10"></textarea>
+            </div>
+        
+            <div class="input-group listed">
+              <label for="provWorkingCenter">Centros de servicio*</label>
+              <input type="text" name="provWorkingCenter" id="provWorkingCenter" disabled >
+
+              </div>
+            </div>
+
+
+         
+
+          </div>
+
+          <div class="ud-form-group  ">
+          <button class="ud-main-btn controlRegisterBtn" id="registerNewProvider">
+            Registrar
+          </button>
+        </div>
+
+
+
+
+
+      </div>
 
 `;
+    
+}
+//NOTA: La plantilla en creacion de horarios son los tipos de citas, tienen el tipo, nombre, duración, especialidad y descripcion
   //MantCitas
-const newMantCitas = `
+
+  
+async function newMantCitas(){
+
+  //Get from DB
+    //Get Sexo 
+      const especialidades = await selectQuery("select * from especialidad;");
+
+
+        return `
                 <div class="row centerSubForm">
-                    <i class="fas fa-arrow-circle-left" id="backToMantCitas"></i>
+                    <i class="fas fa-arrow-circle-left backToMant" id="backToMantCitas"></i>
                     
                     <div class="col-lg-8 offset-2">
 
@@ -486,11 +537,7 @@ const newMantCitas = `
                           <div class="input-group">
                             <label for="tCitasSpecialty">Especialidad*</label>
 
-                            <select name="tCitasSpecialty" id="tCitasSpecialty">
-                              <option value="">Pediatría</option>
-                              <option value="">Ginecología</option>
-                              <option value="">Medicina general</option>
-                            </select>
+                            ${selectOptions(especialidades, "tCitasSpecialty")} 
                           </div>
 
                         </div>
@@ -505,9 +552,144 @@ const newMantCitas = `
                     </div>
 
 
+                    <div class="ud-form-group  ">
+                      <button class="ud-main-btn controlRegisterBtn" id="registerNewApptType">
+                        Registrar
+                      </button>
+                    </div>
+          
                 </div>
 
 `;
+    
+} 
+
+
+
+
+function newMantSeguros(){
+
+
+  return `
+          <div class="row centerSubForm">
+              <i class="fas fa-arrow-circle-left backToMant" id="backToMantSeguros"></i>
+              
+              <div class="col-lg-8 offset-2">
+
+                <div class="input-group">
+                  <label for="tSegurosName">Nombre*</label>
+                  <input type="text" name="tSegurosName" id="tSegurosName" >
+                </div>
+          </div>
+                  
+              
+              <div class="ud-form-group  ">
+                <button class="ud-main-btn controlRegisterBtn" id="registerNewSegurosType">
+                  Registrar
+                </button>
+              </div>
+    
+          </div>
+
+`;
+
+} 
+function updMantSeguros(){
+
+
+  return `
+          <div class="row centerSubForm">
+              <i class="fas fa-arrow-circle-left backToMant" id="backToMantSeguros"></i>
+              
+              <div class="col-lg-8 offset-2">
+              <div class="input-group">
+                <label for="tSegurosOldName">Nombre actual*</label>
+                <input type="text" name="tSegurosOldName" id="tSegurosOldName" disabled>
+              </div>
+
+                <div class="input-group">
+                  <label for="tSegurosName">Nombre nuevo*</label>
+                  <input type="text" name="tSegurosName" id="tSegurosName" >
+                </div>
+          </div>
+                  
+              
+              <div class="ud-form-group  ">
+                <button class="ud-main-btn " id="updNewSegurosType">
+                  Actualizar
+                </button>
+              </div>
+    
+          </div>
+
+`;
+
+} 
+
+
+
+function newMantEspecialidades(){
+
+  return `
+          <div class="row centerSubForm">
+              <i class="fas fa-arrow-circle-left backToMant" id="backToMantEspecialidades"></i>
+              
+              <div class="col-lg-8 offset-2">
+
+                <div class="input-group">
+                  <label for="specName">Nombre*</label>
+                  <input type="text" name="specName" id="specName" >
+                </div>
+
+              </div>
+
+              <div class="ud-form-group  ">
+                <button class="ud-main-btn controlRegisterBtn" id="registerNewSpecialty">
+                  Registrar
+                </button>
+              </div>
+    
+          </div>
+
+`;
+
+} 
+
+function updMantEspecialidades(){
+
+  return `
+          <div class="row centerSubForm">
+              <i class="fas fa-arrow-circle-left backToMant" id="backToMantEspecialidades"></i>
+              
+              <div class="col-lg-8 offset-2">
+
+                <div class="input-group">
+                  <label for="specOldName">Nombre*</label>
+                  <input type="text" name="specOldName" id="specOldName" >
+                </div>
+                  
+                <div class="input-group">
+                  <label for="specNewName">Nombre*</label>
+                  <input type="text" name="specNewName" id="specNewName" >
+                </div>
+                  
+
+                  </div>
+
+              <div class="ud-form-group  ">
+                <button class="ud-main-btn " id="updNewSpecialty">
+                  Actualizar
+                </button>
+              </div>
+    
+          </div>
+
+`;
+
+} 
+
+
+
   //MantHorarios
 const editMantHorarios = `
           <div class="row centerSubForm">

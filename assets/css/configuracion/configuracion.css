@@ -24,7 +24,7 @@
     color:white;
 }
 
-#backToMantCons, #backToMantProv, #backToMantCitas{
+.backToMant{
     position: absolute;
     top: 5px;
     font-size: 22px;
@@ -107,56 +107,6 @@
     cursor: pointer; 
 }
 
-.configList{
-    border:none !important;
-}
-
-.configList > span{ 
-    margin-top: 5px;
-    height:26px;
-    overflow: hidden;
-    color:#0b5fdb;
-    cursor: pointer;
-}
-
-.configList > span:hover{
-    text-decoration: underline; 
-}
-
-.actualList{
-    
-    width: 300px;
-    max-width: 300px;
-    max-height: 200px;
-    height: 200px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    color: white;
-    background: var(--subWindow);
-    border-radius: 5px;
-    top: -218px; 
-    left: -199px;
-    border: 1px solid black !important;
-
-}
-.actualList .draggableTarget{
-    border-radius: 0;
-}
-
-.actualList > ul{
-    margin-top: 37px;
-    margin-left: 5px;
-
-}
-
-.actualList > ul li i{
-
-    color: red;
-    font-size: 20px;
-
-}
-
-
 /*Provider*/
 #provDescription{
     height: 150px;
@@ -185,3 +135,118 @@
     margin-left: 1px;
 }
 
+#selectSchedTemplate{
+    width:100%;
+    background-color:rgba(255, 255, 255, 0.7);
+}
+
+
+.schedRightContent{
+    background-color: #212529 ;
+}
+
+
+
+
+
+
+.configList{
+    border:none !important;
+
+}
+
+.actualList{
+    width: 250px;
+    max-width: 250px;
+    max-height: 200px;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: white;
+    background: var(--subWindow);
+    border-radius: 5px;
+    top: -218px; 
+    left: -199px;
+    border: 1px solid black !important;
+    /*Initial position*/
+    top: 95px;
+    left: 452px;
+}
+
+
+.actualList .draggableTarget{
+    border-radius: 0;
+}
+
+.actualList > ul{
+    margin-top: 37px;
+    margin-left: 5px;
+
+}
+
+.actualList > ul li i{
+
+    color: red;
+    font-size: 20px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.listed > span{ 
+    margin-top: 5px;
+    height:26px;
+    overflow: hidden;
+    color:#0b5fdb;
+    cursor: pointer;
+}
+.listed > span:hover{
+    text-decoration: underline; 
+}
+.listed > span{
+    position: absolute;
+    top: 17px;
+    left: 13px;
+}
+
+
+
+
+
+
+.controlRegisterBtn:hover{
+    background-color: white;
+    color: black;
+}
+
+select option{
+    color:black;
+}
+.controlRegisterBtn{
+   float: right;
+   margin-right: 70px;
+}
+
+#registerNewApptType, 
+#registerNewSegurosType, 
+#registerNewSpecialty, 
+#updNewSegurosType, 
+#updNewSpecialty{
+   float: right;
+   margin-right: 135px;
+}
+
+#provSpecialty{
+    cursor:pointer;
+}

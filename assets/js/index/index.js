@@ -49,9 +49,6 @@ const citas = `
           </div>
           <div class="ud-form-group mb-0">
             <a href="#">Ver citas existentes</a>
-            <button class="ud-main-btn ">
-              Ver citas existentes
-            </button>
           </div>
 
         </div>
@@ -73,7 +70,6 @@ const citas = `
 `;
 const documentos = `
 <div class="draggableTarget">
-
 <span class="tabName" windowname="Docs">Documentos</span>
 <i class="fas fa-times closeDraggableDocs"></i>
 <i class="fas fa-minus minimizeDraggable"></i>
@@ -126,187 +122,7 @@ const documentos = `
 
           </div>
 `;
-const nuevoPaciente = `
-<div class="draggableTarget">
 
-<span class="tabName" windowname="PNuevo">Nuevo paciente</span>
-<i class="fas fa-times closeDraggableNewPatient"></i>
-<i class="fas fa-minus minimizeDraggable"></i>
-
-</div>
-<br>
-
-
-<div class="row " id="newPatientContent">
-  <!-- ====== Content start ====== -->
-
-        <!-- ====== Right content start ====== -->
-        <div class="col-lg-10 offset-1  ">
-              <br><br>
-              
-                  <div class="row">
-                    
-                    <!--NEWPT main information -->
-                    <h3 class="underline">Personal</h3>  
-                    <div class="col-lg-5">
-                      
-                      <div class="ud-form-group">
-                        <label for="names">Nombres</label>
-                        <input type="text" name="names">
-                      </div>
-
-                      <div class="ud-form-group">
-                        <label for="lastNames">Apellidos</label>
-                        <input type="text" name="lastNames">
-                      </div>
-                      
-                      <div class="row">
-
-                        <div class="col-lg-6">
-                          
-                          <div class="ud-form-group">
-                            <label for="sex">Sexo</label>
-                            <select name="sex" id="">
-                              <option value="F">F</option>
-                              <option value="M">M</option>
-                              <option value="U">U</option>
-                            </select>
-                          </div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-                          <div class="ud-form-group">
-                            <label for="dob">Fecha de nacimiento</label>
-                            <input type="date" class="date" name="dob">
-                          </div>
-                        </div>
-
-                        <div class="ud-form-group">
-                          <label for="email">Email</label>
-                          <input type="email" name="email">
-                        </div>
-
-                      </div> 
-
-                      <div class="ud-form-group">
-                        <label for="address">Dirección</label>
-                        <input type="text" name="address">
-                      </div>
-                      
-
-
-
-                    </div> 
-
-                    <div class="col-lg-5 offset-2"> 
-                      
-                        <div class="row">
-
-                            <div class="col-lg-6">
-                                <div class="ud-form-group">
-                                  <label for="phone">Teléfono móvil</label>
-                                  <input type="text" name="phone">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="ud-form-group">
-                                  <label for="alterPhone">Teléfono alternativo</label>
-                                  <input type="text" name="alterPhone">
-                                </div>
-                            </div>
-
-                              <div class="col-lg-12 emergencyLabelParent"><label class="emergencyLabel" for="">Contacto de emergencia</label></div>
-                              
-                            <div class="col-lg-6">
-                                <div class="ud-form-group">
-                                  <label for="">Nombre</label>
-                                  <input type="text" name="" id="" disabled>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="ud-form-group">
-                                  <label for="">Teléfono</label>
-                                  <input type="text" name="" id="" disabled>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="ud-form-group">
-                          <label for="provName">Proveedor</label>
-                          <input type="text" name="provName" id="providerName" disabled>
-                        </div>
-
-                        <div class="ud-form-group">
-                          <label for="">Alergias</label>
-                          <input type="text" name="" id="" disabled>
-                        </div>
-
-                        
-
-
-                        <div class="row">
-
-                          <div class="col-lg-6">
-                              <div class="ud-form-group">
-                                <label for="phone">Municipio</label>
-                                
-                                <select name="provincia" id="">
-
-                                  <option value="">Santiago</option>
-                                  <option value="">La vega</option>
-
-                                </select>
-
-                              </div>
-                          </div>
-
-                          <div class="col-lg-6">
-                              <div class="ud-form-group">
-                                <label for="provincia">Provincia</label>
-                                <select name="provincia" id="">
-
-                                    <option value="">Santiago</option>
-                                    <option value="">La vega</option>
-
-                                </select>
-                              </div>
-                          </div>
-
-                          </div>
-
-
-
-
-
-                    </div>
-                    <!--NEWPT Insurance information -->
-
-
-                  
-              <div class="ud-form-group padT10 ">
-                <button type="submit" class="ud-main-btn floatRight">
-                  Registrar
-                </button>
-              </div>
-              
-
-
-
-        </div>
-
-        <!-- ====== Right content end ====== -->
-
-  <!-- ====== Content end ====== -->
-        </div>
-
-  <!-- ====== Content start ====== -->
-</div>
-`;
 const existingPatient = `
 <div class="draggableTarget">
 
@@ -379,7 +195,7 @@ const controlForm = `
  
 <div class="draggableTarget">
 
-<span class="tabName" windowname="Panel">Panel de control > consultorios > nuevo </span>
+<span class="tabName" windowname="Panel">Panel de control > ruta actual </span>
 <i class="fas fa-times closeDraggableControl"></i>
 <i class="fas fa-minus minimizeDraggable"></i>
 
@@ -397,10 +213,6 @@ const controlForm = `
               <div class="col-lg-3 configMenu">
 
                   <div class="input-group">
-                    <button class="ud-main-btn" id="mantPersonal">Personal</button> 
-                  </div>
-
-                  <div class="input-group">
                       <button class="ud-main-btn" id="mantConsultorios">Consultorios</button>
                   </div>
 
@@ -416,6 +228,14 @@ const controlForm = `
                       <button class="ud-main-btn" id="mantHorarios">Horarios</button>
                   </div>
 
+                  <div class="input-group">
+                      <button class="ud-main-btn" id="mantSeguros">Seguros</button>
+                  </div>
+
+                  <div class="input-group">
+                      <button class="ud-main-btn" id="mantEspecialidad">Especialidades</button>
+                  </div>
+
               </div>
 
             
@@ -428,9 +248,219 @@ const controlForm = `
                       
           </div>
   
+
+          <div class="configList draggableParent hide">
+
+              <div class="actualList draggableParent" >
+                <div class="draggableTarget">
+                          <span class="tabName">Lista de consultorios</span>
+                          <i class="fas fa-times closeDraggableList"></i>
+                </div>
+                
+              
+              </div>
+              
+          </div>
+
+
   </div>
 
 `;
+
+async function nuevoPaciente(){
+
+     
+    //Get Sexo 
+      const sexo = await selectQuery("select * from sexo;");
+    //Get Seguro
+      const tipoSeguro = await selectQuery("select * from tipoSeguro;"); 
+    //Get Provincia 
+      const provincia = await selectQuery("select * from provincia;");
+
+
+ return   `
+  <div class="draggableTarget">
+  
+  <span class="tabName" windowname="PNuevo">Nuevo paciente</span>
+  <i class="fas fa-times closeDraggableNewPatient"></i>
+  <i class="fas fa-minus minimizeDraggable"></i>
+  
+  </div>
+  <br>
+  
+  
+  <div class="row " id="newPatientContent">
+    <!-- ====== Content start ====== -->
+  
+          <!-- ====== Right content start ====== -->
+          <div class="col-lg-10 offset-1  ">
+                <br><br>
+                
+                    <div class="row">
+                      
+                      <!--NEWPT main information -->
+                      <h3 class="underline">Personal</h3>  
+                      <div class="col-lg-5">
+                        
+                        <div class="ud-form-group">
+                          <label for="names">Nombres*</label>
+                          <input type="text" name="names" id="names">
+                        </div>
+  
+                        <div class="ud-form-group">
+                          <label for="lastNames">Apellidos*</label>
+                          <input type="text" name="lastNames" id="lastNames">
+                        </div>
+                        
+                        <div class="row">
+  
+                          <div class="col-lg-6">
+                            
+                            <div class="ud-form-group">
+                              <label for="sex">Sexo*</label>
+                                ${selectOptions(sexo, "sex")} 
+                            </div>
+  
+                          </div>
+  
+                          <div class="col-lg-6">
+                            <div class="ud-form-group">
+                              <label for="dob">Fecha de nacimiento*</label>
+                              <input type="date" class="date" name="dob" id="dob">
+                            </div>
+                          </div>
+  
+                          <div class="ud-form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email">
+                          </div>
+  
+                        </div> 
+  
+                        <div class="ud-form-group">
+                          <label for="address">Dirección*</label>
+                          <input type="text" name="address" id="address">
+                        </div>
+  
+  
+                        <div class="row">
+  
+                        
+                            <div class="col-lg-6">
+                              <div class="ud-form-group">
+                                <label for="insurance">Seguro</label>
+                                ${selectOptions(tipoSeguro, "insurance")} 
+                              </div>
+                            </div>
+                              
+                            <div class="col-lg-6">
+                              <div class="ud-form-group">
+                                <label for="insuranceId">Número de identificación</label>
+                                <input type="text" name="insuranceId" id="insuranceId">
+                              </div>
+                            </div>
+  
+                        </div>
+  
+  
+  
+                      </div> 
+  
+                      <div class="col-lg-5 offset-2"> 
+                        
+                          <div class="row">
+  
+                              <div class="col-lg-6">
+                                  <div class="ud-form-group">
+                                    <label for="phone">Teléfono móvil*</label>
+                                    <input type="text" name="phone" id="phone1">
+                                  </div>
+                              </div>
+  
+                              <div class="col-lg-6">
+                                  <div class="ud-form-group">
+                                    <label for="alterPhone">Teléfono alternativo</label>
+                                    <input type="text" name="alterPhone" id="phone2">
+                                  </div>
+                              </div>
+  
+                                <div class="col-lg-12 emergencyLabelParent"><label class="emergencyLabel" for="">Contacto de emergencia</label></div>
+                                
+                              <div class="col-lg-6">
+                                  <div class="ud-form-group">
+                                    <label for="emerName">Nombre</label>
+                                    <input type="text" name="emerName" id="emerName" >
+                                  </div>
+                              </div>
+  
+                              <div class="col-lg-6">
+                                  <div class="ud-form-group">
+                                    <label for="emerPhone">Teléfono</label>
+                                    <input type="text" name="emerPhone" id="emerPhone" >
+                                  </div>
+                              </div>
+  
+                          </div>
+  
+  
+                          <div class="ud-form-group">
+                            <label for="provName">Proveedor</label>
+                            <input type="text" name="provName" id="providerName" disabled>
+                          </div>
+  
+                          <div class="ud-form-group">
+                            <label for="patAllergies">Alergias</label>
+                            <input type="text" name="patAllergies" id="patAllergies" >
+                          </div>
+  
+                          
+   
+                                <div class="ud-form-group">
+                                  <label for="provincia">Provincia*</label>
+                                  ${selectOptions(provincia, "provincia")} 
+                                </div> 
+  
+  
+  
+  
+                      </div>
+                      <!--NEWPT Insurance information -->
+  
+  
+                    
+                <div class="ud-form-group padT10 ">
+                  <button class="ud-main-btn floatRight" id="registerNewPatient">
+                    Registrar
+                  </button>
+                </div>
+                
+  
+  
+  
+          </div>
+  
+          <!-- ====== Right content end ====== -->
+  
+    <!-- ====== Content end ====== -->
+          </div>
+  
+    <!-- ====== Content start ====== -->
+  </div>
+  `;
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //
@@ -442,406 +472,419 @@ const skeletonLoader = document.querySelector(".skeletonLoader");
 const dynamicCss = document.querySelector(".dynamicCss");
 const dynamicJs = document.querySelector(".dynamicJs");
 
-document.addEventListener("click", e => {
-
-  if (e.target !== null){
-
-   if (e.target.tagName.toLowerCase() === "button"){
-        $(e.target).blur();
-    }
-
-    if (e.target.id === "summonNewPatient"){
-      //Removes current top draggable
-      removeTopWindow();
-
-          if(newPatientActive){
-            const selectedDraggable = contentParent.querySelector("#newPatientContent").parentElement;
-
-              if(selectedDraggable.classList.contains("hide")){
-
-                //remove minimized
-                  removeMinimized(selectedDraggable);
-
-              }
-
-              if (removeTopWindow()){
-                //Set z-index to current parent
-                selectedDraggable.classList.add("topDraggable");
-              }
-            return;
-          }
+ 
 
 
-          newPatientActive = true;
-
-          loadFile("../assets/css/pacientes/nuevoPaciente.css", dynamicCss, "linkNewPatient", "link").then(e => {
-              //Add js
-            loadFile("../assets/js/pacientes/nuevoPaciente.js", dynamicJs, "scriptNewPatient", "script").then(e => {
-
-                //Create parent
-                const parentNewPatient = document.createElement("div");
-                parentNewPatient.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
-
-                //Add window position prefix index
-                parentNewPatient.setAttribute("positionindex", windowAddition());
-
-                  //Add loaders position
-                skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
-                  //Add loader
-                skeletonLoader.classList.remove("hide");
-
-                //Set initial position for parent window
-                parentNewPatient.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
-                parentNewPatient.innerHTML = nuevoPaciente;
-                //Remove loader
-                skeletonLoader.classList.add("hide");
-                contentParent.appendChild(parentNewPatient);
-
-            }).catch( e => console.error(e));
-          }).catch( e => console.error(e));
-
-            
-      
-    }
-
-    if (e.target.id === "summonExistingPatient"){
-      //Removes current top draggable
-      removeTopWindow();
-
-        if(existingPatientActive){
-
-          const selectedDraggable = contentParent.querySelector("#existingPatientContent").parentElement;
-            if(selectedDraggable.classList.contains("hide")){
-
-              //remove minimized
-                removeMinimized(selectedDraggable);
-
-            }
-            
-            if (removeTopWindow()){
-              //Set z-index to current parent
-              selectedDraggable.classList.add("topDraggable");
-            }
-          return;
-        }
-        
-        existingPatientActive = true;
-
-     //Add Css 
-          loadFile("../assets/css/pacientes/pacienteExistente.css", dynamicCss, "linkExistingPatient", "link").then(e => {
-              //Add js
-              loadFile("../assets/js/pacientes/pacienteExistente.js", dynamicJs, "scriptExistingPatient", "script").then(e => {
-
-                  //Create parent
-                  const parentExistingPatient = document.createElement("div");
-                  parentExistingPatient.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
-
-                  //Add window position prefix index
-                  parentExistingPatient.setAttribute("positionindex", windowAddition());
-                  //Add loaders position
-                  skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
-                  //Add loader
-                  skeletonLoader.classList.remove("hide");
-
-                  //Set initial position for parent window
-                  parentExistingPatient.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
-
-                  parentExistingPatient.innerHTML = existingPatient;
-                  //Remove loader
-                  skeletonLoader.classList.add("hide");
-                  contentParent.appendChild(parentExistingPatient);
-
-                  //Select existing patient vars
-                  existingPacientesRightContent = contentParent.querySelector(".existingPacientesRightContent");
-
-                  tableViewer = existingPacientesRightContent.querySelector(".tableViewer");
-                  contentViewer = existingPacientesRightContent.querySelector(".contentViewer");
-                  personalViewer = existingPacientesRightContent.querySelector(".personalViewer");
-                                          
-
-
-                }).catch( e => console.error(e));
-              }).catch( e => console.error(e));
-
-      
-    }
-
-    if (e.target.id === "summonCitas"){
-        //Removes current top draggable
-        removeTopWindow();
-      
-            if(citasActive){
-
-              const selectedDraggable = contentParent.querySelector("#citasContent").parentElement;
-              if(selectedDraggable.classList.contains("hide")){
-
-                //remove minimized
-                  removeMinimized(selectedDraggable);
+const indexFunctions = async  (e) => { 
   
-              }
-              if (removeTopWindow()){
-                //Set z-index to current parent
-                selectedDraggable.classList.add("topDraggable");
-              }
-              return;
-            }
-            
-            citasActive = true; 
 
-           //Add Css 
-            loadFile("../assets/css/citas/citas.css", dynamicCss, "linkCitas", "link").then(e => {
-              loadFile("../assets/css/calendar/cal.css", dynamicCss, "linkCitas", "link").then(e => {
-                loadFile("../assets/css/calendar/style.css", dynamicCss, "linkCitas", "link").then(e => {
-                    //Add js
-                    loadFile("../assets/js/citas/citas.js", dynamicJs, "scriptCitas", "script").then(e => {
-                      loadFile("../assets/js/calendar/calendar.js", dynamicJs, "scriptCitas", "script").then(e =>{
+if (e.target !== null){
+
+  if (e.target.tagName.toLowerCase() === "button"){
+       $(e.target).blur();
+   }
+
+   if (e.target.id === "summonNewPatient"){
+     //Removes current top draggable
+     removeTopWindow();
+
+         if(newPatientActive){
+           const selectedDraggable = contentParent.querySelector("#newPatientContent").parentElement;
+
+             if(selectedDraggable.classList.contains("hide")){
+
+               //remove minimized
+                 removeMinimized(selectedDraggable);
+
+             }
+
+             if (removeTopWindow()){
+               //Set z-index to current parent
+               selectedDraggable.classList.add("topDraggable");
+             }
+           return;
+         }
+
+         const newPatientRes = await nuevoPaciente();
+         newPatientActive = true;
+
+         loadFile("../assets/css/pacientes/nuevoPaciente.css", dynamicCss, "linkNewPatient", "link").then(e => {
+             //Add js
+           loadFile("../assets/js/pacientes/nuevoPaciente.js", dynamicJs, "scriptNewPatient", "script").then(e => {
+
+               //Create parent
+               const parentNewPatient = document.createElement("div");
+               parentNewPatient.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
+
+               //Add window position prefix index
+               parentNewPatient.setAttribute("positionindex", windowAddition());
+
+                 //Add loaders position
+               skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+                 //Add loader
+               skeletonLoader.classList.remove("hide");
+
+               //Set initial position for parent window
+               parentNewPatient.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+
+               
+               parentNewPatient.innerHTML = newPatientRes;
+               //Remove loader
+               skeletonLoader.classList.add("hide");
+               contentParent.appendChild(parentNewPatient);
+
+
+               newPatientContent = parentNewPatient.querySelector("#newPatientContent");
+
+
+
+           }).catch( e => console.error(e));
+         }).catch( e => console.error(e));
+
+           
+     
+   }
+
+   if (e.target.id === "summonExistingPatient"){
+     //Removes current top draggable
+     removeTopWindow();
+
+       if(existingPatientActive){
+
+         const selectedDraggable = contentParent.querySelector("#existingPatientContent").parentElement;
+           if(selectedDraggable.classList.contains("hide")){
+
+             //remove minimized
+               removeMinimized(selectedDraggable);
+
+           }
+           
+           if (removeTopWindow()){
+             //Set z-index to current parent
+             selectedDraggable.classList.add("topDraggable");
+           }
+         return;
+       }
+       
+       existingPatientActive = true;
+
+    //Add Css 
+         loadFile("../assets/css/pacientes/pacienteExistente.css", dynamicCss, "linkExistingPatient", "link").then(e => {
+             //Add js
+             loadFile("../assets/js/pacientes/pacienteExistente.js", dynamicJs, "scriptExistingPatient", "script").then(e => {
+
+                 //Create parent
+                 const parentExistingPatient = document.createElement("div");
+                 parentExistingPatient.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
+
+                 //Add window position prefix index
+                 parentExistingPatient.setAttribute("positionindex", windowAddition());
+                 //Add loaders position
+                 skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+                 //Add loader
+                 skeletonLoader.classList.remove("hide");
+
+                 //Set initial position for parent window
+                 parentExistingPatient.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+
+                 parentExistingPatient.innerHTML = existingPatient;
+                 //Remove loader
+                 skeletonLoader.classList.add("hide");
+                 contentParent.appendChild(parentExistingPatient);
+
+                 //Select existing patient vars
+                 existingPacientesRightContent = contentParent.querySelector(".existingPacientesRightContent");
+
+                 tableViewer = existingPacientesRightContent.querySelector(".tableViewer");
+                 contentViewer = existingPacientesRightContent.querySelector(".contentViewer");
+                 personalViewer = existingPacientesRightContent.querySelector(".personalViewer");
+                                         
+
+
+               }).catch( e => console.error(e));
+             }).catch( e => console.error(e));
+
+     
+   }
+
+   if (e.target.id === "summonCitas"){
+       //Removes current top draggable
+       removeTopWindow();
+     
+           if(citasActive){
+
+             const selectedDraggable = contentParent.querySelector("#citasContent").parentElement;
+             if(selectedDraggable.classList.contains("hide")){
+
+               //remove minimized
+                 removeMinimized(selectedDraggable);
  
-                          //Create parent
-                          const parentCitas = document.createElement("div");
-                          parentCitas.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
+             }
+             if (removeTopWindow()){
+               //Set z-index to current parent
+               selectedDraggable.classList.add("topDraggable");
+             }
+             return;
+           }
+           
+           citasActive = true; 
 
-                          //Add window position prefix index
-                          parentCitas.setAttribute("positionindex", windowAddition());
+          //Add Css 
+           loadFile("../assets/css/citas/citas.css", dynamicCss, "linkCitas", "link").then(e => {
+             loadFile("../assets/css/calendar/cal.css", dynamicCss, "linkCitas", "link").then(e => {
+               loadFile("../assets/css/calendar/style.css", dynamicCss, "linkCitas", "link").then(e => {
+                   //Add js
+                   loadFile("../assets/js/citas/citas.js", dynamicJs, "scriptCitas", "script").then(e => {
+                     loadFile("../assets/js/calendar/calendar.js", dynamicJs, "scriptCitas", "script").then(e =>{
 
-                          //Add loaders position
-                          skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
-                          //Add loader
-                          skeletonLoader.classList.remove("hide");
+                         //Create parent
+                         const parentCitas = document.createElement("div");
+                         parentCitas.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
 
-                          //Set initial position for parent window
-                          parentCitas.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+                         //Add window position prefix index
+                         parentCitas.setAttribute("positionindex", windowAddition());
 
-                          parentCitas.innerHTML = citas;
-                          //Remove loader
-                          skeletonLoader.classList.add("hide");
-                          contentParent.appendChild(parentCitas);
+                         //Add loaders position
+                         skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+                         //Add loader
+                         skeletonLoader.classList.remove("hide");
 
-                          //Calendar vars
+                         //Set initial position for parent window
+                         parentCitas.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
 
-                          //Disallow clicking on calendar, assign calendarParent to let var at Citas.js
-                          calendarParent = contentParent.querySelector("#calendarSection");
-                          calendarParent.setAttribute("style", "cursor: not-allowed;");
-                          mainRightContentContainer = contentParent.querySelector(".citasRightContent");
+                         parentCitas.innerHTML = citas;
+                         //Remove loader
+                         skeletonLoader.classList.add("hide");
+                         contentParent.appendChild(parentCitas);
 
-                          //Include all css and scripts then call dycalendar.draw
-                          dycalendar.draw({
-                              target: '#calendar',
-                              type: 'month',
-                              dayformat: 'full',
-                              monthformat: 'full',
-                              highlightday: true,
-                              prevnextbutton: 'show'
+                         //Calendar vars
 
-                            })
+                         //Disallow clicking on calendar, assign calendarParent to let var at Citas.js
+                         calendarParent = contentParent.querySelector("#calendarSection");
+                         calendarParent.setAttribute("style", "cursor: not-allowed;");
+                         mainRightContentContainer = contentParent.querySelector(".citasRightContent");
 
-                      }).catch( e => console.error(e));
-                    }).catch( e => console.error(e));
+                         //Include all css and scripts then call dycalendar.draw
+                         dycalendar.draw({
+                             target: '#calendar',
+                             type: 'month',
+                             dayformat: 'full',
+                             monthformat: 'full',
+                             highlightday: true,
+                             prevnextbutton: 'show'
 
-                }).catch( e => console.error(e));
-              }).catch( e => console.error(e));
-            }).catch( e => console.error(e));
- 
-              
-        
-    }
+                           })
 
-    if(e.target.id === "summonDocuments"){
-        //Removes current top draggable
-        removeTopWindow();
+                     }).catch( e => console.error(e));
+                   }).catch( e => console.error(e));
 
-          if(documentosActive){
-            
-            const selectedDraggable = contentParent.querySelector("#docsContent").parentElement;
-            if(selectedDraggable.classList.contains("hide")){
+               }).catch( e => console.error(e));
+             }).catch( e => console.error(e));
+           }).catch( e => console.error(e));
 
-              //remove minimized
-                removeMinimized(selectedDraggable);
+             
+       
+   }
 
-            }
-            if (removeTopWindow()){
-              //Set z-index to current parent
-              selectedDraggable.classList.add("topDraggable");
-            }
+   if(e.target.id === "summonDocuments"){
+       //Removes current top draggable
+       removeTopWindow();
 
-            return;
-          }
+         if(documentosActive){
+           
+           const selectedDraggable = contentParent.querySelector("#docsContent").parentElement;
+           if(selectedDraggable.classList.contains("hide")){
 
-          documentosActive = true; 
- 
-      //Add all css
-          loadFile("../assets/css/documentos/documentos.css", dynamicCss, "linkDocs", "link").then(e => {
-          //Add js
-              loadFile("../assets/js/documentos/documentos.js", dynamicJs, "scriptDocs", "script").then(e => { 
+             //remove minimized
+               removeMinimized(selectedDraggable);
 
-                  //Create parent
-                  const parentDocs = document.createElement("div");
-                  parentDocs.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
+           }
+           if (removeTopWindow()){
+             //Set z-index to current parent
+             selectedDraggable.classList.add("topDraggable");
+           }
 
-                  //Add window position prefix index
-                  parentDocs.setAttribute("positionindex", windowAddition());
-                  
-                  //Add loaders position
-                  skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
-                  //Add loader
-                  skeletonLoader.classList.remove("hide");
-                  
-                  //Set initial position for parent window
-                  parentDocs.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+           return;
+         }
 
-                  parentDocs.innerHTML = documentos;
-                  //Remove loader
-                  skeletonLoader.classList.add("hide");
-                  contentParent.appendChild(parentDocs);
+         documentosActive = true; 
 
-                  //Doc vars
-                      provDocs = contentParent.querySelector(".provDocs");
-                      docDetails = contentParent.querySelector(".docDetails");
-                      newDoc = contentParent.querySelector("#newDoc");
-                      delDoc = contentParent.querySelector("#delDoc");
-                      downDoc = contentParent.querySelector("#downDoc");
+     //Add all css
+         loadFile("../assets/css/documentos/documentos.css", dynamicCss, "linkDocs", "link").then(e => {
+         //Add js
+             loadFile("../assets/js/documentos/documentos.js", dynamicJs, "scriptDocs", "script").then(e => { 
 
-                }).catch( e => console.error(e));
-              }).catch( e => console.error(e));
-      
-    }
-    
-    if(e.target.id === "summonControl"){
-      //Removes current top draggable
-      removeTopWindow();
+                 //Create parent
+                 const parentDocs = document.createElement("div");
+                 parentDocs.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
 
-        if(configActive){
-          
-          const selectedDraggable = contentParent.querySelector("#controlContent").parentElement;
-          if(selectedDraggable.classList.contains("hide")){
+                 //Add window position prefix index
+                 parentDocs.setAttribute("positionindex", windowAddition());
+                 
+                 //Add loaders position
+                 skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+                 //Add loader
+                 skeletonLoader.classList.remove("hide");
+                 
+                 //Set initial position for parent window
+                 parentDocs.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
 
-            //remove minimized
-              removeMinimized(selectedDraggable);
+                 parentDocs.innerHTML = documentos;
+                 //Remove loader
+                 skeletonLoader.classList.add("hide");
+                 contentParent.appendChild(parentDocs);
 
-          }
-          if (removeTopWindow()){
-            //Set z-index to current parent
-            selectedDraggable.classList.add("topDraggable");
-          }
+                 //Doc vars
+                     provDocs = contentParent.querySelector(".provDocs");
+                     docDetails = contentParent.querySelector(".docDetails");
+                     newDoc = contentParent.querySelector("#newDoc");
+                     delDoc = contentParent.querySelector("#delDoc");
+                     downDoc = contentParent.querySelector("#downDoc");
 
-          return;
-        }
+               }).catch( e => console.error(e));
+             }).catch( e => console.error(e));
+     
+   }
+   
+   if(e.target.id === "summonControl"){
+     //Removes current top draggable
+     removeTopWindow();
 
-        configActive = true; 
+       if(configActive){
+         
+         const selectedDraggable = contentParent.querySelector("#controlContent").parentElement;
+         if(selectedDraggable.classList.contains("hide")){
 
-    //Add all css
-        loadFile("../assets/css/configuracion/configuracion.css", dynamicCss, "linkConfig", "link").then(e => {
-        //Add js
-            loadFile("../assets/js/configuracion/configuracion.js", dynamicJs, "scriptConfig", "script").then(e => { 
+           //remove minimized
+             removeMinimized(selectedDraggable);
 
-                //Create parent
-                const parentConfig = document.createElement("div");
-                parentConfig.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
+         }
+         if (removeTopWindow()){
+           //Set z-index to current parent
+           selectedDraggable.classList.add("topDraggable");
+         }
 
-                //Add window position prefix index
-                parentConfig.setAttribute("positionindex", windowAddition());
-                
-                //Add loaders position
-                skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
-                //Add loader
-                skeletonLoader.classList.remove("hide");
-                
-                //Set initial position for parent window
-                parentConfig.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+         return;
+       }
 
-                parentConfig.innerHTML = controlForm;
-                //Remove loader
-                skeletonLoader.classList.add("hide");
-                contentParent.appendChild(parentConfig);
+       configActive = true; 
+   //Add all css
+       loadFile("../assets/css/configuracion/configuracion.css", dynamicCss, "linkConfig", "link").then(e => {
+       //Add js
+           loadFile("../assets/js/configuracion/configuracion.js", dynamicJs, "scriptConfig", "script").then(e => { 
 
-                //Config vars
-                  controlRightContent = contentParent.querySelector(".controlRightContent");
-                  
-              }).catch( e => console.error(e));
-            }).catch( e => console.error(e));
-    
-    }
+               //Create parent
+               const parentConfig = document.createElement("div");
+               parentConfig.setAttribute("class", "ud-template-form-wrapper draggableParent topDraggable");
 
+               //Add window position prefix index
+               parentConfig.setAttribute("positionindex", windowAddition());
+               
+               //Add loaders position
+               skeletonLoader.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
+               //Add loader
+               skeletonLoader.classList.remove("hide");
+               
+               //Set initial position for parent window
+               parentConfig.setAttribute("style", `top: ${topPosition}px; left: ${leftPosition}px;`);
 
-  /*Minimize windows */
-    if (e.target.classList.contains("minimizeDraggable")){
+               parentConfig.innerHTML = controlForm;
+               //Remove loader
+               skeletonLoader.classList.add("hide");
+               contentParent.appendChild(parentConfig);
 
-      //Get current window name 
-        const windowName = e.target.parentElement.querySelector(".tabName").getAttribute("windowName");
-      //Hide parent draggable and remove topDraggable
-        const windowDragg = parentWorm(e.target, "draggableParent");
-              windowDragg.classList.add("hide");
-              windowDragg.classList.remove("topDraggable");
-            
-        //Restore position availability
-        windowSubstraction(windowDragg);
-
-      //Add minimized submenu
-        const minimized = document.querySelector(".minimizedWindows");
-              minimized.classList.remove("hide");
-          //Create button
-          const buttonN = createHtmlElement("button", ["class", "id"], 
-                                            ["btn btn-primary btn-sm maximizeDraggable", "max"+windowName])
-                buttonN.textContent = windowName;
-          const icon = createHtmlElement("i", "class", "lni lni-full-screen floatRight");
-
-            buttonN.appendChild(icon);
-            minimized.appendChild(buttonN);
-            $(minimized).mouseover();
-
-        //Trigger hover-like event to show newly minimized windows
-          minimized.setAttribute("style", "left: 0px; background-color: inherit;");
-          //Clear timeouts
-          let id = window.setTimeout(function () { }, 0);
-          while (id--) {
-            window.clearTimeout(id);
-          }
-          //Remove hover-like event
-          setTimeout(() => {
-            minimized.removeAttribute("style");
-          }, 1000);
-
-    }
-  /*Maximize windows */
-    if (e.target !== null && e.target.classList.contains("maximizeDraggable") || e.target !== null && e.target.parentElement.classList.contains("maximizeDraggable")){
-
-        //Get windowName, aka: ID
-        const windowName = e.target.id.slice(3,);
-        //Find tabName that contains windowName attribute as windowName, contentParent
-        const windowToMax = contentParent.querySelectorAll(".draggableParent > .draggableTarget > .tabName");
-              //windowToMax is a node list, turn into array to allow the use of its methods
-
-          for (let i = 0; i < windowToMax.length; i++) {
+               //Config vars
+                 controlRightContent = contentParent.querySelector(".controlRightContent");
+                 configList = contentParent.querySelector(".configList");
+                 
+             }).catch( e => console.error(e));
+           }).catch( e => console.error(e));
+   
+   }
 
 
-              const eWindowName = windowToMax[i].getAttribute("windowName");
-              if (eWindowName !== null && eWindowName.toLowerCase() === windowName.toLowerCase()){
-                  //Remove taken window from the array
-                  removeMinimized(parentWorm(windowToMax[i], "draggableParent"))
-                  break;
+ /*Minimize windows */
+   if (e.target.classList.contains("minimizeDraggable")){
 
-              }
+     //Get current window name 
+       const windowName = e.target.parentElement.querySelector(".tabName").getAttribute("windowName");
+     //Hide parent draggable and remove topDraggable
+       const windowDragg = parentWorm(e.target, "draggableParent");
+             windowDragg.classList.add("hide");
+             windowDragg.classList.remove("topDraggable");
+           
+       //Restore position availability
+       windowSubstraction(windowDragg);
 
-          };
-            
-          //Check for minimizedCount length to hide minimize tab
-          const minimized = document.querySelector(".minimizedWindows");
-          const minimizedCount = minimized.querySelectorAll("button").length;
+     //Add minimized submenu
+       const minimized = document.querySelector(".minimizedWindows");
+             minimized.classList.remove("hide");
+         //Create button
+         const buttonN = createHtmlElement("button", ["class", "id"], 
+                                           ["btn btn-primary btn-sm maximizeDraggable", "max"+windowName])
+               buttonN.textContent = windowName;
+         const icon = createHtmlElement("i", "class", "lni lni-full-screen floatRight");
 
-          if(minimizedCount < 1){
-                  minimized.classList.add("hide");
-          }
+           buttonN.appendChild(icon);
+           minimized.appendChild(buttonN);
+           $(minimized).mouseover();
+
+       //Trigger hover-like event to show newly minimized windows
+         minimized.setAttribute("style", "left: 0px; background-color: inherit;");
+         //Clear timeouts
+         let id = window.setTimeout(function () { }, 0);
+         while (id--) {
+           window.clearTimeout(id);
+         }
+         //Remove hover-like event
+         setTimeout(() => {
+           minimized.removeAttribute("style");
+         }, 1000);
+
+   }
+ /*Maximize windows */
+   if (e.target !== null && e.target.classList.contains("maximizeDraggable") || e.target !== null && e.target.parentElement.classList.contains("maximizeDraggable")){
+
+       //Get windowName, aka: ID
+       const windowName = e.target.id.slice(3,);
+       //Find tabName that contains windowName attribute as windowName, contentParent
+       const windowToMax = contentParent.querySelectorAll(".draggableParent > .draggableTarget > .tabName");
+             //windowToMax is a node list, turn into array to allow the use of its methods
+
+         for (let i = 0; i < windowToMax.length; i++) {
 
 
-    }
+             const eWindowName = windowToMax[i].getAttribute("windowName");
+             if (eWindowName !== null && eWindowName.toLowerCase() === windowName.toLowerCase()){
+                 //Remove taken window from the array
+                 removeMinimized(parentWorm(windowToMax[i], "draggableParent"))
+                 break;
+
+             }
+
+         };
+           
+         //Check for minimizedCount length to hide minimize tab
+         const minimized = document.querySelector(".minimizedWindows");
+         const minimizedCount = minimized.querySelectorAll("button").length;
+
+         if(minimizedCount < 1){
+                 minimized.classList.add("hide");
+         }
+
+
+   }
 
 
 
 
-  }
+ }
+
+}
 
 
-});
- 
+
+document.addEventListener("click", indexFunctions);
 
 
 
