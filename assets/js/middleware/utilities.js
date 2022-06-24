@@ -1325,7 +1325,6 @@ async function tSegurosConfigClick(e){ //CHECKED
    }
  
 } 
- DOEVERY FORM IN ORDER, LINK THEM TO BD IMMEDIATELY
 async function tEspecialidadConfigClick(e){ //CHECKED
   
   //mantCitas *
