@@ -1,6 +1,6 @@
 # ExtensiveMedical
 
-One-site web software for medical management, the user could manage:
+One-site web software for medical management, the user could manage:    
     - Documents
     - Patient records
     - Appointments
